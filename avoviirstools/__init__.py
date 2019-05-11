@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
-#  Purpose: pull GPS images
+#  Purpose: Tools for maintaining IIRS processing at AVO
 #   Author: Tom Parker
 #
 # -----------------------------------------------------------------------------
 """
-filefetcher
+avoviirstools
 =========
 
-Pull daily GPS files
+Tools for maintaining IIRS processing at AVO
 
 :license:
     CC0 1.0 Universal
@@ -16,8 +16,6 @@ Pull daily GPS files
 """
 
 
-import tomputils.util as tutil
-from filefetcher.version import __version__
+from avoviirstools.version import __version__
 
-logger = tutil.setup_logging("filefetcher - errors")
 __all__ = ['__version__']
