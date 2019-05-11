@@ -38,7 +38,7 @@ class DataSubscriber(threading.Thread):
         while True:
             msg_bytes = self.socket.recv()
             message = Message.decode(msg_bytes)
-            self.message_q,append(message)
+            self.message_q.append(message)
 
 
 def main():
@@ -55,6 +55,7 @@ def main():
                 message = message_q.pop()
             print(message)
         time.sleep(1)
+
 
 if __name__ == '__main__':
     main()
