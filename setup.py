@@ -25,6 +25,10 @@ setup(
     ],
     install_requires=[
         'tomputils>=1.12.16',
+        'avoviirsprocessor'
+    ],
+    dependency_links=[
+        'git+https://github.com/tparker-usgs/avoviirsprocessor.git#egg=avoviirsprocessor-3.16.3',
     ],
     entry_points={
         'console_scripts': [
