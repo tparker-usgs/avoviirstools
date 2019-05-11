@@ -28,7 +28,7 @@ setup(
         'avoviirsprocessor'
     ],
     dependency_links=[
-        'git+https://github.com/tparker-usgs/avoviirsprocessor.git#egg=avoviirsprocessor-3.16.3',
+        'git+https://github.com/tparker-usgs/avoviirsprocessor.git#egg=avoviirsprocessor-3.16.3', # NOQA
     ],
     entry_points={
         'console_scripts': [
