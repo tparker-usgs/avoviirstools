@@ -28,7 +28,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'sniff_update = avoviirstools.sniff_update:main'
+            'sniff_update = avoviirstools.sniff_update:main',
+            'pass_plotter = avoviirstools.pass_plotter:main'
         ]
     }
 
