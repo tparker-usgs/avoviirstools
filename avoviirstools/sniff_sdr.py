@@ -31,7 +31,7 @@ def main():
     while True:
         msg_bytes = socket.recv()
         message = Message.decode(msg_bytes)
-        print(message)
+        print(message.data['uri'])
 
 if __name__ == '__main__':
     main()
