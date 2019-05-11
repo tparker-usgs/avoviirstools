@@ -13,12 +13,16 @@
 """
 
 import zmq
+import signal
 
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 
 
 def main():
+    # let ctrl-c work as it should.
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     socket.setsockopt_string(zmq.SUBSCRIBE, '')

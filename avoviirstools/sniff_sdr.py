@@ -14,12 +14,15 @@
 
 import zmq
 from posttroll.message import Message
-
+import signal
 
 SDR_PUBLISHER = "tcp://viirscollector:29092"
 
 
 def main():
+    # let ctrl-c work as it should.
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     socket.setsockopt_string(zmq.SUBSCRIBE, 'pytroll://AVO/viirs/sdr')
