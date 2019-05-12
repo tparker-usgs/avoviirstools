@@ -15,6 +15,11 @@
 import zmq
 from posttroll.message import Message
 import signal
+import os.path
+import time
+from datetime import datetime
+import humanize
+
 
 SDR_PUBLISHER = "tcp://viirscollector:29092"
 
@@ -31,7 +36,10 @@ def main():
     while True:
         msg_bytes = socket.recv()
         message = Message.decode(msg_bytes)
-        print(message.data['uri'])
+        filename = os.path.basename(message.data['uri'])
+        file_time = datetime.strptime(filename[-69:-51], "_d%Y%m%d_t%H%M%S")
+        age = (datetime.now() - file_time) / (60)
+        print("{} (delivery took {})".format(filename, humanize.naturaldelta(age)))
 
 if __name__ == '__main__':
     main()
