@@ -1,6 +1,8 @@
 FROM tparkerusgs/avopytroll:release-1.10.3
 
 WORKDIR /app
+RUN export
+RUN ls
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
