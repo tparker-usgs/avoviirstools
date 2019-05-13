@@ -1,7 +1,7 @@
 FROM tparkerusgs/avopytroll:release-1.10.3
 
 WORKDIR /app
-RUN unset REQUESTS_CA_BUNDLE
+ENV REQUESTS_CA_BUNDLE=""
 RUN export
 RUN ls
 COPY requirements.txt .
