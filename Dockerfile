@@ -1,9 +1,6 @@
-FROM tparkerusgs/avopytroll:release-1.10.3
+FROM tparkerusgs/avopytroll:release-2.0.0
 
 WORKDIR /app
-ENV REQUESTS_CA_BUNDLE=""
-RUN export
-RUN ls
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
