@@ -16,7 +16,6 @@ import zmq
 from posttroll.message import Message
 import signal
 import os.path
-import time
 from datetime import datetime
 import humanize
 
@@ -39,7 +38,9 @@ def main():
         filename = os.path.basename(message.data['uri'])
         file_time = datetime.strptime(filename[-69:-51], "_d%Y%m%d_t%H%M%S")
         age = datetime.now() - file_time
-        print("{} (retrieval took {})".format(filename, humanize.naturaldelta(age)))
+        print("{} (retrieval took {})".format(filename,
+                                              humanize.naturaldelta(age)))
+
 
 if __name__ == '__main__':
     main()
