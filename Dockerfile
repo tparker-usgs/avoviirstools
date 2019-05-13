@@ -1,8 +1,10 @@
 FROM tparkerusgs/avopytroll:release-1.10.3
 
 WORKDIR /app
-WORKDIR avoviirstools
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+WORKDIR avoviirstools
 COPY setup.py .
 COPY setup.cfg .
 COPY avoviirstools avoviirstools
