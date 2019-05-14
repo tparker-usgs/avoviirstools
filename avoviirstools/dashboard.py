@@ -17,9 +17,12 @@ import time
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
-waiting_tasks = np.empty(259200, dtype=[('time', '>i4'), ('count', '>i2')])
-datafiles = np.empty(259200, dtype=[('time', '>i4'), ('latency', '>i2')])
-
+waiting_tasks = np.empty(259200, dtype=[('time', 'datetime64[s]'), ('count', 'i4')])
+waiting_tasks['time'][:] = np.datetime64("NaT")
+waiting_tasks['count'][:] = -1
+datafiles = np.empty(259200, dtype=[('time', 'datetime64[s]'), ('latency', 'i4')])
+datafiles['time'][:] = np.datetime64("NaT")
+datafiles['latency'][:] = -1
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -41,14 +44,16 @@ app.layout = html.Div(children=[
 
 @app.callback(Output('products-waiting', 'figure'),
               [Input('products-waiting-update', 'n_intervals')])
-def gen_wind_speed(interval):
+def gen_products_waiting(interval):
     figure={
         'data': [
             {'x': waiting_tasks['time'], 'y': waiting_tasks['count'],
              'type': 'scatter', 'name': 'Products Waiting'},
         ],
         'layout': {
-            'title': 'VIIRS Products waiting to be generated'
+            'title': 'VIIRS Products waiting to be generated',
+            'xaxis': {'type': 'date',
+                      'rangemode': 'nonnegative'}
         }
     }
 
@@ -64,7 +69,9 @@ def gen_datafile_latency(interval):
              'type': 'scatter', 'name': 'Datafile Latency'},
         ],
         'layout': {
-            'title': 'AVO Data File Latency'
+            'title': 'AVO Data File Latency',
+            'xaxis': {'type': 'date',
+                      'rangemode': 'nonnegative'}
         }
     }
 
@@ -77,18 +84,19 @@ class SdrSubscriber(threading.Thread):
         self.socket = context.socket(zmq.SUB)
         self.socket.setsockopt_string(zmq.SUBSCRIBE, 'pytroll://AVO/viirs/sdr')
         self.socket.connect(SDR_PUBLISHER)
-        self.index = 0
 
     def run(self):
+        index = 0
         while True:
             msg_bytes = self.socket.recv()
-            now = time.time()
+            npnow = np.datetime64('now')
             message = Message.decode(msg_bytes)
             filename = os.path.basename(message.data['uri'])
             file_time = datetime.strptime(filename[-69:-51],
                                           "_d%Y%m%d_t%H%M%S")
-            datafiles[self.index] = (now, now - file_time)
-            self.index = (self.index + 1) % len(datafiles)
+            npthen = np.datetime64(file_time)
+            datafiles[index] = (npnow, npthen)
+            index = (index + 1) % len(datafiles)
 
 
 class UpdateSubscriber(threading.Thread):
@@ -97,21 +105,26 @@ class UpdateSubscriber(threading.Thread):
         self.socket = context.socket(zmq.SUB)
         self.socket.setsockopt_string(zmq.SUBSCRIBE, '')
         self.socket.connect(UPDATE_PUBLISHER)
-        self.index = 0
 
     def run(self):
+        index = 0
         while True:
             queue_length = self.socket.recv_json()['queue length']
-            waiting_tasks[self.index] = (time.time(), queue_length)
-            self.index = (self.index + 1) % len(waiting_tasks)
+            npnow = np.datetime64('now')
+            waiting_tasks[index] = (npnow, queue_length)
+            index = (index + 1) % len(waiting_tasks)
 
 
 def main():
     context = zmq.Context()
+
     update_subscriber = UpdateSubscriber(context)
     update_subscriber.start()
 
-    app.run_server(debug=True, host="0.0.0.0")
+    sdr_subscriber = SdrSubscriber(context)
+    sdr_subscriber.start()
+
+    app.run_server(host="0.0.0.0")
 
 
 if __name__ == '__main__':
