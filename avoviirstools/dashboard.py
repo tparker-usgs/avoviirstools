@@ -11,16 +11,15 @@ import threading
 from dash.dependencies import Input, Output
 from posttroll.message import Message
 import os
+import numpy as np
+import time
+
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
+waiting_tasks = np.empty(259200, dtype=[('time', '>i4'), ('count', '>i2')])
+datafiles = np.empty(259200, dtype=[('time', '>i4'), ('latency', '>i2')])
 
-#waiting_tasks_times = collections.deque(maxlen=259200)
-#waiting_tasks_counts = collections.deque(maxlen=259200)
-waiting_tasks_times = []
-waiting_tasks_counts = []
-datafile_times = []
-datafile_latencies = []
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -40,11 +39,13 @@ app.layout = html.Div(children=[
 ])
 
 
-@app.callback(Output('products-waiting', 'figure'), [Input('products-waiting-update', 'n_intervals')])
+@app.callback(Output('products-waiting', 'figure'),
+              [Input('products-waiting-update', 'n_intervals')])
 def gen_wind_speed(interval):
     figure={
         'data': [
-            {'x': waiting_tasks_times, 'y': waiting_tasks_counts, 'type': 'scatter', 'name': 'Products Waiting'},
+            {'x': waiting_tasks['time'], 'y': waiting_tasks['count'],
+             'type': 'scatter', 'name': 'Products Waiting'},
         ],
         'layout': {
             'title': 'VIIRS Products waiting to be generated'
@@ -54,11 +55,13 @@ def gen_wind_speed(interval):
     return figure
 
 
-@app.callback(Output('datafile-latency', 'figure'), [Input('datafile-latency-update', 'n_intervals')])
+@app.callback(Output('datafile-latency', 'figure'),
+              [Input('datafile-latency-update', 'n_intervals')])
 def gen_datafile_latency(interval):
     figure={
         'data': [
-            {'x': datafile_times, 'y': datafile_latencies, 'type': 'scatter', 'name': 'Datafile Latency'},
+            {'x': datafiles['time'], 'y': datafiles['latency'],
+             'type': 'scatter', 'name': 'Datafile Latency'},
         ],
         'layout': {
             'title': 'AVO Data File Latency'
@@ -74,17 +77,18 @@ class SdrSubscriber(threading.Thread):
         self.socket = context.socket(zmq.SUB)
         self.socket.setsockopt_string(zmq.SUBSCRIBE, 'pytroll://AVO/viirs/sdr')
         self.socket.connect(SDR_PUBLISHER)
+        self.index = 0
 
     def run(self):
         while True:
             msg_bytes = self.socket.recv()
-            now = datetime.now()
-            datafile_times.append(now)
+            now = time.time()
             message = Message.decode(msg_bytes)
             filename = os.path.basename(message.data['uri'])
             file_time = datetime.strptime(filename[-69:-51],
                                           "_d%Y%m%d_t%H%M%S")
-            datafile_latencies.append(now - file_time)
+            datafiles[self.index] = (now, now - file_time)
+            self.index = (self.index + 1) % len(datafiles)
 
 
 class UpdateSubscriber(threading.Thread):
@@ -93,11 +97,13 @@ class UpdateSubscriber(threading.Thread):
         self.socket = context.socket(zmq.SUB)
         self.socket.setsockopt_string(zmq.SUBSCRIBE, '')
         self.socket.connect(UPDATE_PUBLISHER)
+        self.index = 0
 
     def run(self):
         while True:
-            waiting_tasks_counts.append(self.socket.recv_json()['queue length'])
-            waiting_tasks_times.append(datetime.now())
+            queue_length = self.socket.recv_json()['queue length']
+            waiting_tasks[self.index] = (time.time(), queue_length)
+            self.index = (self.index + 1) % len(waiting_tasks)
 
 
 def main():
