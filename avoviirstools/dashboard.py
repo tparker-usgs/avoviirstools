@@ -17,12 +17,14 @@ import time
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
-waiting_tasks = np.empty(259200, dtype=[('time', 'datetime64[s]'), ('count', 'i4')])
+
+waiting_tasks = np.empty(259200, dtype=[('time', 'datetime64[s]'),
+                                        ('count', 'i4'), ('products', 'U')])
 waiting_tasks['time'][:] = np.datetime64("NaT")
-waiting_tasks['count'][:] = -1
-datafiles = np.empty(259200, dtype=[('time', 'datetime64[s]'), ('latency', 'i4')])
+
+datafiles = np.empty(259200, dtype=[('time', 'datetime64[s]'),
+                                    ('latency', 'i4')])
 datafiles['time'][:] = np.datetime64("NaT")
-datafiles['latency'][:] = -1
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -37,6 +39,7 @@ app.layout = html.Div(children=[
 
     dcc.Graph(id='products-waiting'),
     dcc.Interval(id='products-waiting-update', interval=1000, n_intervals=0),
+
     dcc.Graph(id='datafile-latency'),
     dcc.Interval(id='datafile-latency-update', interval=5000, n_intervals=0),
 ])
@@ -47,8 +50,12 @@ app.layout = html.Div(children=[
 def gen_products_waiting(interval):
     figure={
         'data': [
-            {'x': waiting_tasks['time'], 'y': waiting_tasks['count'],
-             'type': 'scatter', 'name': 'Products Waiting'},
+            {'x': waiting_tasks['time'],
+             'y': waiting_tasks['count'],
+             'type': 'scatter',
+             'name': 'Products Waiting',
+             'hoverinfo': waiting_tasks['products']
+            }
         ],
         'layout': {
             'title': 'VIIRS Products waiting to be generated',
@@ -65,8 +72,11 @@ def gen_products_waiting(interval):
 def gen_datafile_latency(interval):
     figure={
         'data': [
-            {'x': datafiles['time'], 'y': datafiles['latency'],
-             'type': 'scatter', 'name': 'Datafile Latency'},
+            {'x': datafiles['time'],
+             'y': datafiles['latency'],
+             'type': 'scatter',
+             'name': 'Datafile Latency'
+             },
         ],
         'layout': {
             'title': 'AVO Data File Latency',
@@ -87,6 +97,7 @@ class SdrSubscriber(threading.Thread):
 
     def run(self):
         index = 0
+        print("starting SDR subscriber loop")
         while True:
             msg_bytes = self.socket.recv()
             npnow = np.datetime64('now')
@@ -95,7 +106,9 @@ class SdrSubscriber(threading.Thread):
             file_time = datetime.strptime(filename[-69:-51],
                                           "_d%Y%m%d_t%H%M%S")
             npthen = np.datetime64(file_time)
-            datafiles[index] = (npnow, npthen)
+            latency = (npnow - npthen) / np.timedelta64(1, 's')
+            datafiles[index] = (npnow, latency)
+            print("{}: {} @ {}".format(index. npnow, npthen))
             index = (index + 1) % len(datafiles)
 
 
@@ -109,9 +122,12 @@ class UpdateSubscriber(threading.Thread):
     def run(self):
         index = 0
         while True:
-            queue_length = self.socket.recv_json()['queue length']
+            message = self.socket.recv_json()
+            queue_length = message['queue length']
+            products = ":".join(message['products waiting'])
             npnow = np.datetime64('now')
-            waiting_tasks[index] = (npnow, queue_length)
+            waiting_tasks[index] = (npnow, queue_length, products)
+
             index = (index + 1) % len(waiting_tasks)
 
 
