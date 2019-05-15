@@ -6,13 +6,11 @@ import dash_core_components as dcc
 import dash_html_components as html
 import zmq
 from datetime import datetime
-import collections
 import threading
 from dash.dependencies import Input, Output
 from posttroll.message import Message
 import os
 import numpy as np
-import time
 
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
@@ -48,14 +46,14 @@ app.layout = html.Div(children=[
 @app.callback(Output('products-waiting', 'figure'),
               [Input('products-waiting-update', 'n_intervals')])
 def gen_products_waiting(interval):
-    figure={
+    figure = {
         'data': [
             {'x': waiting_tasks['time'],
              'y': waiting_tasks['count'],
              'type': 'scatter',
              'name': 'Products Waiting',
              'hoverinfo': waiting_tasks['products']
-            }
+             }
         ],
         'layout': {
             'title': 'VIIRS Products waiting to be generated',
@@ -70,7 +68,7 @@ def gen_products_waiting(interval):
 @app.callback(Output('datafile-latency', 'figure'),
               [Input('datafile-latency-update', 'n_intervals')])
 def gen_datafile_latency(interval):
-    figure={
+    figure = {
         'data': [
             {'x': datafiles['time'],
              'y': datafiles['latency'],
