@@ -25,12 +25,12 @@ def main():
 
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
-    socket.setsockopt_string(zmq.SUBSCRIBE, '')
+    socket.setsockopt_string(zmq.SUBSCRIBE, "")
     socket.connect(UPDATE_PUBLISHER)
 
     while True:
         print(socket.recv_json())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

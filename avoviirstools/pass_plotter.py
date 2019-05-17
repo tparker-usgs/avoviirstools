@@ -3,7 +3,7 @@
 
 import argparse
 from posttroll.message import Message
-from avoviirsprocessor.coreprocessors import * # NOQA
+from avoviirsprocessor.coreprocessors import *  # NOQA
 import threading
 import zmq
 import tomputils.util as tutil
@@ -30,7 +30,7 @@ class DataSubscriber(threading.Thread):
     def __init__(self, context, message_q):
         threading.Thread.__init__(self)
         self.socket = context.socket(zmq.SUB)
-        self.socket.setsockopt_string(zmq.SUBSCRIBE, 'pytroll://AVO/viirs/sdr')
+        self.socket.setsockopt_string(zmq.SUBSCRIBE, "pytroll://AVO/viirs/sdr")
         self.socket.connect(DATA_PUBLISHER)
         self.message_q = message_q
 
@@ -57,5 +57,5 @@ def main():
         time.sleep(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
