@@ -7,7 +7,7 @@ import dash_html_components as html
 import zmq
 from datetime import datetime
 import threading
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 from posttroll.message import Message
 import os
 import os.path
@@ -25,66 +25,52 @@ PICKLING_INTERAL = 5 * 60
 waiting_tasks_lock = threading.Lock()
 datafiles_lock = threading.Lock()
 
-external_css = [
-    "https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css",
-    "https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i",
-    "https://fonts.googleapis.com/css?family=Product+Sans:400,400i,700,700i",
-]
+external_css = ["https://unpkg.com/picnic"]
 app = dash.Dash(__name__, external_stylesheets=external_css)
 app.layout = html.Div(
     [
-        html.Div([html.H2("AVO VIIRS Processing")], className="banner"),
+        html.Div([html.H1("AVO VIIRS Processing")]),
         html.Div(
             [
-                html.Div([html.H3("Products Waiting")], className="Title"),
-                html.Div(
-                    [
-                        dcc.Checklist(
-                            id="products-waiting-auto",
-                            options=[{"label": "Auto Update", "value": "Auto"}],
-                            values=["Auto"],
-                        )
-                    ],
+                html.Div([html.H3("Products Waiting")]),
+                dcc.Checklist(
+                    id="products-waiting-auto",
+                    options=[{"label": "Auto Update", "value": "Auto"}],
+                    values=["Auto"],
+                    labelClassName="checkable",
                     className="products-waiting-auto",
                 ),
                 html.Div(
                     [
-                        dcc.Graph(id="products-waiting", className="six columns"),
+                        dcc.Graph(id="products-waiting", className="half"),
                         dcc.Interval(
                             id="products-waiting-update", interval=1000, n_intervals=0
                         ),
                     ],
-                    className="twelve columns",
+                    className="flex",
                 ),
-                dcc.Interval(id="wind-speed-update", interval=1000, n_intervals=0),
             ],
-            className="row",
+            className="",
         ),
         html.Div(
             [
-                html.Div([html.H3("SDR Delivery Time")], className="Title"),
-                html.Div(
-                    [
-                        dcc.Checklist(
-                            id="latency-auto",
-                            options=[{"label": "Auto Update", "value": "Auto"}],
-                            values=["Auto"],
-                        )
-                    ],
+                html.Div([html.H3("SDR Delivery Time")]),
+                dcc.Checklist(
+                    id="latency-auto",
+                    options=[{"label": "Auto Update", "value": "Auto"}],
+                    values=["Auto"],
                     className="latency-auto",
                 ),
                 html.Div(
                     [
-                        dcc.Graph(id="datafile-latency", className="six columns row"),
+                        dcc.Graph(id="datafile-latency", className="hal"),
                         dcc.Interval(
                             id="datafile-latency-update", interval=5000, n_intervals=0
                         ),
                     ],
-                    className="twelve columns",
+                    className="flex",
                 ),
-                dcc.Interval(id="wind-speed-update", interval=1000, n_intervals=0),
-            ],
-            className="row",
+            ]
         ),
     ]
 )
