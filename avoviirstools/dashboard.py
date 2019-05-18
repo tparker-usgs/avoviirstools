@@ -25,40 +25,74 @@ PICKLING_INTERAL = 5 * 60
 waiting_tasks_lock = threading.Lock()
 datafiles_lock = threading.Lock()
 
-external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+external_css = [
+    "https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css",
+    "https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i",
+    "https://fonts.googleapis.com/css?family=Product+Sans:400,400i,700,700i",
+]
+app = dash.Dash(__name__, external_stylesheets=external_css)
 app.layout = html.Div(
-    children=[
-        # header
+    [
+        html.Div([html.H2("AVO VIIRS Processing")], className="banner"),
         html.Div(
-            [html.Span("VIIRS Processing", className="app-title")],
-            className="row header",
-        ),
-        html.Div(
-            children="""
-        AVO VIIRS status
-    """
+            [
+                html.Div([html.H3("Products Waiting")], className="Title"),
+                html.Div(
+                    [
+                        dcc.Checklist(
+                            id="products-waiting-auto",
+                            options=[{"label": "Auto Update", "value": "Auto"}],
+                            values=["Auto"],
+                        )
+                    ],
+                    className="products-waiting-auto",
+                ),
+                html.Div(
+                    [
+                        dcc.Graph(id="products-waiting", className="six columns"),
+                        dcc.Interval(
+                            id="products-waiting-update", interval=1000, n_intervals=0
+                        ),
+                    ],
+                    className="twelve columns",
+                ),
+                dcc.Interval(id="wind-speed-update", interval=1000, n_intervals=0),
+            ],
+            className="row",
         ),
         html.Div(
             [
-                dcc.Checklist(
-                    id="bin-auto",
-                    options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=["Auto"],
-                )
+                html.Div([html.H3("SDR Delivery Time")], className="Title"),
+                html.Div(
+                    [
+                        dcc.Checklist(
+                            id="latency-auto",
+                            options=[{"label": "Auto Update", "value": "Auto"}],
+                            values=["Auto"],
+                        )
+                    ],
+                    className="latency-auto",
+                ),
+                html.Div(
+                    [
+                        dcc.Graph(id="datafile-latency", className="six columns row"),
+                        dcc.Interval(
+                            id="datafile-latency-update", interval=5000, n_intervals=0
+                        ),
+                    ],
+                    className="twelve columns",
+                ),
+                dcc.Interval(id="wind-speed-update", interval=1000, n_intervals=0),
             ],
-            className="bin-auto",
+            className="row",
         ),
-        dcc.Graph(id="products-waiting", className="six columns"),
-        dcc.Interval(id="products-waiting-update", interval=1000, n_intervals=0),
-        dcc.Graph(id="datafile-latency", className="six columns row"),
-        dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
     ]
 )
 
 
 @app.callback(
-    Output("products-waiting-update", "disabled"), [Input("bin-auto", "values")]
+    Output("products-waiting-update", "disabled"),
+    [Input("products-waiting-auto", "values")],
 )
 def update_refresh(auto_values):
     return "Auto" not in auto_values
@@ -88,6 +122,13 @@ def gen_products_waiting(interval):
     }
 
     return figure
+
+
+@app.callback(
+    Output("products-waiting-update", "disabled"), [Input("latency-auto", "values")]
+)
+def latency_refresh(auto_values):
+    return "Auto" not in auto_values
 
 
 @app.callback(
