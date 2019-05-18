@@ -19,24 +19,14 @@ UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
 PICKLE_DIR = "/viirs/pickle"
 UPDATE_PICKLE = os.path.join(PICKLE_DIR, "task_queue.pickle")
+SDR_PICKLE = os.path.join(PICKLE_DIR, "sdr.pickle")
 PICKLING_INTERAL = 5 * 60
 
 waiting_tasks_lock = threading.Lock()
-
-datafiles = pd.Series()
-datafile_lock = threading.Lock()
-# waiting_tasks = np.empty(
-#     60 * 60 * 24, dtype=[("time", "datetime64[s]"), ("count", "i4"), ("products", "U")]
-# )
-# waiting_tasks["time"][:] = np.datetime64("NaT")
-#
-# datafiles = np.empty(1500, dtype=[("time", "datetime64[s]"), ("latency", "i4")])
-# datafiles["time"][:] = np.datetime64("NaT")
+datafiles_lock = threading.Lock()
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 app.layout = html.Div(
     children=[
         # header
@@ -49,10 +39,10 @@ app.layout = html.Div(
         AVO VIIRS status
     """
         ),
-        dcc.Graph(id="products-waiting", className="six columns row"),
+        dcc.Graph(id="products-waiting", className="six columns"),
         dcc.Interval(id="products-waiting-update", interval=1000, n_intervals=0),
-        # dcc.Graph(id="datafile-latency"),
-        # dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
+        dcc.Graph(id="datafile-latency", className="six columns row"),
+        dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
     ]
 )
 
@@ -69,7 +59,7 @@ def gen_products_waiting(interval):
                 "y": waiting_tasks["count"],
                 "type": "scatter",
                 "name": "Products Waiting",
-                "hoverinfo": waiting_tasks["products"],
+                "hovertext": waiting_tasks["products"],
             }
         ],
         "layout": {
@@ -82,27 +72,27 @@ def gen_products_waiting(interval):
     return figure
 
 
-# @app.callback(
-#     Output("datafile-latency", "figure"),
-#     [Input("datafile-latency-update", "n_intervals")],
-# )
-# def gen_datafile_latency(interval):
-#     figure = {
-#         "data": [
-#             {
-#                 "x": datafiles.index,
-#                 "y": datafiles["latency"],
-#                 "type": "scatter",
-#                 "name": "Datafile Latency",
-#             }
-#         ],
-#         "layout": {
-#             "title": "AVO Data File Latency",
-#             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-#         },
-#     }
-#
-#     return figure
+@app.callback(
+    Output("datafile-latency", "figure"),
+    [Input("datafile-latency-update", "n_intervals")],
+)
+def gen_datafile_latency(interval):
+    figure = {
+        "data": [
+            {
+                "x": datafiles.index,
+                "y": datafiles,
+                "type": "scatter",
+                "name": "Datafile Latency",
+            }
+        ],
+        "layout": {
+            "title": "AVO Data File Latency",
+            "xaxis": {"type": "date", "rangemode": "nonnegative"},
+        },
+    }
+
+    return figure
 
 
 class SdrSubscriber(threading.Thread):
@@ -160,6 +150,13 @@ class UpdateFlusher(threading.Thread):
 
             copy.to_pickle(os.path.join(UPDATE_PICKLE))
 
+            last_week = np.datetime64("now") - np.timedelta64(1, "W")
+            with datafiles_lock:
+                datafiles.truncate(before=last_week)
+                copy = datafiles.copy(deep=True)
+
+            copy.to_pickle(os.path.join(SDR_PICKLE))
+
 
 def initialize():
     global waiting_tasks
@@ -169,6 +166,14 @@ def initialize():
     else:
         waiting_tasks = pd.DataFrame(columns=["count", "products"])
         print("Can't find {}".format(UPDATE_PICKLE))
+
+    global datafiles
+    if os.path.exists(SDR_PICKLE):
+        print("loading {}".format(SDR_PICKLE))
+        datafiles = pd.read_pickle(SDR_PICKLE)
+    else:
+        datafiles = pd.Series()
+        print("Can't find {}".format(SDR_PICKLE))
 
 
 def main():
