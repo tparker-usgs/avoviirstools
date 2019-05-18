@@ -10,19 +10,28 @@ import threading
 from dash.dependencies import Input, Output
 from posttroll.message import Message
 import os
+import os.path
 import numpy as np
-
+import pandas as pd
+import time
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
+PICKLE_DIR = "/viirs/pickle"
+UPDATE_PICKLE = os.path.join(PICKLE_DIR, "task_queue.pickle")
+PICKLING_INTERAL = 5 * 60 * 1000
 
-waiting_tasks = np.empty(
-    60 * 60 * 24, dtype=[("time", "datetime64[s]"), ("count", "i4"), ("products", "U")]
-)
-waiting_tasks["time"][:] = np.datetime64("NaT")
+waiting_tasks_lock = threading.Lock()
 
-datafiles = np.empty(1500, dtype=[("time", "datetime64[s]"), ("latency", "i4")])
-datafiles["time"][:] = np.datetime64("NaT")
+datafiles = pd.Series()
+datafile_lock = threading.Lock()
+# waiting_tasks = np.empty(
+#     60 * 60 * 24, dtype=[("time", "datetime64[s]"), ("count", "i4"), ("products", "U")]
+# )
+# waiting_tasks["time"][:] = np.datetime64("NaT")
+#
+# datafiles = np.empty(1500, dtype=[("time", "datetime64[s]"), ("latency", "i4")])
+# datafiles["time"][:] = np.datetime64("NaT")
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
@@ -38,8 +47,8 @@ app.layout = html.Div(
         ),
         dcc.Graph(id="products-waiting"),
         dcc.Interval(id="products-waiting-update", interval=1000, n_intervals=0),
-        dcc.Graph(id="datafile-latency"),
-        dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
+        # dcc.Graph(id="datafile-latency"),
+        # dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
     ]
 )
 
@@ -52,7 +61,7 @@ def gen_products_waiting(interval):
     figure = {
         "data": [
             {
-                "x": waiting_tasks["time"],
+                "x": waiting_tasks.index,
                 "y": waiting_tasks["count"],
                 "type": "scatter",
                 "name": "Products Waiting",
@@ -68,27 +77,27 @@ def gen_products_waiting(interval):
     return figure
 
 
-@app.callback(
-    Output("datafile-latency", "figure"),
-    [Input("datafile-latency-update", "n_intervals")],
-)
-def gen_datafile_latency(interval):
-    figure = {
-        "data": [
-            {
-                "x": datafiles["time"],
-                "y": datafiles["latency"],
-                "type": "scatter",
-                "name": "Datafile Latency",
-            }
-        ],
-        "layout": {
-            "title": "AVO Data File Latency",
-            "xaxis": {"type": "date", "rangemode": "nonnegative"},
-        },
-    }
-
-    return figure
+# @app.callback(
+#     Output("datafile-latency", "figure"),
+#     [Input("datafile-latency-update", "n_intervals")],
+# )
+# def gen_datafile_latency(interval):
+#     figure = {
+#         "data": [
+#             {
+#                 "x": datafiles.index,
+#                 "y": datafiles["latency"],
+#                 "type": "scatter",
+#                 "name": "Datafile Latency",
+#             }
+#         ],
+#         "layout": {
+#             "title": "AVO Data File Latency",
+#             "xaxis": {"type": "date", "rangemode": "nonnegative"},
+#         },
+#     }
+#
+#     return figure
 
 
 class SdrSubscriber(threading.Thread):
@@ -99,7 +108,6 @@ class SdrSubscriber(threading.Thread):
         self.socket.connect(SDR_PUBLISHER)
 
     def run(self):
-        index = 0
         print("starting SDR subscriber loop")
         while True:
             msg_bytes = self.socket.recv()
@@ -109,9 +117,7 @@ class SdrSubscriber(threading.Thread):
             file_time = datetime.strptime(filename[-69:-51], "_d%Y%m%d_t%H%M%S")
             npthen = np.datetime64(file_time)
             latency = (npnow - npthen) / np.timedelta64(1, "s")
-            datafiles[index] = (npnow, latency)
-            print("{}: {} @ {}".format(index.npnow, npthen))
-            index = (index + 1) % len(datafiles)
+            datafiles[npnow] = latency
 
 
 class UpdateSubscriber(threading.Thread):
@@ -122,20 +128,44 @@ class UpdateSubscriber(threading.Thread):
         self.socket.connect(UPDATE_PUBLISHER)
 
     def run(self):
-        index = 0
         while True:
             message = self.socket.recv_json()
             queue_length = message["queue length"]
             products = ":".join(message["products waiting"])
             npnow = np.datetime64("now")
-            waiting_tasks[index] = (npnow, queue_length, products)
+            with waiting_tasks_lock:
+                waiting_tasks.at[npnow] = (queue_length, products)
 
-            index = (index + 1) % len(waiting_tasks)
+
+class UpdateFlusher(threading.Thread):
+    def __init__(self):
+        pass
+
+    def run(self):
+        while True:
+            time.sleep(PICKLING_INTERAL)
+            yesterday = np.datetime64("now") - np.timedelta64(1, "d")
+            with waiting_tasks_lock:
+                waiting_tasks.truncate(before=yesterday)
+                copy = waiting_tasks.copy(deep=True)
+
+            copy.to_pickle(os.path.join(UPDATE_PICKLE))
+
+
+def initialize():
+    global waiting_tasks
+    if os.path.exists(UPDATE_PICKLE):
+        print("loading {}".format(UPDATE_PICKLE))
+        waiting_tasks = pd.read_pickle(UPDATE_PICKLE)
+    else:
+        waiting_tasks = pd.DataFrame(columns=["count", "products"])
+        print("Can't find {}".format(UPDATE_PICKLE))
 
 
 def main():
     context = zmq.Context()
 
+    initialize()
     update_subscriber = UpdateSubscriber(context)
     update_subscriber.start()
 
