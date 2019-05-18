@@ -19,7 +19,7 @@ UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
 PICKLE_DIR = "/viirs/pickle"
 UPDATE_PICKLE = os.path.join(PICKLE_DIR, "task_queue.pickle")
-PICKLING_INTERAL = 5 * 60 * 1000
+PICKLING_INTERAL = 5 * 60
 
 waiting_tasks_lock = threading.Lock()
 
@@ -39,13 +39,17 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(
     children=[
-        html.H1(children="VIIRS Processesing"),
+        # header
+        html.Div(
+            [html.Span("VIIRS Processing", className="app-title")],
+            className="row header",
+        ),
         html.Div(
             children="""
         AVO VIIRS status
     """
         ),
-        dcc.Graph(id="products-waiting"),
+        dcc.Graph(id="products-waiting", className="six columns row"),
         dcc.Interval(id="products-waiting-update", interval=1000, n_intervals=0),
         # dcc.Graph(id="datafile-latency"),
         # dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
@@ -71,6 +75,7 @@ def gen_products_waiting(interval):
         "layout": {
             "title": "VIIRS Products waiting to be generated",
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
+            "yaxis": {"rangemode": "nonnegative"},
         },
     }
 
@@ -111,6 +116,7 @@ class SdrSubscriber(threading.Thread):
         print("starting SDR subscriber loop")
         while True:
             msg_bytes = self.socket.recv()
+            print("GOT SDR: {}".format(msg_bytes))
             npnow = np.datetime64("now")
             message = Message.decode(msg_bytes)
             filename = os.path.basename(message.data["uri"])
@@ -139,12 +145,15 @@ class UpdateSubscriber(threading.Thread):
 
 class UpdateFlusher(threading.Thread):
     def __init__(self):
-        pass
+        threading.Thread.__init__(self)
+        print("constructing flisher")
 
     def run(self):
         while True:
+            print("starting updateflusher loop")
             time.sleep(PICKLING_INTERAL)
-            yesterday = np.datetime64("now") - np.timedelta64(1, "d")
+            print("flushing")
+            yesterday = np.datetime64("now") - np.timedelta64(1, "D")
             with waiting_tasks_lock:
                 waiting_tasks.truncate(before=yesterday)
                 copy = waiting_tasks.copy(deep=True)
@@ -168,6 +177,9 @@ def main():
     initialize()
     update_subscriber = UpdateSubscriber(context)
     update_subscriber.start()
+
+    update_flusher = UpdateFlusher()
+    update_flusher.start()
 
     sdr_subscriber = SdrSubscriber(context)
     sdr_subscriber.start()
