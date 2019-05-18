@@ -7,7 +7,7 @@ import dash_html_components as html
 import zmq
 from datetime import datetime
 import threading
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from posttroll.message import Message
 import os
 import os.path
@@ -39,12 +39,29 @@ app.layout = html.Div(
         AVO VIIRS status
     """
         ),
+        html.Div(
+            [
+                dcc.Checklist(
+                    id="bin-auto",
+                    options=[{"label": "Auto Update", "value": "Auto"}],
+                    values=["Auto"],
+                )
+            ],
+            className="bin-auto",
+        ),
         dcc.Graph(id="products-waiting", className="six columns"),
         dcc.Interval(id="products-waiting-update", interval=1000, n_intervals=0),
         dcc.Graph(id="datafile-latency", className="six columns row"),
         dcc.Interval(id="datafile-latency-update", interval=5000, n_intervals=0),
     ]
 )
+
+
+@app.callback(
+    Output("products-waiting-update", "disabled"), [Input("bin-auto", "values")]
+)
+def update_refresh(auto_values):
+    return "Auto" not in auto_values
 
 
 @app.callback(
@@ -59,7 +76,8 @@ def gen_products_waiting(interval):
                 "y": waiting_tasks["count"],
                 "type": "scatter",
                 "name": "Products Waiting",
-                "hovertext": waiting_tasks["products"],
+                "text": waiting_tasks["products"],
+                "hoverinfo": "text",
             }
         ],
         "layout": {
@@ -136,11 +154,9 @@ class UpdateSubscriber(threading.Thread):
 class UpdateFlusher(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        print("constructing flisher")
 
     def run(self):
         while True:
-            print("starting updateflusher loop")
             time.sleep(PICKLING_INTERAL)
             print("flushing")
             yesterday = np.datetime64("now") - np.timedelta64(1, "D")
