@@ -16,7 +16,6 @@ SDR_PUBLISHER = "tcp://viirscollector:29092"
 PICKLE_DIR = "/viirs/pickle"
 UPDATE_PICKLE = os.path.join(PICKLE_DIR, "task_queue.pickle")
 SDR_PICKLE = os.path.join(PICKLE_DIR, "sdr.pickle")
-PICKLING_INTERAL = 5 * 60
 
 
 class SdrSubscriber(threading.Thread):
