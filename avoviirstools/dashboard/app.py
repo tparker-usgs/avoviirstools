@@ -90,7 +90,6 @@ def gen_products_waiting(interval):
                 "type": "scatter",
                 "name": "Products Waiting",
                 "text": waiting_tasks["products"].astype(str).values.tolist(),
-                "hoverinfo": "text",
                 "fill": "tozeroy",
             }
         ],
