@@ -84,7 +84,7 @@ class UpdateSubscriber(threading.Thread):
         return self.waiting_tasks
 
     def flush(self):
-        lastweek = pd.to_datetime("now") - pd.Timedelta('7 days')
+        lastweek = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
             self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
@@ -101,4 +101,4 @@ class UpdateSubscriber(threading.Thread):
             products = set(message["products waiting"])
             npnow = pd.to_datetime("now")
             with self.lock:
-                self.waiting_tasks.at[npnow] = (queue_length, products)
+                self.waiting_tasks.at[npnow] = (queue_length, [products])
