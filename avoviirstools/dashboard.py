@@ -91,8 +91,9 @@ def gen_products_waiting(interval):
                 "y": waiting_tasks["count"],
                 "type": "scatter",
                 "name": "Products Waiting",
-                "text": list(waiting_tasks["products"]),
+                "text": waiting_tasks["products"].astype(str).values.tolist(),
                 "hoverinfo": "text",
+                "fill": "tozeroy",
             }
         ],
         "layout": {
@@ -125,6 +126,7 @@ def gen_datafile_latency(interval):
                 "y": datafiles,
                 "type": "scatter",
                 "name": "Datafile Latency",
+                "fill": "tozeroy",
             }
         ],
         "layout": {
