@@ -95,7 +95,6 @@ def gen_products_waiting(interval):
         "layout": {
             "title": "VIIRS Products waiting to be generated",
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "yaxis": {"rangemode": "nonnegative"},
         },
     }
 

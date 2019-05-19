@@ -76,8 +76,8 @@ class UpdateSubscriber(threading.Thread):
             print("loading {}".format(UPDATE_PICKLE))
             self.waiting_tasks = pd.read_pickle(UPDATE_PICKLE)
         else:
-            self.waiting_tasks = pd.Series()
             print("Can't find {}".format(UPDATE_PICKLE))
+            self.waiting_tasks = pd.Series()
 
     @property
     def updates(self):
@@ -97,4 +97,4 @@ class UpdateSubscriber(threading.Thread):
             message = self.socket.recv_json()
             npnow = pd.to_datetime("now")
             with self.lock:
-                self.waiting_tasks.at[npnow] = message["queue length"]
+                self.waiting_tasks[npnow] = message["queue length"]
