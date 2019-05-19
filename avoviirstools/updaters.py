@@ -87,8 +87,10 @@ class UpdateSubscriber(threading.Thread):
         lastweek = np.datetime64("now") - np.timedelta64(7, "D")
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
-            self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
-                {"count": "max", "waiting products": "update"}
+            self.waiting_tasks = (
+                self.waiting_tasks.resample("1min")
+                .pad()
+                .apply({"count": "max", "waiting products": "update"})
             )
             copy = self.waiting_tasks.copy(deep=True)
 
