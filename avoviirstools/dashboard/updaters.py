@@ -87,7 +87,7 @@ class UpdateSubscriber(threading.Thread):
         lastweek = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
-            self.waiting_tasks = self.waiting_tasks.resample("1min").apply( "max")
+            self.waiting_tasks = self.waiting_tasks.resample("1min").apply("max")
             copy = self.waiting_tasks.copy()
 
         copy.to_pickle(os.path.join(UPDATE_PICKLE))
