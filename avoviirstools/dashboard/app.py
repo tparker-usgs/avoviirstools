@@ -86,10 +86,9 @@ def gen_products_waiting(interval):
         "data": [
             {
                 "x": waiting_tasks.index,
-                "y": waiting_tasks["count"],
+                "y": waiting_tasks,
                 "type": "scatter",
                 "name": "Products Waiting",
-                "text": waiting_tasks["products"].astype(str).values.tolist(),
                 "fill": "tozeroy",
             }
         ],

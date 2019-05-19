@@ -76,7 +76,7 @@ class UpdateSubscriber(threading.Thread):
             print("loading {}".format(UPDATE_PICKLE))
             self.waiting_tasks = pd.read_pickle(UPDATE_PICKLE)
         else:
-            self.waiting_tasks = pd.DataFrame(columns=["count", "products"])
+            self.waiting_tasks = pd.Series()
             print("Can't find {}".format(UPDATE_PICKLE))
 
     @property
@@ -87,18 +87,14 @@ class UpdateSubscriber(threading.Thread):
         lastweek = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
-            self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
-                {"count": "max"}
-            )
-            copy = self.waiting_tasks.copy(deep=True)
+            self.waiting_tasks = self.waiting_tasks.resample("1min").apply( "max")
+            copy = self.waiting_tasks.copy()
 
         copy.to_pickle(os.path.join(UPDATE_PICKLE))
 
     def run(self):
         while True:
             message = self.socket.recv_json()
-            queue_length = message["queue length"]
-            products = set(message["products waiting"])
             npnow = pd.to_datetime("now")
             with self.lock:
-                self.waiting_tasks.at[npnow] = (queue_length, [products])
+                self.waiting_tasks.at[npnow] = message["queue length"]
