@@ -25,6 +25,7 @@ class SdrSubscriber(threading.Thread):
         self.socket.setsockopt_string(zmq.SUBSCRIBE, "pytroll://AVO/viirs/sdr")
         self.socket.connect(SDR_PUBLISHER)
         self.lock = threading.Lock()
+        self.initalize()
 
     def initalize(self):
         if os.path.exists(SDR_PICKLE):
