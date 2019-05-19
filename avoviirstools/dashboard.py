@@ -91,7 +91,7 @@ def gen_products_waiting(interval):
                 "y": waiting_tasks["count"],
                 "type": "scatter",
                 "name": "Products Waiting",
-                "text": waiting_tasks["products"],
+                "text": list(waiting_tasks["products"]),
                 "hoverinfo": "text",
             }
         ],
