@@ -90,7 +90,7 @@ class UpdateSubscriber(threading.Thread):
             self.waiting_tasks = (
                 self.waiting_tasks.resample("1min")
                 .pad()
-                .apply({"count": "max", "waiting products": "update"})
+                .apply({"count": "max", "products": "update"})
             )
             copy = self.waiting_tasks.copy(deep=True)
 
