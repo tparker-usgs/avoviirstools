@@ -32,7 +32,7 @@ setup(
             "sniff_sdr = avoviirstools.sniff_sdr:main",
             "sniff_update = avoviirstools.sniff_update:main",
             "pass_plotter = avoviirstools.pass_plotter:main",
-            "dashboard = avoviirstools.dashboard.app.py:main",
+            "dashboard = avoviirstools.dashboard.app:main",
         ]
     },
 )
