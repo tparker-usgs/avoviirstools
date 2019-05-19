@@ -88,7 +88,7 @@ class UpdateSubscriber(threading.Thread):
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
             self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
-                {"count": "max", "products": "update"}
+                {"count": "max"}
             )
             copy = self.waiting_tasks.copy(deep=True)
 
