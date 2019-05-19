@@ -86,6 +86,9 @@ class UpdateSubscriber(threading.Thread):
         lastweek = np.datetime64("now") - np.timedelta64(7, "D")
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
+            self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
+                {"count": "max", "waiting products": "update"}
+            )
             copy = self.waiting_tasks.copy(deep=True)
 
         copy.to_pickle(os.path.join(UPDATE_PICKLE))
@@ -94,7 +97,7 @@ class UpdateSubscriber(threading.Thread):
         while True:
             message = self.socket.recv_json()
             queue_length = message["queue length"]
-            products = ":".join(message["products waiting"])
+            products = set(message["products waiting"])
             npnow = np.datetime64("now")
             with self.lock:
                 self.waiting_tasks.at[npnow] = (queue_length, products)

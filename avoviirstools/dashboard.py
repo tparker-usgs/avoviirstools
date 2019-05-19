@@ -19,54 +19,54 @@ context = zmq.Context()
 update_subscriber = UpdateSubscriber(context)
 sdr_subscriber = SdrSubscriber(context)
 
-external_css = ["https://unpkg.com/picnic"]
+external_css = ["https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css"]
 app = dash.Dash(__name__, external_stylesheets=external_css)
 app.layout = html.Div(
     [
         html.Div([html.H1("AVO VIIRS Processing")]),
         html.Div(
             [
-                html.Div([html.H3("Products Waiting")]),
+                html.Div([html.H3("Products Waiting")], className="row"),
                 dcc.Checklist(
                     id="products-waiting-auto",
                     options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=["Auto"],
-                    labelClassName="checkable",
-                    className="products-waiting-auto",
+                    values=[],
+                    className="row",
                 ),
                 html.Div(
                     [
-                        dcc.Graph(id="products-waiting", className="half"),
+                        dcc.Graph(id="products-waiting", className=""),
                         dcc.Interval(
                             id="products-waiting-update", interval=1000, n_intervals=0
                         ),
                     ],
-                    className="flex",
+                    className="row",
                 ),
-            ],
-            className="",
+            ]
         ),
         html.Div(
             [
-                html.Div([html.H3("SDR Delivery Time")]),
+                html.Div([html.H3("SDR Delivery Time")], className="row"),
                 dcc.Checklist(
                     id="latency-auto",
                     options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=["Auto"],
-                    className="latency-auto",
+                    values=[],
+                    className="row",
                 ),
                 html.Div(
                     [
-                        dcc.Graph(id="datafile-latency", className="hal"),
+                        dcc.Graph(id="datafile-latency"),
                         dcc.Interval(
                             id="datafile-latency-update", interval=5000, n_intervals=0
                         ),
                     ],
-                    className="flex",
+                    className="row",
                 ),
-            ]
+            ],
+            className="",
         ),
-    ]
+    ],
+    className="container",
 )
 
 
