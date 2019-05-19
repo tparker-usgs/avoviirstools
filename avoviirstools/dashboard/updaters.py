@@ -40,7 +40,7 @@ class SdrSubscriber(threading.Thread):
         return self.datafiles
 
     def flush(self):
-        last_week = np.datetime64("now") - np.timedelta64(1, "W")
+        last_week = pd.to_datetime("now") - pd.Timedelta("1 week")
         with self.lock:
             self.datafiles.truncate(before=last_week)
             copy = self.datafiles.copy(deep=True)
@@ -52,12 +52,12 @@ class SdrSubscriber(threading.Thread):
         while True:
             msg_bytes = self.socket.recv()
             print("GOT SDR: {}".format(msg_bytes))
-            npnow = np.datetime64("now")
+            npnow = pd.to_datetime("now")
             message = Message.decode(msg_bytes)
             filename = os.path.basename(message.data["uri"])
             file_time = datetime.strptime(filename[-69:-51], "_d%Y%m%d_t%H%M%S")
-            npthen = np.datetime64(file_time)
-            latency = (npnow - npthen) / np.timedelta64(1, "s")
+            npthen = pd.to_datetime(file_time)
+            latency = (npnow - npthen) / pd.Timedelta("1 s")
             with self.lock:
                 self.datafiles[npnow] = latency
 
@@ -84,7 +84,7 @@ class UpdateSubscriber(threading.Thread):
         return self.waiting_tasks
 
     def flush(self):
-        lastweek = np.datetime64("now") - np.timedelta64(7, "D")
+        lastweek = pd.to_datetime("now") - pd.Timedelta('1 week')
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
             self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
@@ -99,6 +99,6 @@ class UpdateSubscriber(threading.Thread):
             message = self.socket.recv_json()
             queue_length = message["queue length"]
             products = set(message["products waiting"])
-            npnow = np.datetime64("now")
+            npnow = pd.to_datetime("now")
             with self.lock:
                 self.waiting_tasks.at[npnow] = (queue_length, products)
