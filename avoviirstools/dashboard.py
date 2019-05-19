@@ -105,7 +105,9 @@ def gen_products_waiting(interval):
     return figure
 
 
-@app.callback(Output("latency-update", "disabled"), [Input("latency-auto", "values")])
+@app.callback(
+    Output("datafile-latency-update", "disabled"), [Input("latency-auto", "values")]
+)
 def latency_refresh(auto_values):
     return "Auto" not in auto_values
 
