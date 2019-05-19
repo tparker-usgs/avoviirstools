@@ -7,10 +7,8 @@ import dash_html_components as html
 import zmq
 import threading
 from dash.dependencies import Input, Output
-import os
-import os.path
 import time
-from avoviirstools.updaters import UpdateSubscriber, SdrSubscriber
+from avoviirstools.dashboard.updaters import UpdateSubscriber, SdrSubscriber
 
 
 PICKLING_INTERAL = 5 * 60
