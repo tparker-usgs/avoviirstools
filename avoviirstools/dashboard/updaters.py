@@ -40,7 +40,7 @@ class SdrSubscriber(threading.Thread):
         return self.datafiles
 
     def flush(self):
-        last_week = pd.to_datetime("now") - pd.Timedelta("1 week")
+        last_week = pd.to_datetime("now") - pd.Timedelta("1 weeks")
         with self.lock:
             self.datafiles.truncate(before=last_week)
             copy = self.datafiles.copy(deep=True)
@@ -84,7 +84,7 @@ class UpdateSubscriber(threading.Thread):
         return self.waiting_tasks
 
     def flush(self):
-        lastweek = pd.to_datetime("now") - pd.Timedelta('1 week')
+        lastweek = pd.to_datetime("now") - pd.Timedelta('1 weeks')
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
             self.waiting_tasks = self.waiting_tasks.resample("1min").apply(
