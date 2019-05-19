@@ -83,9 +83,9 @@ class UpdateSubscriber(threading.Thread):
         return self.waiting_tasks
 
     def flush(self):
-        yesterday = np.datetime64("now") - np.timedelta64(1, "D")
+        lastweek = np.datetime64("now") - np.timedelta64(7, "D")
         with self.lock:
-            self.waiting_tasks.truncate(before=yesterday)
+            self.waiting_tasks.truncate(before=lastweek)
             copy = self.waiting_tasks.copy(deep=True)
 
         copy.to_pickle(os.path.join(UPDATE_PICKLE))
