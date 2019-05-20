@@ -30,7 +30,7 @@ class SdrSubscriber(threading.Thread):
     def initalize(self):
         if os.path.exists(SDR_PICKLE):
             print("loading {}".format(SDR_PICKLE))
-            self.datafiles = pd.read_pickle(SDR_PICKLE)
+            self._sdrs = pd.read_pickle(SDR_PICKLE)
         else:
             print("Can't find {}".format(SDR_PICKLE))
             self.datafiles = pd.Series()
