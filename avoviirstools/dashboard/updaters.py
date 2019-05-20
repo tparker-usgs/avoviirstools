@@ -34,7 +34,7 @@ class SdrSubscriber(threading.Thread):
         else:
             print("Can't find {}".format(SDR_PICKLE))
             self.datafiles = pd.Series()
-            self.sdrs = pd.DataFrame(
+            self._sdrs = pd.DataFrame(
                 columns=[
                     "segment",
                     "platform_name",
@@ -48,12 +48,8 @@ class SdrSubscriber(threading.Thread):
             )
 
     @property
-    def latency(self):
-        return self.sdrs["delay"]
-
-    @property
     def sdrs(self):
-        return self.sdrs
+        return self._sdrs
 
     def flush(self):
         last_week = pd.to_datetime("now") - pd.Timedelta("7 days")
