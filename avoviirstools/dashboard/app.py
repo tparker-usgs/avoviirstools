@@ -46,9 +46,6 @@ app.layout = html.Div(
         html.Div(
             [
                 html.Div([html.H3("SDR Delivery Time")], className="row"),
-                dcc.Checklist(
-                    id="latency-auto", data=sdr_subscriber.sdrs, className="row"
-                ),
                 html.Div(
                     [
                         dcc.Graph(id="datafile-latency"),
