@@ -7,7 +7,6 @@ import threading
 from posttroll.message import Message
 import os
 import os.path
-import numpy as np
 import pandas as pd
 
 
@@ -55,10 +54,6 @@ class SdrSubscriber(threading.Thread):
     @property
     def sdrs(self):
         return self.sdrs
-
-    @property
-    def sdrs(self):
-        return self.datafiles
 
     def flush(self):
         last_week = pd.to_datetime("now") - pd.Timedelta("7 days")

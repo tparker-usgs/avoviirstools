@@ -113,12 +113,12 @@ def latency_refresh(auto_values):
     [Input("datafile-latency-update", "n_intervals")],
 )
 def gen_datafile_latency(interval):
-    datafiles = sdr_subscriber.sdrs
+    sdrs = sdr_subscriber.sdrs
     figure = {
         "data": [
             {
-                "x": datafiles.index,
-                "y": datafiles,
+                "x": sdrs.index,
+                "y": sdrs["delay"],
                 "type": "scatter",
                 "name": "Datafile Latency",
                 "fill": "tozeroy",
@@ -147,11 +147,14 @@ class Flusher(threading.Thread):
 
 
 def main():
-    update_subscriber.start()
-    sdr_subscriber.start()
-
-    flusher = Flusher(update_subscriber, sdr_subscriber)
+    flusher = Flusher()
     flusher.start()
+
+    update_subscriber.start()
+    flusher.flushables.append(update_subscriber)
+
+    sdr_subscriber.start()
+    flusher.flushables.append(sdr_subscriber)
 
     app.run_server(host="0.0.0.0")
 
