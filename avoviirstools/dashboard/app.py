@@ -58,30 +58,22 @@ app.layout = html.Div(
             ],
             className="",
         ),
-        html.Div(
-            [
-                dash_table.DataTable(
-                    id="sdrs",
-                    columns=[
-                        {"name": i, "id": i, "deletable": True}
-                        for i in sdr_subscriber.sdrs.columns
-                    ],
-                    data=sdr_subscriber.sdrs.to_dict(),
-                )
-            ],
-            className="row",
-        ),
+        html.Div([dash_table.DataTable(id="sdr_table")], className="row"),
     ],
     className="container",
 )
 
 
-@app.callback(
-    Output("products-waiting-update", "disabled"),
-    [Input("products-waiting-auto", "values")],
-)
-def update_refresh(auto_values):
-    return "Auto" not in auto_values
+@app.callback(Output("sdr_table", "data"))
+def update_sdr_table():
+    return sdr_subscriber.sdrs.to_dict()
+
+
+@app.callback(Output("sdr_table", "columns"))
+def update_sdr_table_cols():
+    return [
+        {"name": i, "id": i, "deletable": True} for i in sdr_subscriber.sdrs.columns
+    ]
 
 
 @app.callback(

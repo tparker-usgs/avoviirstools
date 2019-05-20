@@ -54,8 +54,8 @@ class SdrSubscriber(threading.Thread):
     def flush(self):
         last_week = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
-            self.datafiles.truncate(before=last_week)
-            copy = self.datafiles.copy(deep=True)
+            self._sdrs.truncate(before=last_week)
+            copy = self._sdrs.copy(deep=True)
 
         copy.to_pickle(os.path.join(SDR_PICKLE))
 
