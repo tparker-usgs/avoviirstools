@@ -16,6 +16,7 @@ SDR_PUBLISHER = "tcp://viirscollector:29092"
 PICKLE_DIR = "/viirs/pickle"
 UPDATE_PICKLE = os.path.join(PICKLE_DIR, "task_queue.pickle")
 SDR_PICKLE = os.path.join(PICKLE_DIR, "sdr.pickle")
+NEW_SDR_PICKLE = os.path.join(PICKLE_DIR, "new_sdr.pickle")
 
 
 class SdrSubscriber(threading.Thread):
@@ -34,6 +35,26 @@ class SdrSubscriber(threading.Thread):
         else:
             print("Can't find {}".format(SDR_PICKLE))
             self.datafiles = pd.Series()
+            self.sdrs = pd.DataFrame(
+                columns=[
+                    "segment",
+                    "platform_name",
+                    "start_time",
+                    "end_time",
+                    "orbit_number",
+                    "proctime",
+                    "uid",
+                    "delay",
+                ]
+            )
+
+    @property
+    def latency(self):
+        return self.sdrs["delay"]
+
+    @property
+    def sdrs(self):
+        return self.sdrs
 
     @property
     def sdrs(self):
@@ -57,9 +78,19 @@ class SdrSubscriber(threading.Thread):
             filename = os.path.basename(message.data["uri"])
             file_time = datetime.strptime(filename[-69:-51], "_d%Y%m%d_t%H%M%S")
             npthen = pd.to_datetime(file_time)
-            latency = (npnow - npthen) / pd.Timedelta("1 s")
+            delay = (npnow - npthen) / pd.Timedelta("1 s")
+            sdrs = self.sdrs
             with self.lock:
-                self.datafiles[npnow] = latency
+                sdrs.at[npnow] = (
+                    message.data["segment"],
+                    message.data["platform_name"],
+                    pd.to_datetime(message.data["start_time"]),
+                    pd.to_datetime(message.data["end_time"]),
+                    message.data["orbit_number"],
+                    pd.to_datetime(message.data["proctime"]),
+                    message.data["uid"],
+                    delay,
+                )
 
 
 class UpdateSubscriber(threading.Thread):
