@@ -4,6 +4,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table
 import zmq
 import threading
 from dash.dependencies import Input, Output
@@ -46,10 +47,7 @@ app.layout = html.Div(
             [
                 html.Div([html.H3("SDR Delivery Time")], className="row"),
                 dcc.Checklist(
-                    id="latency-auto",
-                    options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=[],
-                    className="row",
+                    id="latency-auto", data=sdr_subscriber.sdrs, className="row"
                 ),
                 html.Div(
                     [
@@ -62,6 +60,19 @@ app.layout = html.Div(
                 ),
             ],
             className="",
+        ),
+        html.Div(
+            [
+                dash_table.DataTable(
+                    id="sdrs",
+                    columns=[
+                        {"name": i, "id": i, "deletable": True}
+                        for i in sdr_subscriber.sdrs.columns
+                    ],
+                    data=sdr_subscriber.sdrs.to_dict("rows"),
+                )
+            ],
+            className="row",
         ),
     ],
     className="container",
