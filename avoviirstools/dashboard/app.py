@@ -137,7 +137,7 @@ def gen_datafile_latency(interval):
 class Flusher(threading.Thread):
     def __init__(self, *args):
         threading.Thread.__init__(self)
-        self.flushables = args
+        self.flushables = list(args)
 
     def run(self):
         while True:
