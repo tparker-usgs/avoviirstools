@@ -66,7 +66,7 @@ app.layout = html.Div(
                         {"name": i, "id": i, "deletable": True}
                         for i in sdr_subscriber.sdrs.columns
                     ],
-                    data=sdr_subscriber.sdrs.to_dict("rows"),
+                    data=sdr_subscriber.sdrs.to_dict(),
                 )
             ],
             className="row",
