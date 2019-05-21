@@ -46,6 +46,12 @@ app.layout = html.Div(
         html.Div(
             [
                 html.Div([html.H3("SDR Delivery Time")], className="row"),
+                dcc.Checklist(
+                    id="datafile-latency-auto",
+                    options=[{"label": "Auto Update", "value": "Auto"}],
+                    values=[],
+                    className="row",
+                ),
                 html.Div(
                     [
                         dcc.Graph(id="datafile-latency"),
@@ -55,24 +61,44 @@ app.layout = html.Div(
                     ],
                     className="row",
                 ),
-            ],
-            className="",
+            ]
         ),
-        html.Div([dash_table.DataTable(id="sdr_table")], className="row"),
+        html.Div(
+            [
+                dcc.Checklist(
+                    id="sdr-table-auto",
+                    options=[{"label": "Auto Update", "value": "Auto"}],
+                    values=[],
+                    className="row",
+                ),
+                html.Div(
+                    [
+                        dash_table.DataTable(id="sdr-table"),
+                        dcc.Interval(
+                            id="sdr-table-update", interval=5000, n_intervals=0
+                        ),
+                    ],
+                    className="row",
+                ),
+            ]
+        ),
     ],
     className="container",
 )
 
 
-@app.callback(Output("sdr_table", "data"))
-def update_sdr_table():
+@app.callback(Output("sdr-table", "data"), [Input("sdr-table-update", "n_intervals")])
+def update_sdr_table(interval):
     return sdr_subscriber.sdrs.to_dict()
 
 
-@app.callback(Output("sdr_table", "columns"))
-def update_sdr_table_cols():
+@app.callback(
+    Output("sdr-table", "columns"), [Input("sdr-table-update", "n_intervals")]
+)
+def update_sdr_table_cols(interval):
     return [
-        {"name": i, "id": i, "deletable": True} for i in sdr_subscriber.sdrs.columns
+        {"name": i, "id": i, "deletable": True}
+        for i in sdr_subscriber.sdrs.columns.to_list()
     ]
 
 
