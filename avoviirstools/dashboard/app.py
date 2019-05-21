@@ -89,7 +89,7 @@ app.layout = html.Div(
 
 @app.callback(Output("sdr-table", "data"), [Input("sdr-table-update", "n_intervals")])
 def update_sdr_table(interval):
-    return sdr_subscriber.sdrs.to_dict()
+    return sdr_subscriber.sdrs.to_dict('records')
 
 
 @app.callback(
