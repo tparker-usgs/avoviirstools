@@ -46,7 +46,7 @@ def products_waiting():
 def sdrs(platform):
     sdrs = sdr_subscriber.sdrs
     columns = ["segment", "start_time", "orbit_number", "delay"]
-    data = sdrs.loc[sdrs["platform_name"] == platform][columns].to_dict("records")
+    data = sdrs.loc[sdrs["platform_name"] == platform][columns].to_dict("records")[::-1]
 
     columns = [ {"name": i, "id": i} for i in columns ]
     return html.Div(
