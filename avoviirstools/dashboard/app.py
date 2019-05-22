@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#
 # -*- coding: utf-8 -*-
 import dash
 import dash_core_components as dcc
@@ -18,88 +18,114 @@ context = zmq.Context()
 update_subscriber = UpdateSubscriber(context)
 sdr_subscriber = SdrSubscriber(context)
 
+
+def products_waiting():
+    return html.Div(
+        [
+            html.Div([html.H3("Products Waiting")], className="row"),
+            dcc.Checklist(
+                id="products-waiting-auto",
+                options=[{"label": "Auto Update", "value": "Auto"}],
+                values=[],
+                className="row",
+            ),
+            html.Div(
+                [
+                    dcc.Graph(id="products-waiting"),
+                    dcc.Interval(
+                        id="products-waiting-update", interval=5000, n_intervals=0
+                    ),
+                ],
+                className="row",
+            ),
+        ],
+        className="container",
+    )
+
+
+def sdrs(platform):
+    sdrs = sdr_subscriber.sdrs
+    columns = ["segment", "start_time", "orbit_number", "delay"]
+    data = sdrs.loc[sdrs["platform_name"] == platform][columns].to_dict("records")
+
+    columns = [ {"name": i, "id": i} for i in columns ]
+    return html.Div(
+        [
+            html.Div(
+                [html.H3("{} SDR".format(platform))], className="row"
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            dcc.Graph(
+                                id="datafile-latency-{}".format(platform),
+                                style={"height": "300px"},
+                                figure={
+                                    "data": [
+                                        {
+                                            "x": sdrs.index,
+                                            "y": sdrs.loc[
+                                                sdrs["platform_name"] == platform
+                                            ]["delay"]
+                                            / 60,
+                                            "type": "scatter",
+                                            "name": "Datafile Latency",
+                                            "fill": "tozeroy",
+                                        }
+                                    ],
+                                    "layout": {
+                                        "xaxis": {
+                                            "type": "date",
+                                            "rangemode": "nonnegative",
+                                        },
+                                        "yaxis": {"title": "SDR Latency minutes"},
+                                    },
+                                },
+                            )
+                        ],
+                        className="column column-25",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    dash_table.DataTable(
+                                        id="sdr-table-{}".format(platform),
+                                        data=data,
+                                        columns=columns,
+                                        pagination_settings={
+                                            "current_page": 0,
+                                            "page_size": 8,
+                                        },
+                                        pagination_mode="fe",
+                                        style_table={
+                                            "maxHeight": "300px",
+                                        },
+                                    )
+                                ]
+                            )
+                        ],
+                        className="column column-75",
+                    ),
+                ],
+                className="row",
+            ),
+        ],
+        className="container",
+    )
+
+
 external_css = ["https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css"]
 app = dash.Dash(__name__, external_stylesheets=external_css)
 app.layout = html.Div(
     [
-        html.Div([html.H1("AVO VIIRS Processing")]),
-        html.Div(
-            [
-                html.Div([html.H3("Products Waiting")], className="row"),
-                dcc.Checklist(
-                    id="products-waiting-auto",
-                    options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=[],
-                    className="row",
-                ),
-                html.Div(
-                    [
-                        dcc.Graph(id="products-waiting", className=""),
-                        dcc.Interval(
-                            id="products-waiting-update", interval=1000, n_intervals=0
-                        ),
-                    ],
-                    className="row",
-                ),
-            ]
-        ),
-        html.Div(
-            [
-                html.Div([html.H3("SDR Delivery Time")], className="row"),
-                dcc.Checklist(
-                    id="datafile-latency-auto",
-                    options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=[],
-                    className="row",
-                ),
-                html.Div(
-                    [
-                        dcc.Graph(id="datafile-latency"),
-                        dcc.Interval(
-                            id="datafile-latency-update", interval=5000, n_intervals=0
-                        ),
-                    ],
-                    className="row",
-                ),
-            ]
-        ),
-        html.Div(
-            [
-                dcc.Checklist(
-                    id="sdr-table-auto",
-                    options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=[],
-                    className="row",
-                ),
-                html.Div(
-                    [
-                        dash_table.DataTable(id="sdr-table"),
-                        dcc.Interval(
-                            id="sdr-table-update", interval=5000, n_intervals=0
-                        ),
-                    ],
-                    className="row",
-                ),
-            ]
-        ),
-    ],
-    className="container",
-)
-
-
-@app.callback(Output("sdr-table", "data"), [Input("sdr-table-update", "n_intervals")])
-def update_sdr_table(interval):
-    return sdr_subscriber.sdrs.to_dict('records')
-
-
-@app.callback(
-    Output("sdr-table", "columns"), [Input("sdr-table-update", "n_intervals")]
-)
-def update_sdr_table_cols(interval):
-    return [
-        {"name": i, "id": i, "deletable": True}
-        for i in sdr_subscriber.sdrs.columns.to_list()
+        html.Div([html.H1("AVO VIIRS Processing")], className="row"),
+        products_waiting(),
+        sdrs("Suomi-NPP"),
+        sdrs("NOAA-20"),
     ]
+)
 
 
 @app.callback(
@@ -120,31 +146,6 @@ def gen_products_waiting(interval):
         ],
         "layout": {
             "title": "VIIRS Products waiting to be generated",
-            "xaxis": {"type": "date", "rangemode": "nonnegative"},
-        },
-    }
-
-    return figure
-
-
-@app.callback(
-    Output("datafile-latency", "figure"),
-    [Input("datafile-latency-update", "n_intervals")],
-)
-def gen_datafile_latency(interval):
-    sdrs = sdr_subscriber.sdrs
-    figure = {
-        "data": [
-            {
-                "x": sdrs.index,
-                "y": sdrs["delay"],
-                "type": "scatter",
-                "name": "Datafile Latency",
-                "fill": "tozeroy",
-            }
-        ],
-        "layout": {
-            "title": "AVO Data File Latency",
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
         },
     }
