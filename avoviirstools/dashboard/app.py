@@ -45,22 +45,30 @@ def products_waiting():
 
 
 def sdrs(platform):
+    pdnow = pd.to_datetime("now")
     sdrs = sdr_subscriber.sdrs
     columns = ["segment", "start_time", "orbit_number", "delay"]
     data = sdrs.loc[sdrs["platform_name"] == platform][columns]
-    data["age"] = pd.to_datetime("now") - data["start_time"]
-    data["age"] = data["age"] / pd.Timedelta("60 seconds")
-    data["age"] = data["age"].astype("int64")
-    data["start_time"] = data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
-    data["delay"] = data["delay"] / 60
-    data["delay"] = data["delay"].astype("int64")
-    data = data.to_dict("records")[::-1]
+    data["gap"] = data.index.to_series().diff()
+    table_data = data
+    table_data["gap"] = table_data["gap"].astype("int64")
+    table_data["age"] = pd.to_datetime("now") - table_data["start_time"]
+    table_data["age"] = table_data["age"] / pd.Timedelta("60 seconds")
+    table_data["age"] = table_data["age"].astype("int64")
+    table_data["start_time"] = table_data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
+    table_data["delay"] = table_data["delay"] / 60
+    table_data["delay"] = table_data["delay"].astype("int64")
+    table_data = table_data.to_dict("records")[::-1]
+    #data.at[pdnow, "gap"] = pdnow - data.index[-1]
+    data["gap"] = data["gap"] / ( 60 * 1000 * 1000 )
+
     columns = [
         {"name": "orbit", "id": "orbit_number"},
         {"name": "segment", "id": "segment"},
         {"name": "start", "id": "start_time"},
         {"name": "delay (min)", "id": "delay"},
         {"name": "age (min)", "id": "age"},
+        {"name": "gap (min)", "id": "gap"},
     ]
 
     return html.Div(
@@ -77,13 +85,16 @@ def sdrs(platform):
                                     "data": [
                                         {
                                             "x": sdrs.index,
-                                            "y": sdrs.loc[
-                                                sdrs["platform_name"] == platform
-                                            ]["delay"]
-                                            / 60,
+                                            "y": data["delay"],
                                             "type": "scatter",
                                             "name": "Datafile Latency",
                                             "fill": "tozeroy",
+                                        },
+                                        {
+                                            "x": sdrs.index,
+                                            "y": data["gap"],
+                                            "type": "scatter",
+                                            "name": "Datafile Gap",
                                         }
                                     ],
                                     "layout": {
@@ -104,7 +115,7 @@ def sdrs(platform):
                                 [
                                     dash_table.DataTable(
                                         id="sdr-table-{}".format(platform),
-                                        data=data,
+                                        data=table_data,
                                         columns=columns,
                                         pagination_settings={
                                             "current_page": 0,
