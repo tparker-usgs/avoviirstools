@@ -10,6 +10,7 @@ import threading
 from dash.dependencies import Input, Output
 import time
 from avoviirstools.dashboard.updaters import UpdateSubscriber, SdrSubscriber
+import pandas as pd
 
 
 PICKLING_INTERAL = 5 * 60
@@ -22,7 +23,7 @@ sdr_subscriber = SdrSubscriber(context)
 def products_waiting():
     return html.Div(
         [
-            html.Div([html.H3("Products Waiting")], className="row"),
+            html.Div([html.H3("Products Waiting to be generated")], className="row"),
             dcc.Checklist(
                 id="products-waiting-auto",
                 options=[{"label": "Auto Update", "value": "Auto"}],
@@ -46,14 +47,25 @@ def products_waiting():
 def sdrs(platform):
     sdrs = sdr_subscriber.sdrs
     columns = ["segment", "start_time", "orbit_number", "delay"]
-    data = sdrs.loc[sdrs["platform_name"] == platform][columns].to_dict("records")[::-1]
+    data = sdrs.loc[sdrs["platform_name"] == platform][columns]
+    data["age"] = pd.to_datetime("now") - data["start_time"]
+    data["age"] = data["age"] / pd.Timedelta("60 seconds")
+    data["age"] = data["age"].astype("int64")
+    data["start_time"] = data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
+    data["delay"] = data["delay"] / 60
+    data["delay"] = data["delay"].astype("int64")
+    data = data.to_dict("records")[::-1]
+    columns = [
+        {"name": "orbit", "id": "orbit_number"},
+        {"name": "segment", "id": "segment"},
+        {"name": "start", "id": "start_time"},
+        {"name": "delay (min)", "id": "delay"},
+        {"name": "age (min)", "id": "age"},
+    ]
 
-    columns = [ {"name": i, "id": i} for i in columns ]
     return html.Div(
         [
-            html.Div(
-                [html.H3("{} SDR".format(platform))], className="row"
-            ),
+            html.Div([html.H3(platform)], className="row"),
             html.Div(
                 [
                     html.Div(
@@ -84,7 +96,7 @@ def sdrs(platform):
                                 },
                             )
                         ],
-                        className="column column-25",
+                        className="column column-40",
                     ),
                     html.Div(
                         [
@@ -99,14 +111,13 @@ def sdrs(platform):
                                             "page_size": 8,
                                         },
                                         pagination_mode="fe",
-                                        style_table={
-                                            "maxHeight": "300px",
-                                        },
+                                        style_table={"maxHeight": "300px"},
+                                        style_as_list_view=True,
                                     )
                                 ]
                             )
                         ],
-                        className="column column-75",
+                        className="column column-60",
                     ),
                 ],
                 className="row",
@@ -144,10 +155,7 @@ def gen_products_waiting(interval):
                 "fill": "tozeroy",
             }
         ],
-        "layout": {
-            "title": "VIIRS Products waiting to be generated",
-            "xaxis": {"type": "date", "rangemode": "nonnegative"},
-        },
+        "layout": {"xaxis": {"type": "date", "rangemode": "nonnegative"}},
     }
 
     return figure
