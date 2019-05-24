@@ -49,31 +49,53 @@ def sdrs(platform):
     sdrs = sdr_subscriber.sdrs
     columns = ["segment", "start_time", "orbit_number", "delay"]
     data = sdrs.loc[sdrs["platform_name"] == platform][columns]
+
     data["gap"] = data.index.to_series().diff()
-    table_data = data
-    table_data["gap"] = table_data["gap"].astype("int64")
-    table_data["age"] = pd.to_datetime("now") - table_data["start_time"]
-    table_data["age"] = table_data["age"] / pd.Timedelta("60 seconds")
-    table_data["age"] = table_data["age"].astype("int64")
-    table_data["start_time"] = table_data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
-    table_data["delay"] = table_data["delay"] / 60
-    table_data["delay"] = table_data["delay"].astype("int64")
-    table_data = table_data.to_dict("records")[::-1]
-    #data.at[pdnow, "gap"] = pdnow - data.index[-1]
-    data["gap"] = data["gap"] / ( 60 * 1000 * 1000 )
+    data["gap"] = data["gap"].fillna(pd.Timedelta("0 seconds"))
+    data.at[pdnow, "gap"] = pdnow - data.index[-1]
+    data["gap"] = data["gap"] / pd.Timedelta("60 seconds")
+    data["gap"] = data["gap"].astype("int64")
+
+    data["age"] = pd.to_datetime("now") - data["start_time"]
+    data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
+    data["age"] = data["age"] / pd.Timedelta("60 seconds")
+    data["age"] = data["age"].astype("int64")
+
+    data["start_time"] = data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
+
+    data["delay"] = data["delay"] / 60
+    data["delay"] = data["delay"].fillna(0)
+    data["delay"] = data["delay"].astype("int64")
+
+    data["aquisition time"] = data.index.strftime("%m/%d/%Y %H:%M")
 
     columns = [
         {"name": "orbit", "id": "orbit_number"},
         {"name": "segment", "id": "segment"},
-        {"name": "start", "id": "start_time"},
-        {"name": "delay (min)", "id": "delay"},
-        {"name": "age (min)", "id": "age"},
-        {"name": "gap (min)", "id": "gap"},
+        {"name": "data start", "id": "start_time"},
+        {"name": "aquisition time", "id": "aquisition time"},
+        {"name": "AVO aquisition delay (min)", "id": "delay"},
+        {"name": "data age (min)", "id": "age"},
     ]
+
+    tooltips = {
+        "aquisition time": "When did the data arrive at AVO?",
+        "delay": "How long did it take for the data to arrive at AVO?",
+        "age": "How old is the data?",
+    }
 
     return html.Div(
         [
-            html.Div([html.H3(platform)], className="row"),
+            html.Div(
+                [
+                    html.H3(
+                        "{} — Most recent data {} minutes ago".format(
+                            platform, data.at[pdnow, "gap"]
+                        )
+                    )
+                ],
+                className="row",
+            ),
             html.Div(
                 [
                     html.Div(
@@ -95,14 +117,17 @@ def sdrs(platform):
                                             "y": data["gap"],
                                             "type": "scatter",
                                             "name": "Datafile Gap",
-                                        }
+                                        },
                                     ],
                                     "layout": {
                                         "xaxis": {
                                             "type": "date",
                                             "rangemode": "nonnegative",
                                         },
-                                        "yaxis": {"title": "SDR Latency minutes"},
+                                        "yaxis": {
+                                            "title": "SDR Latency minutes",
+                                            "range": [0, 200],
+                                        },
                                     },
                                 },
                             )
@@ -115,15 +140,28 @@ def sdrs(platform):
                                 [
                                     dash_table.DataTable(
                                         id="sdr-table-{}".format(platform),
-                                        data=table_data,
+                                        data=data.to_dict("records")[-2::-1],
                                         columns=columns,
+                                        column_static_tooltip=tooltips,
                                         pagination_settings={
                                             "current_page": 0,
-                                            "page_size": 8,
+                                            "page_size": 5,
                                         },
                                         pagination_mode="fe",
                                         style_table={"maxHeight": "300px"},
                                         style_as_list_view=True,
+                                        style_header={
+                                            "minWidth": "0px",
+                                            "maxWidth": "250px",
+                                            "whiteSpace": "normal",
+                                        },
+                                        style_cell={"padding": "10px"},
+                                        css=[
+                                            {
+                                                "selector": ".dash-cell div.dash-cell-value",
+                                                "rule": "display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;",
+                                            }
+                                        ],
                                     )
                                 ]
                             )
