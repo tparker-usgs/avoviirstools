@@ -11,6 +11,7 @@ from dash.dependencies import Input, Output
 import time
 from avoviirstools.dashboard.updaters import UpdateSubscriber, SdrSubscriber
 import pandas as pd
+import humanize
 
 
 PICKLING_INTERAL = 5 * 60
@@ -44,20 +45,27 @@ def products_waiting():
 
 
 def last_seen_table(npp_data, j01_data):
-    pdnow = pd.to_datetime("now")
+    npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[0])
+    j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[0])
+
     return html.Div(
         [
-            dash_table.DataTable(
-                id="last-seen-table",
-                data=[
-                    {"name": "Suomi-NPP", "last seen": npp_data.at[pdnow, "gap"]},
-                    {"name": "NOAA-20", "last seen": j01_data.at[pdnow, "gap"]},
+            html.Div(
+                [
+                    dash_table.DataTable(
+                        id="last-seen-table",
+                        columns=[
+                            {"name": "", "id": "platform"},
+                            {"name": "Last Seen", "id": "last seen"},
+                        ],
+                        data=[
+                            {"platform": "Suomi-NPP", "last seen": npp_gap},
+                            {"platform": "NOAA-20", "last seen": j01_gap},
+                        ],
+                        style_as_list_view=True,
+                    )
                 ],
-                columns=[
-                    {"name": "", "id": "name"},
-                    {"name": "Last Seen", "id": "last seend"},
-                ],
-                style_as_list_view=True,
+                className="col",
             )
         ],
         className="row",
@@ -74,14 +82,14 @@ def datafile_latency(npp_data, j01_data):
                     figure={
                         "data": [
                             {
-                                "x": sdrs.index,
+                                "x": npp_data.index,
                                 "y": npp_data["delay"],
                                 "type": "scatter",
                                 "name": "Datafile Latency",
                                 "fill": "tozeroy",
                             },
                             {
-                                "x": sdrs.index,
+                                "x": j01_data.index,
                                 "y": j01_data["delay"],
                                 "type": "scatter",
                                 "name": "Datafile Latency",
@@ -150,7 +158,7 @@ def datafile_table(npp_data, j01_data):
     )
 
 
-def sdrs(platform):
+def sdrs():
     pdnow = pd.to_datetime("now")
 
     data = sdr_subscriber.sdrs
@@ -158,6 +166,7 @@ def sdrs(platform):
     data["gap"] = data.index.to_series().diff()
     data["gap"] = data["gap"].fillna(pd.Timedelta("0 seconds"))
 
+    data["start_time"] = pd.to_datetime(data["start_time"])
     data["age"] = pd.to_datetime("now") - data["start_time"]
     data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
@@ -172,12 +181,12 @@ def sdrs(platform):
     data["aquisition time"] = data.index.strftime("%m/%d/%Y %H:%M")
 
     columns = ["segment", "start_time", "orbit_number", "delay"]
-    npp_data = sdrs.loc[sdrs["Suomi-NPP"] == platform][columns]
+    npp_data = data.loc[data["platform_name"] == "Suomi-NPP"][columns]
     npp_data.at[pdnow, "gap"] = pdnow - data.index[-1]
     npp_data["gap"] = data["gap"] / pd.Timedelta("60 seconds")
     npp_data["gap"] = data["gap"].astype("int64")
 
-    j01_data = sdrs.loc[sdrs["NOAA-20"] == platform][columns]
+    j01_data = data.loc[data["platform_name"] == "NOAA-20"][columns]
     j01_data.at[pdnow, "gap"] = pdnow - data.index[-1]
     j01_data["gap"] = data["gap"] / pd.Timedelta("60 seconds")
     j01_data["gap"] = data["gap"].astype("int64")
@@ -185,8 +194,8 @@ def sdrs(platform):
     return html.Div(
         [
             last_seen_table(npp_data, j01_data),
-            datafile_latency(npp_data, j01_data),
-            datafile_table(npp_data, j01_data),
+            #datafile_latency(npp_data, j01_data),
+            #datafile_table(npp_data, j01_data),
         ],
         className="row",
     )
@@ -204,8 +213,7 @@ app.layout = html.Div(
         html.Div([html.H3("Product Generation")], className="row"),
         products_waiting(),
         html.Div([html.H3("Data Arrival")], className="row"),
-        sdrs("Suomi-NPP"),
-        sdrs("NOAA-20"),
+        sdrs(),
     ],
     className="container-fluid",
 )
