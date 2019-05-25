@@ -46,7 +46,7 @@ class SdrSubscriber(threading.Thread):
                     "delay",
                 ]
             )
-            self._sdrs = self._sdrs(
+            self._sdrs = self._sdrs.astype(
                 dtype={
                     "segment": "object",
                     "platform_name": "object",
