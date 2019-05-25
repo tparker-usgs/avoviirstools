@@ -32,7 +32,7 @@ def products_waiting():
             ),
             html.Div(
                 [
-                    dcc.Graph(id="products-waiting"),
+                    dcc.Graph(id="products-waiting", style={"height": "350px"}),
                     dcc.Interval(
                         id="products-waiting-update", interval=5000, n_intervals=0
                     ),
@@ -48,66 +48,72 @@ def last_seen_table(npp_data, j01_data):
     npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[0])
     j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[0])
 
-    return html.Div(
-        [
-            html.Div(
-                [
-                    dash_table.DataTable(
-                        id="last-seen-table",
-                        columns=[
-                            {"name": "", "id": "platform"},
-                            {"name": "Last Seen", "id": "last seen"},
-                        ],
-                        data=[
-                            {"platform": "Suomi-NPP", "last seen": npp_gap},
-                            {"platform": "NOAA-20", "last seen": j01_gap},
-                        ],
-                        style_as_list_view=True,
-                    )
-                ],
-                className="col",
-            )
+    return dash_table.DataTable(
+        id="last-seen-table",
+        columns=[
+            {"name": "", "id": "platform"},
+            {"name": "Last Seen", "id": "last seen"},
         ],
-        className="row",
+        data=[
+            {"platform": "Suomi-NPP", "last seen": npp_gap},
+            {"platform": "NOAA-20", "last seen": j01_gap},
+        ],
+        style_as_list_view=True,
+        style_table={"width": "300px", "margin": "0px auto"},
     )
 
 
 def datafile_latency(npp_data, j01_data):
-    return (
-        html.Div(
-            [
-                dcc.Graph(
-                    id="datafile-latency",
-                    style={"height": "300px"},
-                    figure={
-                        "data": [
-                            {
-                                "x": npp_data.index,
-                                "y": npp_data["delay"],
-                                "type": "scatter",
-                                "name": "Datafile Latency",
-                                "fill": "tozeroy",
-                            },
-                            {
-                                "x": j01_data.index,
-                                "y": j01_data["delay"],
-                                "type": "scatter",
-                                "name": "Datafile Latency",
-                                "fill": "tozeroy",
-                            },
-                        ],
-                        "layout": {
-                            "xaxis": {"type": "date", "rangemode": "nonnegative"},
-                            "yaxis": {
-                                "title": "SDR Latency minutes",
-                                "range": [0, 200],
-                            },
-                        },
-                    },
-                )
+    return dcc.Graph(
+        id="datafile-latency",
+        style={"height": "300px"},
+        figure={
+            "data": [
+                {
+                    "x": npp_data.index,
+                    "y": npp_data["delay"],
+                    "type": "scatter",
+                    "name": "Suomi-NPP",
+                },
+                {
+                    "x": j01_data.index,
+                    "y": j01_data["delay"],
+                    "type": "scatter",
+                    "name": "NOAA-20",
+                },
             ],
-            className="row",
-        ),
+            "layout": {
+                "xaxis": {"type": "date", "rangemode": "nonnegative"},
+                "yaxis": {"title": "SDR Latency minutes", "range": [0, 200]},
+            },
+        },
+    )
+
+
+def datafile_gap(npp_data, j01_data):
+    return dcc.Graph(
+        id="datafile-gap",
+        style={"height": "300px"},
+        figure={
+            "data": [
+                {
+                    "x": npp_data.index,
+                    "y": npp_data["gap"],
+                    "type": "scatter",
+                    "name": "Suomi-NPP",
+                },
+                {
+                    "x": j01_data.index,
+                    "y": j01_data["gap"],
+                    "type": "scatter",
+                    "name": "NOAA-20",
+                },
+            ],
+            "layout": {
+                "xaxis": {"type": "date", "rangemode": "nonnegative"},
+                "yaxis": {"title": "Interfile Gap", "range": [0, 200]},
+            },
+        },
     )
 
 
@@ -115,7 +121,7 @@ def datafile_table(npp_data, j01_data):
     columns = [
         {"name": "orbit", "id": "orbit_number"},
         {"name": "segment", "id": "segment"},
-        {"name": "data start", "id": "start_time"},
+        {"name": "data start", "id": "start_time_str"},
         {"name": "aquisition time", "id": "aquisition time"},
         {"name": "AVO aquisition delay (min)", "id": "delay"},
         {"name": "data age (min)", "id": "age"},
@@ -127,34 +133,23 @@ def datafile_table(npp_data, j01_data):
         "age": "How old is the data?",
     }
 
-    return (
-        html.Div(
-            [
-                dash_table.DataTable(
-                    id="sdr-table",
-                    data=npp_data.to_dict("records")[-2::-1],
-                    columns=columns,
-                    column_static_tooltip=tooltips,
-                    pagination_settings={"current_page": 0, "page_size": 5},
-                    pagination_mode="fe",
-                    style_table={"maxHeight": "300px"},
-                    style_as_list_view=True,
-                    style_header={
-                        "minWidth": "0px",
-                        "maxWidth": "250px",
-                        "whiteSpace": "normal",
-                    },
-                    style_cell={"padding": "10px"},
-                    css=[
-                        {
-                            "selector": ".dash-cell div.dash-cell-value",
-                            "rule": "display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;",
-                        }
-                    ],
-                )
-            ],
-            className="col",
-        ),
+    return dash_table.DataTable(
+        id="sdr-table",
+        data=j01_data.to_dict("records")[-2::-1],
+        columns=columns,
+        column_static_tooltip=tooltips,
+        pagination_settings={"current_page": 0, "page_size": 5},
+        pagination_mode="fe",
+        style_table={"maxHeight": "300px"},
+        style_as_list_view=True,
+        style_header={"minWidth": "0px", "maxWidth": "250px", "whiteSpace": "normal"},
+        style_cell={"padding": "10px"},
+        css=[
+            {
+                "selector": ".dash-cell div.dash-cell-value",
+                "rule": "display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;",
+            }
+        ],
     )
 
 
@@ -172,7 +167,7 @@ def sdrs():
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
     data["age"] = data["age"].astype("int64")
 
-    data["start_time"] = data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
+    data["start_time_str"] = data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
 
     data["delay"] = data["delay"] / 60
     data["delay"] = data["delay"].fillna(0)
@@ -193,11 +188,17 @@ def sdrs():
 
     return html.Div(
         [
-            last_seen_table(npp_data, j01_data),
-            #datafile_latency(npp_data, j01_data),
-            #datafile_table(npp_data, j01_data),
+            html.Div(
+                [
+                    last_seen_table(npp_data, j01_data),
+                    datafile_latency(npp_data, j01_data),
+                    datafile_gap(npp_data, j01_data),
+                ],
+                className="col-5",
+            ),
+            html.Div([datafile_table(npp_data, j01_data)], className="col-7"),
         ],
-        className="row",
+        className="row justify-content-center",
     )
 
 
@@ -242,6 +243,14 @@ def gen_products_waiting(interval):
     }
 
     return figure
+
+
+@app.callback(
+    Output("products-waiting-update", "disabled"),
+    [Input("products-waiting-auto", "values")],
+)
+def update_refresh(auto_values):
+    return "Auto" not in auto_values
 
 
 class Flusher(threading.Thread):
