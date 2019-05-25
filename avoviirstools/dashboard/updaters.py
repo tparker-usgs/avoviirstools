@@ -46,6 +46,27 @@ class SdrSubscriber(threading.Thread):
                     "delay",
                 ]
             )
+            self._sdrs = self._sdrs(
+                dtype={
+                    "segment": "object",
+                    "platform_name": "object",
+                    "start_time": "datetime64[s]",
+                    "end_time": "datetime64[s]",
+                    "orbit_number": "int64",
+                    "proc_time": "datetime64[s]",
+                    "uid": "int64",
+                    "delay": "timedelta64[s]",
+                    "gap": "timedelta64[s]",
+                }
+            )
+
+        self._sdrs["gap"] = self._sdrs.index.to_series().diff()
+        self._sdrs["start_time_str"] = self._sdrs["start_time"].dt.strftime(
+            "%m/%d/%Y %H:%M"
+        )
+        self._sdrs = self._sdrs(
+            dtype={"gap": "timedelta64[s]", "start_time_str": "object"}
+        )
 
     @property
     def sdrs(self):
@@ -55,7 +76,17 @@ class SdrSubscriber(threading.Thread):
         last_week = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
             self._sdrs.truncate(before=last_week)
-            copy = self._sdrs.copy(deep=True)
+            columns = [
+                "segment",
+                "platform_name",
+                "start_time",
+                "end_time",
+                "orbit_number",
+                "proctime",
+                "uid",
+                "delay",
+            ]
+            copy = self._sdrs[columns].copy(deep=True)
 
         copy.to_pickle(os.path.join(SDR_PICKLE))
 
@@ -71,6 +102,11 @@ class SdrSubscriber(threading.Thread):
             npthen = pd.to_datetime(file_time)
             delay = (npnow - npthen) / pd.Timedelta("1 s")
             sdrs = self.sdrs
+            if sdrs.index.size > 0:
+                gap = npnow - sdrs.index[-1]
+            else:
+                gap = -1
+
             with self.lock:
                 sdrs.at[npnow] = (
                     message.data["segment"],
@@ -81,6 +117,10 @@ class SdrSubscriber(threading.Thread):
                     pd.to_datetime(message.data["proctime"]),
                     message.data["uid"],
                     delay,
+                    gap,
+                    pd.to_datetime(message.data["start_time"]).dt.strftime(
+                        "%m/%d/%Y %H:%M"
+                    ),
                 )
 
 

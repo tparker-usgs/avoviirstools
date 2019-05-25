@@ -11,7 +11,6 @@ from dash.dependencies import Input, Output
 import time
 from avoviirstools.dashboard.updaters import UpdateSubscriber, SdrSubscriber
 import pandas as pd
-import humanize
 
 
 PICKLING_INTERAL = 5 * 60
@@ -147,44 +146,23 @@ def datafile_table(npp_data, j01_data):
         css=[
             {
                 "selector": ".dash-cell div.dash-cell-value",
-                "rule": "display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;",
+                "rule": "display: inline; white-space: inherit;"
+                " overflow: inherit; text-overflow: inherit;",
             }
         ],
     )
 
 
 def sdrs():
-    pdnow = pd.to_datetime("now")
-
     data = sdr_subscriber.sdrs
-
-    data["gap"] = data.index.to_series().diff()
-    data["gap"] = data["gap"].fillna(pd.Timedelta("0 seconds"))
-
-    data["start_time"] = pd.to_datetime(data["start_time"])
     data["age"] = pd.to_datetime("now") - data["start_time"]
     data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
     data["age"] = data["age"].astype("int64")
-
-    data["start_time_str"] = data["start_time"].dt.strftime("%m/%d/%Y %H:%M")
-
-    data["delay"] = data["delay"] / 60
-    data["delay"] = data["delay"].fillna(0)
-    data["delay"] = data["delay"].astype("int64")
-
     data["aquisition time"] = data.index.strftime("%m/%d/%Y %H:%M")
 
-    columns = ["segment", "start_time", "orbit_number", "delay"]
-    npp_data = data.loc[data["platform_name"] == "Suomi-NPP"][columns]
-    npp_data.at[pdnow, "gap"] = pdnow - data.index[-1]
-    npp_data["gap"] = data["gap"] / pd.Timedelta("60 seconds")
-    npp_data["gap"] = data["gap"].astype("int64")
-
-    j01_data = data.loc[data["platform_name"] == "NOAA-20"][columns]
-    j01_data.at[pdnow, "gap"] = pdnow - data.index[-1]
-    j01_data["gap"] = data["gap"] / pd.Timedelta("60 seconds")
-    j01_data["gap"] = data["gap"].astype("int64")
+    npp_data = data.loc[data["platform_name"] == "Suomi-NPP"]
+    j01_data = data.loc[data["platform_name"] == "NOAA-20"]
 
     return html.Div(
         [
