@@ -23,12 +23,11 @@ sdr_subscriber = SdrSubscriber(context)
 def products_waiting():
     return html.Div(
         [
-            html.Div([html.H3("Products Waiting to be generated")], className="row"),
             dcc.Checklist(
                 id="products-waiting-auto",
                 options=[{"label": "Auto Update", "value": "Auto"}],
-                values=[],
-                className="row",
+                values=["Auto"],
+                className="col-auto",
             ),
             html.Div(
                 [
@@ -37,10 +36,10 @@ def products_waiting():
                         id="products-waiting-update", interval=5000, n_intervals=0
                     ),
                 ],
-                className="row",
+                className="col",
             ),
         ],
-        className="container",
+        className="row align-items-center",
     )
 
 
@@ -88,14 +87,18 @@ def sdrs(platform):
         [
             html.Div(
                 [
-                    html.H3(
-                        "{} — Most recent data {} minutes ago".format(
-                            platform, data.at[pdnow, "gap"]
-                        )
-                    )
-                ],
-                className="row",
-            ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    dash_table.DataTable(
+                                        id="last-sdr-table".format(platform),
+                                        data=[{"name": "Suomi-NPP", "last seen": npp_data.at[pdnow, "gap"]}, {"name": "NOAA-20", "last seen": j01_data.at[pdnow, "gap"]}],
+                                        columns=[{name="", id="name"},{name="Last Seen", id="last seend"}],
+                                        style_as_list_view=True,
+                                    )
+                                ]
+                            ), className="row",),
             html.Div(
                 [
                     html.Div(
@@ -132,7 +135,7 @@ def sdrs(platform):
                                 },
                             )
                         ],
-                        className="column column-40",
+                        className="col",
                     ),
                     html.Div(
                         [
@@ -166,25 +169,28 @@ def sdrs(platform):
                                 ]
                             )
                         ],
-                        className="column column-60",
+                        className="col",
                     ),
                 ],
                 className="row",
             ),
-        ],
-        className="container",
-    )
+            ]
+        )
 
-
-external_css = ["https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css"]
+external_css = [
+    "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+]
 app = dash.Dash(__name__, external_stylesheets=external_css)
 app.layout = html.Div(
     [
-        html.Div([html.H1("AVO VIIRS Processing")], className="row"),
+        html.Div([html.H1("AVO VIIRS Processing")], className="row justify-content-center"),
+        html.Div([html.H3("Product Generation")], className="row"),
         products_waiting(),
+        html.Div([html.H3("Data Arrival")], className="row"),
         sdrs("Suomi-NPP"),
         sdrs("NOAA-20"),
-    ]
+    ],
+    className="container-fluid",
 )
 
 
@@ -204,7 +210,10 @@ def gen_products_waiting(interval):
                 "fill": "tozeroy",
             }
         ],
-        "layout": {"xaxis": {"type": "date", "rangemode": "nonnegative"}},
+        "layout": {
+            "xaxis": {"type": "date", "rangemode": "nonnegative"},
+            "title": "Products waiting to be generated",
+        },
     }
 
     return figure
