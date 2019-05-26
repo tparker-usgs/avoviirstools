@@ -159,7 +159,7 @@ def sdrs():
     data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
     data["age"] = data["age"].astype("int64")
-    data["aquisition time"] = data.index.strftime("%m/%d/%Y %H:%M")
+    data["aquisition time"] = data.index.to_series().dt.strftime("%m/%d/%Y %H:%M")
 
     npp_data = data.loc[data["platform_name"] == "Suomi-NPP"]
     j01_data = data.loc[data["platform_name"] == "NOAA-20"]
