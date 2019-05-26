@@ -14,8 +14,7 @@ UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 SDR_PUBLISHER = "tcp://viirscollector:29092"
 PICKLE_DIR = "/viirs/pickle"
 UPDATE_PICKLE = os.path.join(PICKLE_DIR, "task_queue.pickle")
-SDR_PICKLE = os.path.join(PICKLE_DIR, "sdr.pickle")
-NEW_SDR_PICKLE = os.path.join(PICKLE_DIR, "new_sdr.pickle")
+SDR_PICKLE = os.path.join(PICKLE_DIR, "sdr2.pickle")
 
 
 class SdrSubscriber(threading.Thread):
@@ -64,7 +63,7 @@ class SdrSubscriber(threading.Thread):
         self._sdrs["start_time_str"] = self._sdrs["start_time"].dt.strftime(
             "%m/%d/%Y %H:%M"
         )
-        self._sdrs = self._sdrs(
+        self._sdrs = self._sdrs.astype(
             dtype={"gap": "timedelta64[s]", "start_time_str": "object"}
         )
 
