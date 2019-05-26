@@ -55,7 +55,6 @@ class SdrSubscriber(threading.Thread):
                     "proc_time": "datetime64[s]",
                     "uid": "int64",
                     "delay": "timedelta64[s]",
-                    "gap": "timedelta64[s]",
                 }
             )
 
