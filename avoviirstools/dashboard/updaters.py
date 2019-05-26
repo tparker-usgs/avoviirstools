@@ -57,6 +57,7 @@ class SdrSubscriber(threading.Thread):
                     "delay": "timedelta64[s]",
                 }
             )
+            self._sdrs.index = seld._sdrs.index.astype(datetime64[s])
 
         self._sdrs["gap"] = self._sdrs.index.to_series().diff()
         self._sdrs["start_time_str"] = self._sdrs["start_time"].dt.strftime(
