@@ -52,7 +52,7 @@ class SdrSubscriber(threading.Thread):
                     "start_time": "datetime64[s]",
                     "end_time": "datetime64[s]",
                     "orbit_number": "int64",
-                    "proc_time": "datetime64[s]",
+                    "proctime": "datetime64[s]",
                     "uid": "int64",
                     "delay": "timedelta64[s]",
                 }
