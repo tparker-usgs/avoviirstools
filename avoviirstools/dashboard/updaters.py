@@ -117,7 +117,7 @@ class SdrSubscriber(threading.Thread):
                     message.data["uid"],
                     delay,
                     gap,
-                    message.data["start_time"].dt.strftime("%m/%d/%Y %H:%M"),
+                    message.data["start_time"].strftime("%m/%d/%Y %H:%M"),
                 )
 
 
