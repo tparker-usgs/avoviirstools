@@ -107,7 +107,9 @@ class SdrSubscriber(threading.Thread):
                 gap = -1
 
             with self.lock:
-                sdrs.at[npnow] = (
+                print("TOMP SAYS: {}".format(sdrs))
+                print("TOMP SAYS: {}".format(sdrs.columns))
+                self._sdrs.at[npnow] = (
                     message.data["segment"],
                     message.data["platform_name"],
                     pd.to_datetime(message.data["start_time"]),
