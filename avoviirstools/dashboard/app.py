@@ -45,12 +45,12 @@ def products_waiting():
 
 def last_seen_table(npp_data, j01_data):
     if npp_data.size > 0:
-        npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[0])
+        npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[-1])
     else:
         npp_gap = "never"
 
     if j01_data.size > 0:
-        j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[0])
+        j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[-1])
     else:
         j01_gap = "never"
 
