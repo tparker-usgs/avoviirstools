@@ -44,8 +44,15 @@ def products_waiting():
 
 
 def last_seen_table(npp_data, j01_data):
-    npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[0])
-    j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[0])
+    if npp_data.size > 0:
+        npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[0])
+    else:
+        npp_gap = "never"
+
+    if j01_data.size > 0:
+        j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[0])
+    else:
+        j01_gap = "never"
 
     return dash_table.DataTable(
         id="last-seen-table",
