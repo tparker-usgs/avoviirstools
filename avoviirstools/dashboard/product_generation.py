@@ -1,5 +1,3 @@
-import dash_core_components as dcc
-import dash_html_components as html
 from dash.dependencies import Input, Output
 from .update_subscriber import UpdateSubscriber
 from .app import zmq_context, app
@@ -12,28 +10,6 @@ class ProductGeneration:
 
     def fluch(self):
         self.update_subscriber.flush()
-
-    def product_generation_pane(self):
-        return html.Div(
-            [
-                dcc.Checklist(
-                    id="products-waiting-auto",
-                    options=[{"label": "Auto Update", "value": "Auto"}],
-                    values=["Auto"],
-                    className="col-auto",
-                ),
-                html.Div(
-                    [
-                        dcc.Graph(id="products-waiting", style={"height": "350px"}),
-                        dcc.Interval(
-                            id="products-waiting-update", interval=5000, n_intervals=0
-                        ),
-                    ],
-                    className="col",
-                ),
-            ],
-            className="row align-items-center",
-        )
 
     @app.callback(
         Output("products-waiting", "figure"),

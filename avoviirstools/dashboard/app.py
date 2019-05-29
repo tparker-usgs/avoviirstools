@@ -37,7 +37,7 @@ def apply_layout(data_arrival, product_generation):
             ),
             html.Div([html.H3("Volcview Sectors")], className="row bg-secondary"),
             html.Div([html.H3("Product Generation")], className="row bg-secondary"),
-            product_generation.products_waiting(),
+            product_generation.gen_products_waiting(),
             html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
             data_arrival.data_arrival_pane(),
         ],
@@ -46,15 +46,18 @@ def apply_layout(data_arrival, product_generation):
 
 
 def main():
-    app.config["suppress_callback_exceptions"] = True
     flusher = Flusher()
 
-    from .data_arrival import DataArrival
+    from .layout import apply_layout
+
+    apply_layout()
+
+    from avoviirstools.dashboard.data_arrival import DataArrival
 
     data_arrival = DataArrival()
     flusher.flushables.append(data_arrival)
 
-    from .product_generation import ProductGeneration
+    from avoviirstools.dashboard.product_generation import ProductGeneration
 
     product_generation = ProductGeneration()
     flusher.flushables.append(product_generation)
