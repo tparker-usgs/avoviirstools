@@ -46,6 +46,7 @@ def apply_layout(data_arrival, product_generation):
 
 
 def main():
+    app.config["suppress_callback_exceptions"] = True
     flusher = Flusher()
 
     from .data_arrival import DataArrival
