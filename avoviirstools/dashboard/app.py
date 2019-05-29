@@ -42,7 +42,7 @@ def products_waiting():
     )
 
 
-external_css = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+external_css = [https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css]
 app = dash.Dash(__name__, external_stylesheets=external_css)
 app.layout = html.Div(
     [
