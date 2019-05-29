@@ -77,13 +77,13 @@ def datafile_latency(npp_data, j01_data):
             "data": [
                 {
                     "x": npp_data.index,
-                    "y": npp_data["delay"],
+                    "y": npp_data["delay"].astype("timedelta64[m]"),
                     "type": "scatter",
                     "name": "Suomi-NPP",
                 },
                 {
                     "x": j01_data.index,
-                    "y": j01_data["delay"],
+                    "y": j01_data["delay"].astype("timedelta64[m]"),
                     "type": "scatter",
                     "name": "NOAA-20",
                 },
