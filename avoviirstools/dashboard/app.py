@@ -6,8 +6,6 @@ import dash_html_components as html
 import zmq
 import threading
 import time
-from avoviirstools.dashboard.data_arrival import DataArrival
-from avoviirstools.dashboard.product_generation import ProductGeneration
 
 PICKLING_INTERVAL = 5 * 60
 external_css = [
@@ -30,7 +28,7 @@ class Flusher(threading.Thread):
                 flushable.flush()
 
 
-def apply_layout(app):
+def apply_layout(data_arrival, product_generation):
     app.layout = html.Div(
         [
             html.Div(
@@ -39,9 +37,9 @@ def apply_layout(app):
             ),
             html.Div([html.H3("Volcview Sectors")], className="row bg-secondary"),
             html.Div([html.H3("Product Generation")], className="row bg-secondary"),
-            avoviirstools.dashboard.product_generation.products_waiting(),
+            product_generation.products_waiting(),
             html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
-            avoviirstools.dashboard.data_arrival.data_arrival_pane(),
+            data_arrival.data_arrival_pane(),
         ],
         className="container-fluid",
     )
@@ -50,10 +48,14 @@ def apply_layout(app):
 def main():
     flusher = Flusher()
 
-    data_arrival = DataArrival(zmq_context, app)
+    from .data_arrival import DataArrival
+
+    data_arrival = DataArrival()
     flusher.flushables.append(data_arrival)
 
-    product_generation = ProductGeneration(zmq_context, app)
+    from .product_generation import ProductGeneration
+
+    product_generation = ProductGeneration()
     flusher.flushables.append(product_generation)
 
     apply_layout(app, data_arrival, product_generation)
