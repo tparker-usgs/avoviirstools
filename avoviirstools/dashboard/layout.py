@@ -5,7 +5,7 @@ import dash_table
 from .app import app
 
 
-def apply_layout(data_arrival, product_generation):
+def apply_layout():
     app.layout = html.Div(
         [
             html.Div(
@@ -16,7 +16,7 @@ def apply_layout(data_arrival, product_generation):
             html.Div([html.H3("Product Generation")], className="row bg-secondary"),
             product_generation_pane(),
             html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
-            data_arrival.data_arrival_pane(),
+            data_arrival_pane(),
         ],
         className="container-fluid",
     )
