@@ -89,8 +89,8 @@ def datafile_latency(npp_data, j01_data):
                 },
             ],
             "layout": {
-                "xaxis": {"type": "date", "rangemode": "nonnegative"},
-                "yaxis": {"title": "SDR Latency minutes", "range": [0, 200]},
+                "xaxis": {"type": "date"},
+                "yaxis": {"title": "SDR Latency minutes"},
             },
         },
     )
