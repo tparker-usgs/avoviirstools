@@ -2,6 +2,44 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
 import pandas as pd
+from .sdr_subscriber import SdrSubscriber
+from .app import zmq_context, app
+
+
+class DataArrival:
+    def __init__(self):
+        self.sdr_subscriber = SdrSubscriber(zmq_context)
+        self.sdr_subscriber.start()
+        self.data = self.sdr_subscriber.sdrs.copy()
+
+    def data_arrival_pane(self):
+        data = self.sdr_subscriber.sdrs.copy()
+        data["age"] = pd.to_datetime("now") - data["start_time"]
+        data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
+        data["age"] = data["age"] / pd.Timedelta("60 seconds")
+        data["age"] = data["age"].astype("int64")
+        data["aquisition time"] = data.index.to_series().dt.strftime("%m/%d/%Y %H:%M")
+
+        npp_data = data.loc[data["platform_name"] == "Suomi-NPP"]
+        j01_data = data.loc[data["platform_name"] == "NOAA-20"]
+
+        return html.Div(
+            [
+                html.Div(
+                    [
+                        last_seen_table(npp_data, j01_data),
+                        datafile_latency(npp_data, j01_data),
+                        datafile_gap(npp_data, j01_data),
+                    ],
+                    className="col-5",
+                ),
+                html.Div([datafile_table(npp_data, j01_data)], className="col-7"),
+            ],
+            className="row justify-content-center",
+        )
+
+    def flush(self):
+        self.sdr_subscriber.flush()
 
 
 def last_seen_table(npp_data, j01_data):
@@ -118,31 +156,4 @@ def datafile_table(npp_data, j01_data):
                 " overflow: inherit; text-overflow: inherit;",
             }
         ],
-    )
-
-
-def sdrs(sdr_subscriber):
-    data = sdr_subscriber.sdrs.copy()
-    data["age"] = pd.to_datetime("now") - data["start_time"]
-    data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
-    data["age"] = data["age"] / pd.Timedelta("60 seconds")
-    data["age"] = data["age"].astype("int64")
-    data["aquisition time"] = data.index.to_series().dt.strftime("%m/%d/%Y %H:%M")
-
-    npp_data = data.loc[data["platform_name"] == "Suomi-NPP"]
-    j01_data = data.loc[data["platform_name"] == "NOAA-20"]
-
-    return html.Div(
-        [
-            html.Div(
-                [
-                    last_seen_table(npp_data, j01_data),
-                    datafile_latency(npp_data, j01_data),
-                    datafile_gap(npp_data, j01_data),
-                ],
-                className="col-5",
-            ),
-            html.Div([datafile_table(npp_data, j01_data)], className="col-7"),
-        ],
-        className="row justify-content-center",
     )
