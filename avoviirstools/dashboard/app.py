@@ -59,7 +59,7 @@ def main():
     product_generation = ProductGeneration()
     flusher.flushables.append(product_generation)
 
-    apply_layout(app, data_arrival, product_generation)
+    apply_layout(data_arrival, product_generation)
     flusher.start()
 
     app.run_server(host="0.0.0.0")
