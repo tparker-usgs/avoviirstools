@@ -4,13 +4,11 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table
 import zmq
 import threading
 from dash.dependencies import Input, Output
 import time
 from avoviirstools.dashboard.updaters import UpdateSubscriber, SdrSubscriber
-import pandas as pd
 import avoviirstools.dashboard.data_arrival
 
 
