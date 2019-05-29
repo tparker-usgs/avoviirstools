@@ -54,7 +54,7 @@ app.layout = html.Div(
         html.Div([html.H3("Product Generation")], className="row bg-secondary"),
         products_waiting(),
         html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
-        avoviirstools.dashboard.data_arrival.sdrs(),
+        avoviirstools.dashboard.data_arrival.sdrs(sdr_subscriber),
     ],
     className="container-fluid",
 )
@@ -113,6 +113,7 @@ def main():
     update_subscriber.start()
     flusher.flushables.append(update_subscriber)
 
+    sdr_subscriber = SdrSubscriber(context)
     sdr_subscriber.start()
     flusher.flushables.append(sdr_subscriber)
 

@@ -121,7 +121,7 @@ def datafile_table(npp_data, j01_data):
     )
 
 
-def sdrs():
+def sdrs(sdr_subscriber):
     data = sdr_subscriber.sdrs.copy()
     data["age"] = pd.to_datetime("now") - data["start_time"]
     data["age"] = data["age"].fillna(pd.Timedelta("0 seconds"))
