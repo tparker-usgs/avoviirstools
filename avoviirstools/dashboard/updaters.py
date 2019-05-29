@@ -99,15 +99,13 @@ class SdrSubscriber(threading.Thread):
             filename = os.path.basename(message.data["uri"])
             file_time = datetime.strptime(filename[-69:-51], "_d%Y%m%d_t%H%M%S")
             npthen = pd.to_datetime(file_time)
-            delay = (npnow - npthen) / pd.Timedelta("1 s")
+            delay = npnow - npthen
             if self._sdrs.index.size > 0:
                 gap = npnow - self._sdrs.index[-1]
             else:
                 gap = -1
 
             with self.lock:
-                print("TOMP SAYS: {}".format(self._sdrs))
-                print("TOMP SAYS: {}".format(sdrs.columns))
                 self._sdrs.at[npnow] = (
                     message.data["segment"],
                     message.data["platform_name"],
