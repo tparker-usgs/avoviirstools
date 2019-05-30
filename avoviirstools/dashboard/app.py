@@ -46,7 +46,6 @@ def main():
 
     flusher.start()
 
-    print("TOMP SAYS: {}".format(app))
     app.run_server(host="0.0.0.0")
 
 

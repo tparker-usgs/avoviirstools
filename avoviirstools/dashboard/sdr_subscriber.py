@@ -54,10 +54,6 @@ class SdrSubscriber(threading.Thread):
             self._sdrs.index = self._sdrs.index.to_series().astype("datetime64[s]")
 
         self._sdrs["gap"] = self._sdrs.index.to_series().diff()
-        print("TOMP SAYS GAP INIT: {}".format(type(self._sdrs["gap"].iloc[-1])))
-        print("TOMP SAYS GAP INIT: {}".format(self._sdrs["gap"].iloc[-1]))
-        print("TOMP SAYS GAP INIT: {}".format(type(self._sdrs["gap"].iloc[-2])))
-        print("TOMP SAYS GAP INIT: {}".format(self._sdrs["gap"].iloc[-2]))
 
     @property
     def sdrs(self):
@@ -98,8 +94,6 @@ class SdrSubscriber(threading.Thread):
             else:
                 gap = pd.Timedelta("0 seconds")
 
-            print("TOMP GAP: {}".format(type(gap)))
-            print("TOMP GAP: {}".format(gap))
             with self.lock:
                 self._sdrs.at[npnow] = (
                     message.data["segment"],
