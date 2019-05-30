@@ -60,14 +60,20 @@ def data_arrival_pane():
 
 
 def last_seen_table():
-    return dash_table.DataTable(
-        id="last-seen-table",
-        columns=[
-            {"name": "", "id": "platform"},
-            {"name": "Last Seen", "id": "last seen"},
-        ],
-        style_as_list_view=True,
-        style_table={"width": "300px", "margin": "0px auto"},
+    return html.Div(
+        [
+            dash_table.DataTable(
+                id="last-seen-table",
+                columns=[
+                    {"name": "", "id": "platform"},
+                    {"name": "Last Seen", "id": "last seen"},
+                ],
+                style_as_list_view=True,
+                style_table={"width": "300px", "margin": "0px auto"},
+            ),
+            html.Button('Update', id='last-seen-table-update'),
+
+        ]
     )
 
 
