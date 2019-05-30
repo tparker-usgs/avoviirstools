@@ -121,7 +121,7 @@ def datafile_table():
                 id="sdr-table",
                 columns=columns,
                 column_static_tooltip=tooltips,
-                pagination_settings={"current_page": 0, "page_size": 12},
+                pagination_settings={"current_page": 0, "page_size": 15},
                 pagination_mode="be",
                 style_table={"maxHeight": "700px"},
                 style_as_list_view=True,
