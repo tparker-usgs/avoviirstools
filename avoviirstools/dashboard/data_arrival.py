@@ -55,10 +55,7 @@ def gen_datafile_latency(n_clicks):
 
     return {
         "data": data,
-        "layout": {
-            "xaxis": {"type": "date"},
-            "yaxis": {"title": "SDR Latency minutes"},
-        },
+        "layout": {"xaxis": {"type": "date"}, "yaxis": {"title": "SDR Latency (min)"}},
     }
 
 
@@ -85,7 +82,7 @@ def gen_datafile_gap(n_clicks):
         "data": data,
         "layout": {
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "yaxis": {"title": "Interfile Gap", "range": [0, 500]},
+            "yaxis": {"title": "Interfile Gap (min)", "range": [0, 500]},
         },
     }
 
