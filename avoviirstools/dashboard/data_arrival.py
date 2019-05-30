@@ -107,4 +107,4 @@ def gen_sdr_table(pagination_settings, value):
     data["age"] = pd.to_datetime("now") - data["start_time"]
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
     data["age"] = data["age"].astype("int64")
-    return data.to_dict("records")[-2::-1]
+    return data.to_dict("records")
