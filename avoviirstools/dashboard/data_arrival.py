@@ -101,6 +101,10 @@ def gen_sdr_table(pagination_settings, value):
     end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
     data = data.iloc[start:end]
     data["delay_min"] = data["delay"] / pd.Timedelta("60 seconds")
+    data["delay_min"] = data["delay_min"].astype("int64")
     data["start_time_str"] = data["start_time"].dt.strftime("%b %-d %H:%M")
     data["aquisition time"] = data.index.to_series().dt.strftime("%b %-d %H:%M")
+    data["age"] = pd.to_datetime("now") - data["start_time"]
+    data["age"] = data["age"] / pd.Timedelta("60 seconds")
+    data["age"] = data["age"].astype("int64")
     return data.to_dict("records")[-2::-1]
