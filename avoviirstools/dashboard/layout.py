@@ -22,7 +22,7 @@ def apply_layout():
     )
 
 
-def product_generation_pane(self):
+def product_generation_pane():
     return html.Div(
         [
             dcc.Checklist(
@@ -45,7 +45,7 @@ def product_generation_pane(self):
     )
 
 
-def data_arrival_pane(self):
+def data_arrival_pane():
     return html.Div(
         [
             html.Div(
