@@ -1,5 +1,5 @@
 from .sdr_subscriber import SdrSubscriber
-from .app import zmq_context
+from .app import zmq_context, app
 
 
 sdr_subscriber = SdrSubscriber(zmq_context)
