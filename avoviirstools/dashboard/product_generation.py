@@ -9,7 +9,7 @@ class ProductGeneration:
     def __init__(self):
         update_subscriber.start()
 
-    def fluch(self):
+    def flush(self):
         update_subscriber.flush()
 
 
