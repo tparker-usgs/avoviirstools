@@ -111,6 +111,6 @@ def gen_sdr_table(pagination_settings, value):
         * pagination_settings["page_size"] : (pagination_settings["current_page"] + 1)
         * pagination_settings["page_size"]
     ]
-    data = data.loc[sdr_subscriber.sdrs["platform_name"] == value]
+    data = data.loc[data["platform_name"] == value]
 
     return data.to_dict("records")[-2::-1]
