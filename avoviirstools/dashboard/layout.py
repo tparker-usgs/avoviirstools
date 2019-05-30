@@ -95,12 +95,12 @@ def datafile_gap():
 
 def datafile_table():
     columns = [
-        {"name": "orbit", "id": "orbit_number"},
-        {"name": "segment", "id": "segment"},
-        {"name": "data start", "id": "start_time_str"},
-        {"name": "aquisition time", "id": "aquisition time"},
-        {"name": "AVO aquisition delay (min)", "id": "delay_min"},
-        {"name": "data age (min)", "id": "age"},
+        {"name": "Orbit", "id": "orbit_number"},
+        {"name": "Segment", "id": "segment"},
+        {"name": "Data Start", "id": "start_time_str"},
+        {"name": "Arrival Time", "id": "aquisition time"},
+        {"name": "AVO Aquisition Delay (min)", "id": "delay_min"},
+        {"name": "Data Age (min)", "id": "age"},
     ]
 
     tooltips = {
