@@ -116,4 +116,8 @@ def gen_sdr_table(pagination_settings):
         sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
     ]
 
-    return j01_data.to_dict("records")[-2::-1]
+    return j01_data.iloc[
+        pagination_settings["current_page"]
+        * pagination_settings["page_size"] : (pagination_settings["current_page"] + 1)
+        * pagination_settings["page_size"]
+    ].to_dict("records")[-2::-1]
