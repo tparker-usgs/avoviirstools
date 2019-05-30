@@ -75,7 +75,7 @@ def gen_datafile_gap(n_clicks):
         data.append(
             {
                 "x": platform_data.index,
-                "y": platform_data["gap"],
+                "y": platform_data["gap"] / pd.Timedelta("60 seconds"),
                 "type": "scatter",
                 "name": platform,
             }
