@@ -24,6 +24,8 @@ def gen_last_seen_table(n_clicks):
             sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
         ]
         if platform_data.size > 0:
+            print("TOMP SAYS LAST_SEEN: {}".format(type(platform_data["gap"].iloc[-1])))
+            print("TOMP SAYS LAST_SEEN: {}".format(platform_data["gap"].iloc[-1]))
             last_seen = "{} minutes ago".format(
                 platform_data["gap"].iloc[-1] / pd.Timedelta("60 seconds")
             )
