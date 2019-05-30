@@ -66,6 +66,7 @@ class SdrSubscriber(threading.Thread):
         return self._sdrs
 
     def flush(self):
+        print("Flushing SdrSubscriber")
         last_week = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
             self._sdrs.truncate(before=last_week)

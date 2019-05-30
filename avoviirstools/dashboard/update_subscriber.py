@@ -32,6 +32,7 @@ class UpdateSubscriber(threading.Thread):
         return self.waiting_tasks
 
     def flush(self):
+        print("Flushing UpdateSubscriber")
         lastweek = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
             self.waiting_tasks.truncate(before=lastweek)
