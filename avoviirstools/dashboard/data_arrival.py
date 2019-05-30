@@ -39,3 +39,38 @@ def gen_last_seen_table(n_clicks):
         {"platform": "Suomi-NPP", "last seen": npp_gap},
         {"platform": "NOAA-20", "last seen": j01_gap},
     ]
+
+
+@app.callback(
+    Output("datafile-latency", "figure"), [Input("datafile-latency-update", "n_clicks")]
+)
+def gen_datafile_latency(n_clicks):
+    npp_data = sdr_subscriber.sdrs.loc[
+        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
+    ]
+    j01_data = sdr_subscriber.sdrs.loc[
+        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
+    ]
+
+    return (
+        {
+            "data": [
+                {
+                    "x": npp_data.index,
+                    "y": npp_data["delay"].astype("timedelta64[m]"),
+                    "type": "scatter",
+                    "name": "Suomi-NPP",
+                },
+                {
+                    "x": j01_data.index,
+                    "y": j01_data["delay"].astype("timedelta64[m]"),
+                    "type": "scatter",
+                    "name": "NOAA-20",
+                },
+            ],
+            "layout": {
+                "xaxis": {"type": "date"},
+                "yaxis": {"title": "SDR Latency minutes"},
+            },
+        },
+    )

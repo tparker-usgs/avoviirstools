@@ -77,15 +77,20 @@ def last_seen_table():
 
 
 def datafile_latency():
-    return dcc.Graph(
-        id="datafile-latency",
-        style={"height": "300px"},
-        figure={
-            "layout": {
-                "xaxis": {"type": "date"},
-                "yaxis": {"title": "SDR Latency minutes"},
-            }
-        },
+    return html.Div(
+        [
+            dcc.Graph(
+                id="datafile-latency",
+                style={"height": "300px"},
+                figure={
+                    "layout": {
+                        "xaxis": {"type": "date"},
+                        "yaxis": {"title": "SDR Latency minutes"},
+                    }
+                },
+            ),
+            html.Button("Update", id="datafile-latency-update"),
+        ]
     )
 
 
