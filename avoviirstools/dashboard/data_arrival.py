@@ -1,7 +1,7 @@
 from dash.dependencies import Input, Output
 from .sdr_subscriber import SdrSubscriber
 from .app import zmq_context, app
-
+import pandas as pd
 
 sdr_subscriber = SdrSubscriber(zmq_context)
 
@@ -18,27 +18,20 @@ class DataArrival:
     Output("last-seen-table", "data"), [Input("last-seen-table-update", "n_clicks")]
 )
 def gen_last_seen_table(n_clicks):
-    npp_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
-    ]
-    j01_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
-    ]
+    data = []
+    for platform in ["Suomi-NPP", "NOAA-20"]:
+        platform_data = sdr_subscriber.sdrs.loc[
+            sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
+        ]
+        if platform_data.size > 0:
+            last_seen = "{} minutes ago".format(
+                platform_data["gap"].iloc[-1] / pd.Timedelta("60 seconds")
+            )
+        else:
+            last_seen = "Never"
+        data.append({"platform": platform, "last seen": last_seen})
 
-    if npp_data.size > 0:
-        npp_gap = "{} minutes ago".format(npp_data["gap"].iloc[-1])
-    else:
-        npp_gap = "never"
-
-    if j01_data.size > 0:
-        j01_gap = "{} minutes ago".format(j01_data["gap"].iloc[-1])
-    else:
-        j01_gap = "never"
-
-    return [
-        {"platform": "Suomi-NPP", "last seen": npp_gap},
-        {"platform": "NOAA-20", "last seen": j01_gap},
-    ]
+    return data
 
 
 @app.callback(
