@@ -97,7 +97,7 @@ class SdrSubscriber(threading.Thread):
             if self._sdrs.index.size > 0:
                 gap = npnow - self._sdrs.index[-1]
             else:
-                gap = -1
+                gap = pd.Timedelta("0 seconds")
 
             with self.lock:
                 self._sdrs.at[npnow] = (
