@@ -20,6 +20,7 @@ def apply_layout():
         ],
         className="container-fluid",
     )
+    print("TOMP SAYS IN LAYOUT: {}".format(app))
 
 
 def product_generation_pane():

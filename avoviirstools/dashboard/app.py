@@ -28,27 +28,11 @@ class Flusher(threading.Thread):
                 flushable.flush()
 
 
-def apply_layout(data_arrival, product_generation):
-    app.layout = html.Div(
-        [
-            html.Div(
-                [html.H1("AVO VIIRS Processing")],
-                className="row justify-content-center bg-primary",
-            ),
-            html.Div([html.H3("Volcview Sectors")], className="row bg-secondary"),
-            html.Div([html.H3("Product Generation")], className="row bg-secondary"),
-            product_generation.gen_products_waiting(),
-            html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
-            data_arrival.data_arrival_pane(),
-        ],
-        className="container-fluid",
-    )
-
 
 def main():
     flusher = Flusher()
 
-    from .layout import apply_layout
+    from avoviirstools.dashboard.layout import apply_layout
 
     apply_layout()
 
@@ -62,9 +46,9 @@ def main():
     product_generation = ProductGeneration()
     flusher.flushables.append(product_generation)
 
-    apply_layout(data_arrival, product_generation)
     flusher.start()
 
+    print("TOMP SAYS: {}".format(app))
     app.run_server(host="0.0.0.0")
 
 
