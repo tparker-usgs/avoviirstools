@@ -20,7 +20,6 @@ def apply_layout():
         ],
         className="container-fluid",
     )
-    print("TOMP SAYS IN LAYOUT: {}".format(app))
 
 
 def product_generation_pane():
@@ -79,17 +78,19 @@ def last_seen_table():
 def datafile_latency():
     return html.Div(
         [
-            dcc.Graph(
-                id="datafile-latency",
-                style={"height": "300px"},
-            ),
+            dcc.Graph(id="datafile-latency", style={"height": "300px"}),
             html.Button("Update", id="datafile-latency-update"),
         ]
     )
 
 
 def datafile_gap():
-    return dcc.Graph(id="datafile-gap", style={"height": "300px"})
+    return html.Div(
+        [
+            dcc.Graph(id="datafile-gap", style={"height": "300px"}),
+            html.Button("Update", id="datafile-gap-update"),
+        ]
+    )
 
 
 def datafile_table():

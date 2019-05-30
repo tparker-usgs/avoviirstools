@@ -53,23 +53,55 @@ def gen_datafile_latency(n_clicks):
     ]
 
     return {
-            "data": [
-                {
-                    "x": npp_data.index,
-                    "y": npp_data["delay"].astype("timedelta64[m]"),
-                    "type": "scatter",
-                    "name": "Suomi-NPP",
-                },
-                {
-                    "x": j01_data.index,
-                    "y": j01_data["delay"].astype("timedelta64[m]"),
-                    "type": "scatter",
-                    "name": "NOAA-20",
-                },
-            ],
-            "layout": {
-                "xaxis": {"type": "date"},
-                "yaxis": {"title": "SDR Latency minutes"},
+        "data": [
+            {
+                "x": npp_data.index,
+                "y": npp_data["delay"].astype("timedelta64[m]"),
+                "type": "scatter",
+                "name": "Suomi-NPP",
             },
-        }
-    
+            {
+                "x": j01_data.index,
+                "y": j01_data["delay"].astype("timedelta64[m]"),
+                "type": "scatter",
+                "name": "NOAA-20",
+            },
+        ],
+        "layout": {
+            "xaxis": {"type": "date"},
+            "yaxis": {"title": "SDR Latency minutes"},
+        },
+    }
+
+
+@app.callback(
+    Output("datafile-gap", "figure"), [Input("datafile-gap-update", "n_clicks")]
+)
+def gen_datafile_gap(n_clicks):
+    npp_data = sdr_subscriber.sdrs.loc[
+        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
+    ]
+    j01_data = sdr_subscriber.sdrs.loc[
+        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
+    ]
+
+    return {
+        "data": [
+            {
+                "x": npp_data.index,
+                "y": npp_data["gap"],
+                "type": "scatter",
+                "name": "Suomi-NPP",
+            },
+            {
+                "x": j01_data.index,
+                "y": j01_data["gap"],
+                "type": "scatter",
+                "name": "NOAA-20",
+            },
+        ],
+        "layout": {
+            "xaxis": {"type": "date", "rangemode": "nonnegative"},
+            "yaxis": {"title": "Interfile Gap", "range": [0, 200]},
+        },
+    }
