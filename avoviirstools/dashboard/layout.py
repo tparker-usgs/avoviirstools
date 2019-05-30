@@ -83,7 +83,7 @@ def datafile_latency():
     )
 
 
-def datafile_gap(npp_data, j01_data):
+def datafile_gap():
     return dcc.Graph(id="datafile-gap", style={"height": "300px"})
 
 
