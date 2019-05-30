@@ -71,8 +71,7 @@ def last_seen_table():
                 style_as_list_view=True,
                 style_table={"width": "300px", "margin": "0px auto"},
             ),
-            html.Button('Update', id='last-seen-table-update'),
-
+            html.Button("Update", id="last-seen-table-update"),
         ]
     )
 
