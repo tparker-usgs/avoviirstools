@@ -38,28 +38,23 @@ def gen_last_seen_table(n_clicks):
     Output("datafile-latency", "figure"), [Input("datafile-latency-update", "n_clicks")]
 )
 def gen_datafile_latency(n_clicks):
-    npp_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
-    ]
-    j01_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
-    ]
+    data = []
+    for platform in ["Suomi-NPP", "NOAA-20"]:
+        platform_data = sdr_subscriber.sdrs.loc[
+            sdr_subscriber.sdrs["platform_name"] == platform
+        ]
+
+    data.append(
+        {
+            "x": platform_data.index,
+            "y": platform_data["delay"].astype("timedelta64[m]"),
+            "type": "scatter",
+            "name": platform,
+        }
+    )
 
     return {
-        "data": [
-            {
-                "x": npp_data.index,
-                "y": npp_data["delay"].astype("timedelta64[m]"),
-                "type": "scatter",
-                "name": "Suomi-NPP",
-            },
-            {
-                "x": j01_data.index,
-                "y": j01_data["delay"].astype("timedelta64[m]"),
-                "type": "scatter",
-                "name": "NOAA-20",
-            },
-        ],
+        "data": data,
         "layout": {
             "xaxis": {"type": "date"},
             "yaxis": {"title": "SDR Latency minutes"},
@@ -71,31 +66,26 @@ def gen_datafile_latency(n_clicks):
     Output("datafile-gap", "figure"), [Input("datafile-gap-update", "n_clicks")]
 )
 def gen_datafile_gap(n_clicks):
-    npp_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
-    ]
-    j01_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
-    ]
+    data = []
+    for platform in ["Suomi-NPP", "NOAA-20"]:
+        platform_data = sdr_subscriber.sdrs.loc[
+            sdr_subscriber.sdrs["platform_name"] == platform
+        ]
+
+    data.append(
+        {
+            "x": platform_data.index,
+            "y": platform_data["gap"],
+            "type": "scatter",
+            "name": platform,
+        }
+    )
 
     return {
-        "data": [
-            {
-                "x": npp_data.index,
-                "y": npp_data["gap"],
-                "type": "scatter",
-                "name": "Suomi-NPP",
-            },
-            {
-                "x": j01_data.index,
-                "y": j01_data["gap"],
-                "type": "scatter",
-                "name": "NOAA-20",
-            },
-        ],
+        "data": data,
         "layout": {
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "yaxis": {"title": "Interfile Gap", "range": [0, 200]},
+            "yaxis": {"title": "Interfile Gap", "range": [0, 500]},
         },
     }
 
