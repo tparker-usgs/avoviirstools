@@ -2,7 +2,6 @@
 #
 # -*- coding: utf-8 -*-
 import dash
-import dash_html_components as html
 import zmq
 import threading
 import time
@@ -26,7 +25,6 @@ class Flusher(threading.Thread):
             print("flushing")
             for flushable in self.flushables:
                 flushable.flush()
-
 
 
 def main():

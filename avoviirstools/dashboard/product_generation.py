@@ -4,6 +4,7 @@ from .app import zmq_context, app
 
 update_subscriber = UpdateSubscriber(zmq_context)
 
+
 class ProductGeneration:
     def __init__(self):
         update_subscriber.start()
