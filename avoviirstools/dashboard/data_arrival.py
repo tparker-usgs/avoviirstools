@@ -1,3 +1,4 @@
+from dash.dependencies import Input, Output
 from .sdr_subscriber import SdrSubscriber
 from .app import zmq_context, app
 
