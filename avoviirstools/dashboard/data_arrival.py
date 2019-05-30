@@ -97,10 +97,7 @@ def gen_datafile_gap(n_clicks):
 def gen_sdr_table(pagination_settings, value):
     data = sdr_subscriber.sdrs
     data = data.loc[data["platform_name"] == value]
-    data = data.iloc[
-        pagination_settings["current_page"]
-        * pagination_settings["page_size"] : (pagination_settings["current_page"] + 1)
-        * pagination_settings["page_size"]
-    ]
-
+    start = pagination_settings["current_page"] * pagination_settings["page_size"]
+    end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
+    data = data.iloc[start:end]
     return data.to_dict("records")[-2::-1]
