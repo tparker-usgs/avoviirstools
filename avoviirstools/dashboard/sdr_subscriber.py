@@ -54,9 +54,10 @@ class SdrSubscriber(threading.Thread):
             self._sdrs.index = self._sdrs.index.to_series().astype("datetime64[s]")
 
         self._sdrs["gap"] = self._sdrs.index.to_series().diff()
-        self._sdrs = self._sdrs.astype(dtype={"gap": "timedelta64[s]"})
         print("TOMP SAYS GAP INIT: {}".format(type(self._sdrs["gap"].iloc[-1])))
         print("TOMP SAYS GAP INIT: {}".format(self._sdrs["gap"].iloc[-1]))
+        print("TOMP SAYS GAP INIT: {}".format(type(self._sdrs["gap"].iloc[-2])))
+        print("TOMP SAYS GAP INIT: {}".format(self._sdrs["gap"].iloc[-2]))
 
     @property
     def sdrs(self):
