@@ -105,3 +105,15 @@ def gen_datafile_gap(n_clicks):
             "yaxis": {"title": "Interfile Gap", "range": [0, 200]},
         },
     }
+
+
+@app.callback(Output("sdr-table", "data"), [Input("sdr-table", "pagination_settings")])
+def gen_sdr_table(pagination_settings):
+    npp_data = sdr_subscriber.sdrs.loc[
+        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
+    ]
+    j01_data = sdr_subscriber.sdrs.loc[
+        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
+    ]
+
+    return j01_data.to_dict("records")[-2::-1]

@@ -114,7 +114,7 @@ def datafile_table():
         columns=columns,
         column_static_tooltip=tooltips,
         pagination_settings={"current_page": 0, "page_size": 12},
-        pagination_mode="fe",
+        pagination_mode="be",
         style_table={"maxHeight": "700px"},
         style_as_list_view=True,
         style_header={"minWidth": "0px", "maxWidth": "250px", "whiteSpace": "normal"},
