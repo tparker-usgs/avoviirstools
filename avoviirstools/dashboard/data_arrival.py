@@ -46,14 +46,14 @@ def gen_datafile_latency(n_clicks):
             sdr_subscriber.sdrs["platform_name"] == platform
         ]
 
-    data.append(
-        {
-            "x": platform_data.index,
-            "y": platform_data["delay"].astype("timedelta64[m]"),
-            "type": "scatter",
-            "name": platform,
-        }
-    )
+        data.append(
+            {
+                "x": platform_data.index,
+                "y": platform_data["delay"].astype("timedelta64[m]"),
+                "type": "scatter",
+                "name": platform,
+            }
+        )
 
     return {
         "data": data,
@@ -74,14 +74,14 @@ def gen_datafile_gap(n_clicks):
             sdr_subscriber.sdrs["platform_name"] == platform
         ]
 
-    data.append(
-        {
-            "x": platform_data.index,
-            "y": platform_data["gap"],
-            "type": "scatter",
-            "name": platform,
-        }
-    )
+        data.append(
+            {
+                "x": platform_data.index,
+                "y": platform_data["gap"],
+                "type": "scatter",
+                "name": platform,
+            }
+        )
 
     return {
         "data": data,
