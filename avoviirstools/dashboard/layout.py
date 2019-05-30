@@ -109,21 +109,35 @@ def datafile_table():
         "age": "How old is the data?",
     }
 
-    return dash_table.DataTable(
-        id="sdr-table",
-        columns=columns,
-        column_static_tooltip=tooltips,
-        pagination_settings={"current_page": 0, "page_size": 12},
-        pagination_mode="be",
-        style_table={"maxHeight": "700px"},
-        style_as_list_view=True,
-        style_header={"minWidth": "0px", "maxWidth": "250px", "whiteSpace": "normal"},
-        style_cell={"padding": "10px"},
-        css=[
-            {
-                "selector": ".dash-cell div.dash-cell-value",
-                "rule": "display: inline; white-space: inherit;"
-                " overflow: inherit; text-overflow: inherit;",
-            }
-        ],
+    return html.Div(
+        [
+            dcc.RadioItems(
+                id="sdr-table-platform",
+                options=[{"label": i, "value": i} for i in ["Suomi-NPP", "NOAA-20"]],
+                value="Suomi-NPP",
+                labelStyle={"display": "inline-block"},
+            ),
+            dash_table.DataTable(
+                id="sdr-table",
+                columns=columns,
+                column_static_tooltip=tooltips,
+                pagination_settings={"current_page": 0, "page_size": 12},
+                pagination_mode="be",
+                style_table={"maxHeight": "700px"},
+                style_as_list_view=True,
+                style_header={
+                    "minWidth": "0px",
+                    "maxWidth": "250px",
+                    "whiteSpace": "normal",
+                },
+                style_cell={"padding": "10px"},
+                css=[
+                    {
+                        "selector": ".dash-cell div.dash-cell-value",
+                        "rule": "display: inline; white-space: inherit;"
+                        " overflow: inherit; text-overflow: inherit;",
+                    }
+                ],
+            ),
+        ]
     )

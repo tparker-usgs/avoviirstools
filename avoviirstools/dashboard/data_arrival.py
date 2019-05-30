@@ -107,17 +107,17 @@ def gen_datafile_gap(n_clicks):
     }
 
 
-@app.callback(Output("sdr-table", "data"), [Input("sdr-table", "pagination_settings")])
+@app.callback(
+    Output("sdr-table", "data"),
+    [Input("sdr-table", "pagination_settings"), Input("sdr-table-platform", "value")],
+)
 def gen_sdr_table(pagination_settings):
-    npp_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "Suomi-NPP"
-    ]
-    j01_data = sdr_subscriber.sdrs.loc[
-        sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
-    ]
-
-    return j01_data.iloc[
+    data = sdr_subscriber.sdrs
+    data = data.iloc[
         pagination_settings["current_page"]
         * pagination_settings["page_size"] : (pagination_settings["current_page"] + 1)
         * pagination_settings["page_size"]
-    ].to_dict("records")[-2::-1]
+    ]
+    data = data.loc[sdr_subscriber.sdrs["platform_name"] == value]
+
+    return data.to_dict("records")[-2::-1]
