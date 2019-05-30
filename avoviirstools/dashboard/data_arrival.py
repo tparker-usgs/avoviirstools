@@ -52,8 +52,7 @@ def gen_datafile_latency(n_clicks):
         sdr_subscriber.sdrs["platform_name"] == "NOAA-20"
     ]
 
-    return (
-        {
+    return {
             "data": [
                 {
                     "x": npp_data.index,
@@ -72,5 +71,5 @@ def gen_datafile_latency(n_clicks):
                 "xaxis": {"type": "date"},
                 "yaxis": {"title": "SDR Latency minutes"},
             },
-        },
-    )
+        }
+    

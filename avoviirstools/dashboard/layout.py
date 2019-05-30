@@ -82,12 +82,6 @@ def datafile_latency():
             dcc.Graph(
                 id="datafile-latency",
                 style={"height": "300px"},
-                figure={
-                    "layout": {
-                        "xaxis": {"type": "date"},
-                        "yaxis": {"title": "SDR Latency minutes"},
-                    }
-                },
             ),
             html.Button("Update", id="datafile-latency-update"),
         ]
