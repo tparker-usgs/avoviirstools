@@ -17,7 +17,7 @@ import zmq
 def main():
     context = zmq.Context()
     frontend = context.socket(zmq.SUB)
-    frontend.setsockopt(zmq.SUBSCRIBE, "")
+    frontend.setsockopt_string(zmq.SUBSCRIBE, "")
     frontend.bind("tcp://*:29292")
 
     backend = context.socket(zmq.PUB)
