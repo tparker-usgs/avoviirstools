@@ -17,15 +17,12 @@ class VolcviewImages:
     Output("volcview-sectors", "figure"), [Input("volcview-sectors-update", "n_clicks")]
 )
 def gen_datafile_gap(n_clicks):
-    data = sector_subscriber.sector_images.groupby("sector")
+    data = sector_subscriber.sector_images.groupby("sector").size()
 
+    print("TOMP SAYS1: {}".format(data["sector"]))
+    print("TOMP SAYS2: {}".format(data.nunique()))
     return {
-        "data": {
-            "x": data["sector"],
-            "y": data.nunique(),
-            "type": "bar",
-            "name": "num images",
-        },
+        "data": {"x": data.index, "y": data, "type": "bar", "name": "num images"},
         "layout": {
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
             "yaxis": {"title": "Interfile Gap (min)", "range": [0, 500]},
