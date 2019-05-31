@@ -35,7 +35,7 @@ class UpdateSubscriber(threading.Thread):
         print("Flushing UpdateSubscriber")
         lastweek = pd.to_datetime("now") - pd.Timedelta("7 days")
         with self.lock:
-            self.waiting_tasks.truncate(before=lastweek)
+            self.waiting_tasks = self.waiting_tasks.truncate(before=lastweek)
             self.waiting_tasks = self.waiting_tasks.resample("1min").apply("max")
             copy = self.waiting_tasks.copy()
 
