@@ -12,7 +12,7 @@ def apply_layout():
                 [html.H1("AVO VIIRS Processing")],
                 className="row justify-content-center bg-primary",
             ),
-            html.Div([html.H3("Volcview Sectors")], className="row bg-secondary"),
+            html.Div([html.H3("Volcview Images")], className="row bg-secondary"),
             html.Div([html.H3("Product Generation")], className="row bg-secondary"),
             product_generation_pane(),
             html.Div([html.H3("Data Arrival")], className="row bg-secondary"),

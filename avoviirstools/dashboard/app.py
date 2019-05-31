@@ -44,6 +44,11 @@ def main():
     product_generation = ProductGeneration()
     flusher.flushables.append(product_generation)
 
+    from avoviirstools.dashboard.volcview_images import VolcviewImages
+
+    volcview_images = VolcviewImages()
+    flusher.flushables.append(volcview_images)
+
     flusher.start()
 
     app.run_server(host="0.0.0.0")
