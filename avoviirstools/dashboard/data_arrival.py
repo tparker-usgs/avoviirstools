@@ -94,6 +94,7 @@ def gen_datafile_gap(n_clicks):
 def gen_sdr_table(pagination_settings, value):
     data = sdr_subscriber.sdrs
     data = data.loc[data["platform_name"] == value]
+    data = data.sort_index(ascending=False)
     start = pagination_settings["current_page"] * pagination_settings["page_size"]
     end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
     data = data.iloc[start:end]
@@ -104,7 +105,6 @@ def gen_sdr_table(pagination_settings, value):
     data["age"] = pd.to_datetime("now") - data["start_time"]
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
     data["age"] = data["age"].astype("int64")
-    data = data.sort_index(ascending=False)
     print("TOMP SAYS1: {}".format(data))
     print("TOMP SAYS2: {}".format(data.to_dict("records")))
     return data.to_dict("records")
