@@ -23,13 +23,26 @@ def apply_layout():
     )
 
 
-def volcview_images_pane():
+def volcview_sectors():
     return html.Div(
         [
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
             html.Button("Update", id="volcview-sectors-update"),
         ]
     )
+
+
+def volcview_products():
+    return html.Div(
+        [
+            dcc.Graph(id="volcview-products", style={"height": "300px"}),
+            html.Button("Update", id="volcview-products-update"),
+        ]
+    )
+
+
+def volcview_images_pane():
+    return html.Div([volcview_sectors(), volcview_products()])
 
 
 def product_generation_pane():
