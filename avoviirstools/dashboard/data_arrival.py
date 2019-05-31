@@ -24,9 +24,10 @@ def gen_last_seen_table(n_clicks):
             sdr_subscriber.sdrs["platform_name"] == platform
         ]
         if platform_data.size > 0:
-            last_seen = "{:.0f} minutes ago".format(
-                platform_data.index.max() / pd.Timedelta("60 seconds")
-            )
+            pdnow = pd.to_datetime("now")
+            last_seen = pdnow - platform_data.index.max()
+            last_seen = last_seen / pd.Timedelta("60 seconds")
+            last_seen = "{:.0f} minutes ago".format(last_seen)
         else:
             last_seen = "Never"
         data.append({"platform": platform, "last seen": last_seen})
