@@ -34,6 +34,7 @@ setup(
             "pass_plotter = avoviirstools.pass_plotter:main",
             "dashboard = avoviirstools.dashboard.app:main",
             "sector_publisher = avoviirstools.sector_publisher:main",
+            "sniff_sector = avoviirstools.sniff_sector:main",
         ]
     },
 )
