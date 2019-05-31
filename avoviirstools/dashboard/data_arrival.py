@@ -56,7 +56,7 @@ def gen_datafile_latency(n_clicks):
 
     return {
         "data": data,
-        "layout": {"xaxis": {"type": "date"}, "yaxis": {"title": "SDR Latency (min)"}},
+        "layout": {"xaxis": {"type": "date"}, "yaxis": {"title": "Acquisition Delay (min)"}},
     }
 
 

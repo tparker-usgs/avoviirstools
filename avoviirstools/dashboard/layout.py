@@ -99,7 +99,7 @@ def datafile_table():
         {"name": "Segment", "id": "segment"},
         {"name": "Start", "id": "start_time_str"},
         {"name": "Arrival Time", "id": "aquisition time"},
-        {"name": "AVO Aquisition Delay (min)", "id": "delay_min"},
+        {"name": "AVO Acquisition Delay (min)", "id": "delay_min"},
         {"name": "Data Age (min)", "id": "age"},
     ]
 
