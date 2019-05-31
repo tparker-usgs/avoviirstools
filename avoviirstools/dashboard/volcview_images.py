@@ -11,3 +11,23 @@ class VolcviewImages:
 
     def flush(self):
         sector_subscriber.flush()
+
+
+@app.callback(
+    Output("volcview-sectors", "figure"), [Input("volcview-sectors-update", "n_clicks")]
+)
+def gen_datafile_gap(n_clicks):
+    data = sector_subscriber.sector_images.groupby("sector")
+
+    return {
+        "data": {
+            "x": data["sector"],
+            "y": data.nunique(),
+            "type": "bar",
+            "name": "num images",
+        },
+        "layout": {
+            "xaxis": {"type": "date", "rangemode": "nonnegative"},
+            "yaxis": {"title": "Interfile Gap (min)", "range": [0, 500]},
+        },
+    }

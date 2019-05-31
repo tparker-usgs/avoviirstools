@@ -13,12 +13,22 @@ def apply_layout():
                 className="row justify-content-center bg-primary",
             ),
             html.Div([html.H3("Volcview Images")], className="row bg-secondary"),
+            volcview_images_pane(),
             html.Div([html.H3("Product Generation")], className="row bg-secondary"),
             product_generation_pane(),
             html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
             data_arrival_pane(),
         ],
         className="container-fluid",
+    )
+
+
+def volcview_images_pane():
+    return html.Div(
+        [
+            dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
+            html.Button("Update", id="volcview-sectors-update"),
+        ]
     )
 
 
