@@ -19,8 +19,6 @@ class VolcviewImages:
 def gen_datafile_gap(n_clicks):
     data = sector_subscriber.sector_images.groupby("sector").size()
 
-    print("TOMP SAYS1: {}".format(data["sector"]))
-    print("TOMP SAYS2: {}".format(data.nunique()))
     return {
         "data": {"x": data.index, "y": data, "type": "bar", "name": "num images"},
         "layout": {
