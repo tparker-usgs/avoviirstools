@@ -97,7 +97,8 @@ def datafile_table():
     columns = [
         {"name": "Orbit", "id": "orbit_number"},
         {"name": "Segment", "id": "segment"},
-        {"name": "Data Start", "id": "start_time_str"},
+        {"name": "Start", "id": "start_time_str"},
+        {"name": "Length", "id": "data_length"},
         {"name": "Arrival Time", "id": "aquisition time"},
         {"name": "AVO Aquisition Delay (min)", "id": "delay_min"},
         {"name": "Data Age (min)", "id": "age"},
