@@ -33,6 +33,7 @@ setup(
             "sniff_update = avoviirstools.sniff_update:main",
             "pass_plotter = avoviirstools.pass_plotter:main",
             "dashboard = avoviirstools.dashboard.app:main",
+            "sector_publisher = avoviirstools.sector_publisher:main",
         ]
     },
 )
