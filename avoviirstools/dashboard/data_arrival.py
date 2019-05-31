@@ -25,7 +25,7 @@ def gen_last_seen_table(n_clicks):
         ]
         if platform_data.size > 0:
             last_seen = "{:.0f} minutes ago".format(
-                platform_data["gap"].iloc[-1] / pd.Timedelta("60 seconds")
+                platform_data.index.max() / pd.Timedelta("60 seconds")
             )
         else:
             last_seen = "Never"
