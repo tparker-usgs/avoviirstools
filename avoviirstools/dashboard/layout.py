@@ -97,8 +97,17 @@ def apply_layout():
 def volcview_sectors():
     return html.Div(
         [
+            html.I(
+                className="fa fa-refresh",
+                id="volcview-sectors-update",
+                style={"padding": "5px"},
+            ),
+            html.I(
+                className="fa fa-question",
+                id="volcview-sectors-help",
+                style={"padding": "5px"},
+            ),
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
-            html.Button("Update", id="volcview-sectors-update"),
         ]
     )
 
@@ -106,8 +115,17 @@ def volcview_sectors():
 def volcview_products():
     return html.Div(
         [
+            html.I(
+                className="fa fa-refresh",
+                id="volcview-products-update",
+                style={"padding": "5px"},
+            ),
+            html.I(
+                className="fa fa-question",
+                id="volcview-products-help",
+                style={"padding": "5px"},
+            ),
             dcc.Graph(id="volcview-products", style={"height": "300px"}),
-            html.Button("Update", id="volcview-products-update"),
         ]
     )
 
@@ -182,13 +200,23 @@ def data_arrival_pane():
             ),
             html.Div([datafile_table()], className="col-7"),
         ],
-        className="row justify-content-center",
+        className="row",
     )
 
 
 def last_seen_table():
     return html.Div(
         [
+            html.I(
+                className="fa fa-refresh",
+                id="last-seen-table-update",
+                style={"padding": "5px"},
+            ),
+            html.I(
+                className="fa fa-question",
+                id="last-seen-table-help",
+                style={"padding": "5px"},
+            ),
             dash_table.DataTable(
                 id="last-seen-table",
                 columns=[
@@ -198,7 +226,6 @@ def last_seen_table():
                 style_as_list_view=True,
                 style_table={"width": "300px", "margin": "0px auto"},
             ),
-            html.Button("Update", id="last-seen-table-update"),
         ]
     )
 
@@ -206,8 +233,17 @@ def last_seen_table():
 def datafile_latency():
     return html.Div(
         [
+            html.I(
+                className="fa fa-refresh",
+                id="datafile-latency-update",
+                style={"padding": "5px"},
+            ),
+            html.I(
+                className="fa fa-question",
+                id="datafile-latency-help",
+                style={"padding": "5px"},
+            ),
             dcc.Graph(id="datafile-latency", style={"height": "300px"}),
-            html.Button("Update", id="datafile-latency-update"),
         ]
     )
 
@@ -215,8 +251,17 @@ def datafile_latency():
 def datafile_gap():
     return html.Div(
         [
+            html.I(
+                className="fa fa-refresh",
+                id="datafile-gap-update",
+                style={"padding": "5px"},
+            ),
+            html.I(
+                className="fa fa-question",
+                id="datafile-gap-help",
+                style={"padding": "5px"},
+            ),
             dcc.Graph(id="datafile-gap", style={"height": "300px"}),
-            html.Button("Update", id="datafile-gap-update"),
         ]
     )
 

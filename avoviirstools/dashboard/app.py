@@ -8,8 +8,9 @@ import time
 
 PICKLING_INTERVAL = 5 * 60
 external_css = [
-    "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
     "https://fonts.googleapis.com/css?family=Merriweather:300&display=swap",
+    "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+    "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
 ]
 zmq_context = zmq.Context()
 app = dash.Dash(__name__, external_stylesheets=external_css)
