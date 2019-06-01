@@ -9,19 +9,89 @@ def apply_layout():
     app.layout = html.Div(
         [
             html.Div(
-                [html.H1("AVO VIIRS Processing")],
+                [html.H1("AVO VIIRS Processing", style={"fontFamily": "Merriweather"})],
                 className="row justify-content-center",
-                style={"backgroundColor": "#5B5E83"}
             ),
-            html.Div([html.H3("Volcview Images")], className="row", style={"backgroundColor": "#7D7F9C"}),
-            volcview_images_pane(),
-            html.Div([html.H3("Product Generation")], className="row", style={"backgroundColor": "#7D7F9C"}),
-            product_generation_pane(),
-            html.Div([html.H3("Data Arrival")], className="row", style={"backgroundColor": "#7D7F9C"}),
-            data_arrival_pane(),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.Label(
+                                html.H2(
+                                    "Volcview Images",
+                                    style={"fontFamily": "Merriweather"},
+                                ),
+                                htmlFor="volcview-images-pane",
+                            ),
+                            volcview_images_pane(),
+                        ],
+                        className="col",
+                    )
+                ],
+                id="volcview-images-pane",
+                className="row",
+                style={
+                    "backgroundColor": "#D2CDB5",
+                    "borderRadius": "5px",
+                    "border": "2px solid #73AD21",
+                    "padding": "20px",
+                    "margin": "20px",
+                },
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.Label(
+                                html.H2(
+                                    "Product Generation",
+                                    style={"fontFamily": "Merriweather"},
+                                ),
+                                htmlFor="product-generation-pane",
+                            ),
+                            product_generation_pane(),
+                        ],
+                        className="col",
+                    )
+                ],
+                id="product-generation-pane",
+                className="row",
+                style={
+                    "backgroundColor": "#D2CDB5",
+                    "borderRadius": "5px",
+                    "border": "2px solid #73AD21",
+                    "padding": "20px",
+                    "margin": "20px",
+                },
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.Label(
+                                html.H2(
+                                    "Data Arrival",
+                                    style={"fontFamily": "Merriweather"},
+                                ),
+                                htmlFor="data-arrival-pane",
+                            ),
+                            data_arrival_pane(),
+                        ],
+                        className="col",
+                    )
+                ],
+                id="data-arrival-pane",
+                className="row",
+                style={
+                    "backgroundColor": "#D2CDB5",
+                    "borderRadius": "5px",
+                    "border": "2px solid #73AD21",
+                    "padding": "20px",
+                    "margin": "20px",
+                },
+            ),
         ],
         className="container-fluid",
-        style={"backgroundColor": "#A9ABBD"}
     )
 
 
@@ -65,7 +135,7 @@ def volcview_table():
                         "overflow: inherit; text-overflow: inherit;",
                     }
                 ],
-            ),
+            )
         ]
     )
 
@@ -158,8 +228,8 @@ def datafile_table():
         {"name": "Segment", "id": "segment"},
         {"name": "Start", "id": "start_time_str"},
         {"name": "Arrival Time", "id": "aquisition time"},
-        {"name": "AVO Acquisition Delay (min)", "id": "delay_min"},
-        {"name": "Data Age (min)", "id": "age"},
+        {"name": "Delay (min)", "id": "delay_min"},
+        {"name": "Age (min)", "id": "age"},
     ]
 
     tooltips = {
@@ -184,16 +254,15 @@ def datafile_table():
                 style_table={"maxHeight": "700px"},
                 style_as_list_view=True,
                 style_header={
-                    "minWidth": "0px",
-                    "maxWidth": "250px",
                     "whiteSpace": "normal",
                 },
                 style_cell={"padding": "10px"},
                 css=[
                     {
-                        "selector": ".dash-cell div.dash-cell-value",
-                        "rule": "display: inline; white-space: inherit;"
-                        " overflow: inherit; text-overflow: inherit;",
+                        #"selector": ".dash-cell div.dash-cell-value",
+                        #"box-sizing": "inherit",
+                        #"rule": "display: inline; white-space: inherit;"
+                        ##" overflow: inherit; text-overflow: inherit;",
                     }
                 ],
             ),
