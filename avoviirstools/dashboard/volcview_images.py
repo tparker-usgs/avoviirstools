@@ -53,7 +53,7 @@ def gen_volcview_products(n_clicks):
     pdnow = pd.to_datetime("now")
     yesterday = pdnow - pd.Timedelta("1 days")
     today_data = sector_subscriber.sector_images[yesterday:pdnow]
-    today_data = today_data.groupby("sector").size()
+    today_data = today_data.groupby("band").size()
 
     data = sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
