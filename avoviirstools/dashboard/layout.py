@@ -42,7 +42,13 @@ def volcview_products():
 
 
 def volcview_images_pane():
-    return html.Div([volcview_sectors(), volcview_products()])
+    return html.Div(
+        [
+            html.Div([volcview_sectors()], className="col"),
+            html.Div([volcview_products()], className="col"),
+        ],
+        className="row",
+    )
 
 
 def product_generation_pane():
