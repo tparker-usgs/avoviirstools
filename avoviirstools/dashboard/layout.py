@@ -10,16 +10,18 @@ def apply_layout():
         [
             html.Div(
                 [html.H1("AVO VIIRS Processing")],
-                className="row justify-content-center bg-primary",
+                className="row justify-content-center",
+                style={"backgroundColor": "#5B5E83"}
             ),
-            html.Div([html.H3("Volcview Images")], className="row bg-secondary"),
+            html.Div([html.H3("Volcview Images")], className="row", style={"backgroundColor": "#7D7F9C"}),
             volcview_images_pane(),
-            html.Div([html.H3("Product Generation")], className="row bg-secondary"),
+            html.Div([html.H3("Product Generation")], className="row", style={"backgroundColor": "#7D7F9C"}),
             product_generation_pane(),
-            html.Div([html.H3("Data Arrival")], className="row bg-secondary"),
+            html.Div([html.H3("Data Arrival")], className="row", style={"backgroundColor": "#7D7F9C"}),
             data_arrival_pane(),
         ],
         className="container-fluid",
+        style={"backgroundColor": "#A9ABBD"}
     )
 
 
