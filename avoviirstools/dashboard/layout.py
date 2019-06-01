@@ -41,11 +41,39 @@ def volcview_products():
     )
 
 
+def volcview_table():
+    return html.Div(
+        [
+            dash_table.DataTable(
+                id="volcview-table",
+                columns=[
+                    {"name": "Time", "id": "time"},
+                    {"name": "Sector", "id": "sector"},
+                    {"name": "Product", "id": "band"},
+                ],
+                style_as_list_view=True,
+                style_table={"width": "300px", "margin": "0px auto"},
+                pagination_settings={"current_page": 0, "page_size": 15},
+                pagination_mode="be",
+                style_cell={"padding": "10px"},
+                css=[
+                    {
+                        "selector": ".dash-cell div.dash-cell-value",
+                        "rule": "display: inline; white-space: inherit;"
+                        "overflow: inherit; text-overflow: inherit;",
+                    }
+                ],
+            ),
+        ]
+    )
+
+
 def volcview_images_pane():
     return html.Div(
         [
             html.Div([volcview_sectors()], className="col"),
             html.Div([volcview_products()], className="col"),
+            html.Div([volcview_table()], className="col"),
         ],
         className="row",
     )

@@ -45,6 +45,7 @@ def gen_volcview_sectors(n_clicks):
         "layout": {"title": "Images by Sector"},
     }
 
+
 @app.callback(
     Output("volcview-products", "figure"),
     [Input("volcview-products-update", "n_clicks")],
@@ -76,3 +77,15 @@ def gen_volcview_products(n_clicks):
         "layout": {"title": "Images by Product"},
     }
 
+
+@app.callback(
+    Output("volcview-table", "data"), [Input("volcview-table", "pagination_settings")]
+)
+def gen_sdr_table(pagination_settings):
+    data = sector_subscriber.sector_images
+    data = data.sort_index(ascending=False)
+    start = pagination_settings["current_page"] * pagination_settings["page_size"]
+    end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
+    data = data.iloc[start:end]
+    data["time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
+    return data.to_dict("records")
