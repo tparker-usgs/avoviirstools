@@ -168,11 +168,10 @@ def datafile_table():
 
     return html.Div(
         [
-            dcc.RadioItems(
+            dcc.Dropdown(
                 id="sdr-table-platform",
                 options=[{"label": i, "value": i} for i in ["Suomi-NPP", "NOAA-20"]],
                 value="Suomi-NPP",
-                labelStyle={"display": "inline-block"},
             ),
             dash_table.DataTable(
                 id="sdr-table",
