@@ -20,7 +20,10 @@ def gen_volcview_sectors(n_clicks):
     data = sector_subscriber.sector_images.groupby("sector").size()
 
     return {
-        "data": [{"x": data.index, "y": data, "type": "bar", "name": "num images"}],
+        "data": [
+            {"x": data.index, "y": data, "type": "bar", "name": "num images"},
+            {"x": data.index, "y": data, "type": "scatter", "name": "avg images"},
+        ],
         "layout": {"title": "Images by Sector"},
     }
 
