@@ -70,8 +70,7 @@ def apply_layout():
                         [
                             html.Label(
                                 html.H2(
-                                    "Data Arrival",
-                                    style={"fontFamily": "Merriweather"},
+                                    "Data Arrival", style={"fontFamily": "Merriweather"}
                                 ),
                                 htmlFor="data-arrival-pane",
                             ),
@@ -253,15 +252,13 @@ def datafile_table():
                 pagination_mode="be",
                 style_table={"maxHeight": "700px"},
                 style_as_list_view=True,
-                style_header={
-                    "whiteSpace": "normal",
-                },
+                style_header={"whiteSpace": "normal"},
                 style_cell={"padding": "10px"},
                 css=[
                     {
-                        #"selector": ".dash-cell div.dash-cell-value",
-                        #"box-sizing": "inherit",
-                        #"rule": "display: inline; white-space: inherit;"
+                        # "selector": ".dash-cell div.dash-cell-value",
+                        # "box-sizing": "inherit",
+                        # "rule": "display: inline; white-space: inherit;"
                         ##" overflow: inherit; text-overflow: inherit;",
                     }
                 ],
