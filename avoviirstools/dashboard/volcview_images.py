@@ -33,26 +33,46 @@ def gen_volcview_sectors(n_clicks):
 
     return {
         "data": [
-            {"x": data.index, "y": today_data, "type": "bar", "name": "num images"},
+            {"x": today_data.index, "y": today_data, "type": "bar", "name": "today"},
             {
                 "x": data.index,
                 "y": data,
                 "type": "scatter",
-                "name": "avg images",
+                "name": "average",
                 "mode": "markers",
             },
         ],
         "layout": {"title": "Images by Sector"},
     }
 
+@app.callback(
     Output("volcview-products", "figure"),
     [Input("volcview-products-update", "n_clicks")],
-
-
+)
 def gen_volcview_products(n_clicks):
-    data = sector_subscriber.sector_images.groupby("band").size()
+    pdnow = pd.to_datetime("now")
+    yesterday = pdnow - pd.Timedelta("1 days")
+    today_data = sector_subscriber.sector_images[yesterday:pdnow]
+    today_data = today_data.groupby("sector").size()
+
+    data = sector_subscriber.sector_images
+    days = data.index.max() - data.index.min()
+    days = days.days
+    data = data.groupby("band").size()
+    if days > 0:
+        data = data / days
 
     return {
-        "data": [{"x": data.index, "y": data, "type": "bar", "name": "num images"}],
+        "data": [
+            {"x": today_data.index, "y": today_data, "type": "bar", "name": "today"},
+            {
+                "x": data.index,
+                "y": data,
+                "type": "scatter",
+                "name": "average",
+                "mode": "markers",
+            },
+        ],
         "layout": {"title": "Images by Product"},
     }
+
