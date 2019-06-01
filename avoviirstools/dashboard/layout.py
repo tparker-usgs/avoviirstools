@@ -53,7 +53,7 @@ def volcview_table():
                 ],
                 style_as_list_view=True,
                 style_table={"width": "300px", "margin": "0px auto"},
-                pagination_settings={"current_page": 0, "page_size": 15},
+                pagination_settings={"current_page": 0, "page_size": 7},
                 pagination_mode="be",
                 style_cell={"padding": "10px"},
                 css=[
