@@ -24,9 +24,10 @@ def gen_volcview_sectors(n_clicks):
     today_data = sector_subscriber.sector_images[yesterday:pdnow]
     today_data = today_data.groupby("sector").size()
 
-    data = sector_subscriber.sector_images.groupby("sector").size()
-    days = data.index[-1] - data.index[0]
+    data = sector_subscriber.sector_images
+    days = data.index.max() - data.index.min()
     days = days.days
+    data = data..groupby("sector").size()
     if days > 0:
         data = data / days
 
