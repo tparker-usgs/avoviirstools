@@ -243,6 +243,8 @@ def datafile_table():
                 id="sdr-table-platform",
                 options=[{"label": i, "value": i} for i in ["Suomi-NPP", "NOAA-20"]],
                 value="Suomi-NPP",
+                searchable=False,
+                clearable=False,
             ),
             dash_table.DataTable(
                 id="sdr-table",
@@ -259,7 +261,7 @@ def datafile_table():
                         # "selector": ".dash-cell div.dash-cell-value",
                         # "box-sizing": "inherit",
                         # "rule": "display: inline; white-space: inherit;"
-                        ##" overflow: inherit; text-overflow: inherit;",
+                        # " overflow: inherit; text-overflow: inherit;",
                     }
                 ],
             ),
