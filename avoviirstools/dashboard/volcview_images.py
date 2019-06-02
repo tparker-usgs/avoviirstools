@@ -97,24 +97,22 @@ def update_volcview_images_indicator(value):
     pdnow = pd.to_datetime("now")
     yesterday = pdnow - pd.Timedelta("1 days")
     today_data = sector_subscriber.sector_images[yesterday:pdnow]
-    today_data = today_data.groupby("band").size()
+    today_data = len(today_data)
 
     data = sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
     days = days / pd.Timedelta("1 days")
-    data = data.size()
+    data = len(data)
     if days > 0:
         data = data / days
 
     coverage = today_data / data
 
-    if days > 0:
-        data = data / days
     if coverage > 0.9:
         color = "#49B52C"
     elif coverage > 0.5:
         color = "#D8BC35"
     else:
         color = "#D84435"
-
+    print("returning color: {}".format(color))
     return {"padding": "5px", "color": color}

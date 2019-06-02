@@ -26,10 +26,7 @@ def apply_layout():
                                                     html.I(
                                                         className="fa fa-circle",
                                                         id="volcview-images-indicator",
-                                                        style={
-                                                            "color": "#dd9999",
-                                                            "padding": "5px",
-                                                        },
+                                                        style={"padding": "5px", "color": "#8892A8"}
                                                     ),
                                                 ],
                                                 style={"fontFamily": "Merriweather"},
