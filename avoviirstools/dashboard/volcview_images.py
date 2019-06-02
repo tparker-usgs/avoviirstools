@@ -26,7 +26,7 @@ def gen_volcview_sectors(n_clicks):
 
     data = sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
-    days = days.days
+    days = days / pd.Timedelta("1 days")
     data = data.groupby("sector").size()
     if days > 0:
         data = data / days
@@ -57,7 +57,7 @@ def gen_volcview_products(n_clicks):
 
     data = sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
-    days = days.days
+    days = days / pd.Timedelta("1 days")
     data = data.groupby("band").size()
     if days > 0:
         data = data / days
@@ -97,11 +97,11 @@ def update_volcview_images_indicator(value):
     pdnow = pd.to_datetime("now")
     yesterday = pdnow - pd.Timedelta("1 days")
     today_data = sector_subscriber.sector_images[yesterday:pdnow]
-    today_data = today_data.size()
+    today_count = len(today_data)
 
     data = sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
-    days = days.days
+    days = days / pd.Timedelta("1 days")
     data = data.size()
     if days > 0:
         data = data / days
