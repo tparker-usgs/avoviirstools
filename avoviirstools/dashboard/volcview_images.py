@@ -107,9 +107,9 @@ def update_volcview_images_indicator(value):
         data = data / days
 
     coverage = today_data / data
-    if coverage > .9:
+    if coverage > 0.9:
         return "#49B52C"
-    elif coverage > .5:
+    elif coverage > 0.5:
         return "#D8BC35"
     else:
         return "#D84435"

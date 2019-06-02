@@ -20,20 +20,23 @@ def apply_layout():
                             html.Div(
                                 [
                                     html.Label(
-                                        html.H2(
-                                            "Volcview Images",
-                                            style={"fontFamily": "Merriweather"},
-                                        ),
+                                        [
+                                            html.H2(
+                                                "Volcview Images",
+                                                style={"fontFamily": "Merriweather"},
+                                            ),
+                                            daq.Indicator(
+                                                value=True,
+                                                id="volcview-images-indicator",
+                                            ),
+                                            dcc.Interval(
+                                                id="volcview-images-indicator-update",
+                                                interval=5000,
+                                                n_intervals=0,
+                                            ),
+                                        ],
                                         htmlFor="volcview-images-pane",
-                                    ),
-                                    daq.Indicator(
-                                        value=True, id="volcview-images-indicator"
-                                    ),
-                                    dcc.Interval(
-                                        id="volcview-images-indicator-update",
-                                        interval=5000,
-                                        n_intervals=0,
-                                    ),
+                                    )
                                 ]
                             ),
                             volcview_images_pane(),
