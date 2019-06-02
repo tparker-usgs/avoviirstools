@@ -21,12 +21,14 @@ def apply_layout():
                                     html.Label(
                                         [
                                             html.H2(
-                                                "Volcview Images",
+                                                [
+                                                    "Volcview Images",
+                                                    html.I(
+                                                        className="fa fa-refresh",
+                                                        id="volcview-images-indicator",
+                                                    ),
+                                                ],
                                                 style={"fontFamily": "Merriweather"},
-                                            ),
-                                            html.I(
-                                                className="fa fa-refresh",
-                                                id="volcview-images-indicator",
                                             ),
                                             dcc.Interval(
                                                 id="volcview-images-indicator-update",
