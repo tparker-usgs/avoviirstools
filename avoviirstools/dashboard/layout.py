@@ -24,7 +24,7 @@ def apply_layout():
                                                 [
                                                     "Volcview Images",
                                                     html.I(
-                                                        className="fa fa-refresh",
+                                                        className="fa fa-circle",
                                                         id="volcview-images-indicator",
                                                     ),
                                                 ],
