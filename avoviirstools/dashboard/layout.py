@@ -31,9 +31,9 @@ def apply_layout():
                 id="volcview-images-pane",
                 className="row",
                 style={
-                    "backgroundColor": "#D2CDB5",
+                    "backgroundColor": "#D1EF9F",
                     "borderRadius": "5px",
-                    "border": "2px solid #73AD21",
+                    "border": "2px solid #446906",
                     "padding": "20px",
                     "margin": "20px",
                 },
@@ -57,9 +57,9 @@ def apply_layout():
                 id="product-generation-pane",
                 className="row",
                 style={
-                    "backgroundColor": "#D2CDB5",
+                    "backgroundColor": "#D1EF9F",
                     "borderRadius": "5px",
-                    "border": "2px solid #73AD21",
+                    "border": "2px solid #446906",
                     "padding": "20px",
                     "margin": "20px",
                 },
@@ -82,9 +82,9 @@ def apply_layout():
                 id="data-arrival-pane",
                 className="row",
                 style={
-                    "backgroundColor": "#D2CDB5",
+                    "backgroundColor": "#D1EF9F",
                     "borderRadius": "5px",
-                    "border": "2px solid #73AD21",
+                    "border": "2px solid #446906",
                     "padding": "20px",
                     "margin": "20px",
                 },
@@ -145,6 +145,11 @@ def volcview_table():
                 html.H5("Recent Images", style={"fontFamily": "Merriweather"}),
                 htmlFor="volcview-table",
             ),
+            html.I(
+                className="fa fa-question",
+                id="volcview-table--help",
+                style={"padding": "5px"},
+            ),
             dash_table.DataTable(
                 id="volcview-table",
                 columns=[
@@ -190,6 +195,17 @@ def product_generation_pane():
             ),
             html.Div(
                 [
+                    html.Label(
+                        html.H5(
+                            "Products Waiting", style={"fontFamily": "Merriweather"}
+                        ),
+                        htmlFor="products-waiting",
+                    ),
+                    html.I(
+                        className="fa fa-question",
+                        id="products-waiting-help",
+                        style={"padding": "5px"},
+                    ),
                     dcc.Graph(id="products-waiting", style={"height": "350px"}),
                     dcc.Interval(
                         id="products-waiting-update", interval=5000, n_intervals=0
@@ -218,6 +234,10 @@ def data_arrival_pane():
 def last_seen_table():
     return html.Div(
         [
+            html.Label(
+                html.H5("Last Seen", style={"fontFamily": "Merriweather"}),
+                htmlFor="last-seen-table",
+            ),
             html.I(
                 className="fa fa-refresh",
                 id="last-seen-table-update",
@@ -237,7 +257,8 @@ def last_seen_table():
                 style_as_list_view=True,
                 style_table={"width": "300px", "margin": "0px auto"},
             ),
-        ]
+        ],
+        style={"margin": "50px"},
     )
 
 
@@ -245,7 +266,9 @@ def datafile_latency():
     return html.Div(
         [
             html.Label(
-                html.H5("Acquisition Delay (min)", style={"fontFamily": "Merriweather"}),
+                html.H5(
+                    "Acquisition Delay (min)", style={"fontFamily": "Merriweather"}
+                ),
                 htmlFor="datafile-latency-table",
             ),
             html.I(
@@ -259,7 +282,8 @@ def datafile_latency():
                 style={"padding": "5px"},
             ),
             dcc.Graph(id="datafile-latency", style={"height": "300px"}),
-        ]
+        ],
+        style={"margin": "50px"},
     )
 
 
@@ -281,7 +305,8 @@ def datafile_gap():
                 style={"padding": "5px"},
             ),
             dcc.Graph(id="datafile-gap", style={"height": "300px"}),
-        ]
+        ],
+        style={"margin": "50px"},
     )
 
 
@@ -303,6 +328,15 @@ def datafile_table():
 
     return html.Div(
         [
+            html.Label(
+                html.H5("Recent Datafiles", style={"fontFamily": "Merriweather"}),
+                htmlFor="sdr-table-platform",
+            ),
+            html.I(
+                className="fa fa-question",
+                id="sdr-table--help",
+                style={"padding": "5px"},
+            ),
             dcc.Dropdown(
                 id="sdr-table-platform",
                 options=[{"label": i, "value": i} for i in ["Suomi-NPP", "NOAA-20"]],

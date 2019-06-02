@@ -41,7 +41,7 @@ def gen_volcview_sectors(n_clicks):
                 "name": "average",
                 "mode": "markers",
             },
-        ],
+        ]
     }
 
 
@@ -72,7 +72,7 @@ def gen_volcview_products(n_clicks):
                 "name": "average",
                 "mode": "markers",
             },
-        ],
+        ]
     }
 
 

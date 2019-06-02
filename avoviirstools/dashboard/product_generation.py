@@ -29,10 +29,7 @@ def gen_products_waiting(interval):
                 "fill": "tozeroy",
             }
         ],
-        "layout": {
-            "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "title": "Products waiting to be generated",
-        },
+        "layout": {"xaxis": {"type": "date", "rangemode": "nonnegative"}},
     }
 
     return figure

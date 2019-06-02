@@ -54,12 +54,7 @@ def gen_datafile_latency(n_clicks):
             }
         )
 
-    return {
-        "data": data,
-        "layout": {
-            "xaxis": {"type": "date"},
-        },
-    }
+    return {"data": data, "layout": {"xaxis": {"type": "date"}}}
 
 
 @app.callback(
@@ -83,9 +78,7 @@ def gen_datafile_gap(n_clicks):
 
     return {
         "data": data,
-        "layout": {
-            "xaxis": {"type": "date", "rangemode": "nonnegative"},
-        },
+        "layout": {"xaxis": {"type": "date", "rangemode": "nonnegative"}},
     }
 
 
