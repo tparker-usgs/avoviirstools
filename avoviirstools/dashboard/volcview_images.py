@@ -87,3 +87,29 @@ def gen_sdr_table(pagination_settings):
     data = data.iloc[start:end]
     data["time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
     return data.to_dict("records")
+
+
+@app.callback(
+    Output("volcview-images-indicator", "color"),
+    [Input("volcview-images-indicator-update", "n_intervals")],
+)
+def update_volcview_images_indicator(value):
+    pdnow = pd.to_datetime("now")
+    yesterday = pdnow - pd.Timedelta("1 days")
+    today_data = sector_subscriber.sector_images[yesterday:pdnow]
+    today_data = today_data.size()
+
+    data = sector_subscriber.sector_images
+    days = data.index.max() - data.index.min()
+    days = days.days
+    data = data.size()
+    if days > 0:
+        data = data / days
+    
+    coverage = today_data / data
+    if coverage > .9:
+        return "#49B52C"
+    elif coverage > .5:
+        return "#D8BC35"
+    else:
+        return "#D84435"

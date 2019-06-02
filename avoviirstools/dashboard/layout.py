@@ -1,6 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
+import dash_daq as daq
 
 from .app import app
 
@@ -16,12 +17,24 @@ def apply_layout():
                 [
                     html.Div(
                         [
-                            html.Label(
-                                html.H2(
-                                    "Volcview Images",
-                                    style={"fontFamily": "Merriweather"},
-                                ),
-                                htmlFor="volcview-images-pane",
+                            html.div(
+                                [
+                                    html.Label(
+                                        html.H2(
+                                            "Volcview Images",
+                                            style={"fontFamily": "Merriweather"},
+                                        ),
+                                        htmlFor="volcview-images-pane",
+                                    ),
+                                    daq.Indicator(
+                                        value=True, id="volcview-images-indicator"
+                                    ),
+                                    dcc.Interval(
+                                        id="volcview-images-indicator-update",
+                                        interval=5000,
+                                        n_intervals=0,
+                                    ),
+                                ]
                             ),
                             volcview_images_pane(),
                         ],
