@@ -1,7 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
-import dash_daq as daq
 
 from .app import app
 
@@ -25,10 +24,9 @@ def apply_layout():
                                                 "Volcview Images",
                                                 style={"fontFamily": "Merriweather"},
                                             ),
-                                            daq.Indicator(
-                                                value=True,
+                                            html.I(
+                                                className="fa fa-refresh",
                                                 id="volcview-images-indicator",
-                                                style={"float": "right"},
                                             ),
                                             dcc.Interval(
                                                 id="volcview-images-indicator-update",
