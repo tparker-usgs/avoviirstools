@@ -28,6 +28,7 @@ def apply_layout():
                                             daq.Indicator(
                                                 value=True,
                                                 id="volcview-images-indicator",
+                                                style={"float": "right"},
                                             ),
                                             dcc.Interval(
                                                 id="volcview-images-indicator-update",
