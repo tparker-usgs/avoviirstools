@@ -17,7 +17,7 @@ def apply_layout():
                 [
                     html.Div(
                         [
-                            html.div(
+                            html.Div(
                                 [
                                     html.Label(
                                         html.H2(
