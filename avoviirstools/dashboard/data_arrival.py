@@ -58,7 +58,6 @@ def gen_datafile_latency(n_clicks):
         "data": data,
         "layout": {
             "xaxis": {"type": "date"},
-            "yaxis": {"title": "Acquisition Delay (min)"},
         },
     }
 
@@ -86,7 +85,6 @@ def gen_datafile_gap(n_clicks):
         "data": data,
         "layout": {
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "yaxis": {"title": "Interfile Gap (min)", "range": [0, 500]},
         },
     }
 

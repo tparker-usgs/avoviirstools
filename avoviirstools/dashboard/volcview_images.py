@@ -42,7 +42,6 @@ def gen_volcview_sectors(n_clicks):
                 "mode": "markers",
             },
         ],
-        "layout": {"title": "Images by Sector"},
     }
 
 
@@ -74,7 +73,6 @@ def gen_volcview_products(n_clicks):
                 "mode": "markers",
             },
         ],
-        "layout": {"title": "Images by Product"},
     }
 
 

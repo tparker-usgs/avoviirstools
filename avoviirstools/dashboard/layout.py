@@ -97,6 +97,10 @@ def apply_layout():
 def volcview_sectors():
     return html.Div(
         [
+            html.Label(
+                html.H5("Images by Sector", style={"fontFamily": "Merriweather"}),
+                htmlFor="volcview-products",
+            ),
             html.I(
                 className="fa fa-refresh",
                 id="volcview-sectors-update",
@@ -115,6 +119,10 @@ def volcview_sectors():
 def volcview_products():
     return html.Div(
         [
+            html.Label(
+                html.H5("Images by Product", style={"fontFamily": "Merriweather"}),
+                htmlFor="volcview-products",
+            ),
             html.I(
                 className="fa fa-refresh",
                 id="volcview-products-update",
@@ -133,6 +141,10 @@ def volcview_products():
 def volcview_table():
     return html.Div(
         [
+            html.Label(
+                html.H5("Recent Images", style={"fontFamily": "Merriweather"}),
+                htmlFor="volcview-table",
+            ),
             dash_table.DataTable(
                 id="volcview-table",
                 columns=[
@@ -141,7 +153,6 @@ def volcview_table():
                     {"name": "Product", "id": "band"},
                 ],
                 style_as_list_view=True,
-                style_table={"width": "300px", "margin": "0px auto"},
                 pagination_settings={"current_page": 0, "page_size": 7},
                 pagination_mode="be",
                 style_cell={"padding": "10px"},
@@ -152,7 +163,7 @@ def volcview_table():
                         "overflow: inherit; text-overflow: inherit;",
                     }
                 ],
-            )
+            ),
         ]
     )
 
@@ -160,11 +171,11 @@ def volcview_table():
 def volcview_images_pane():
     return html.Div(
         [
-            html.Div([volcview_sectors()], className="col"),
-            html.Div([volcview_products()], className="col"),
-            html.Div([volcview_table()], className="col"),
+            html.Div([volcview_sectors()], className="col-5"),
+            html.Div([volcview_products()], className="col-4"),
+            html.Div([volcview_table()], className="col-3"),
         ],
-        className="row",
+        className="row align-items-right",
     )
 
 
@@ -233,6 +244,10 @@ def last_seen_table():
 def datafile_latency():
     return html.Div(
         [
+            html.Label(
+                html.H5("Acquisition Delay (min)", style={"fontFamily": "Merriweather"}),
+                htmlFor="datafile-latency-table",
+            ),
             html.I(
                 className="fa fa-refresh",
                 id="datafile-latency-update",
@@ -251,6 +266,10 @@ def datafile_latency():
 def datafile_gap():
     return html.Div(
         [
+            html.Label(
+                html.H5("Interfile Gap (min)", style={"fontFamily": "Merriweather"}),
+                htmlFor="datafile-gap",
+            ),
             html.I(
                 className="fa fa-refresh",
                 id="datafile-gap-update",
