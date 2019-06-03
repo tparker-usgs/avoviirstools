@@ -26,7 +26,10 @@ def apply_layout():
                                                     html.I(
                                                         className="fa fa-circle",
                                                         id="volcview-images-indicator",
-                                                        style={"padding": "5px", "color": "#8892A8"}
+                                                        style={
+                                                            "padding": "5px",
+                                                            "color": "#8892A8",
+                                                        },
                                                     ),
                                                 ],
                                                 style={"fontFamily": "Merriweather"},
@@ -61,10 +64,27 @@ def apply_layout():
                     html.Div(
                         [
                             html.Label(
-                                html.H2(
-                                    "Product Generation",
-                                    style={"fontFamily": "Merriweather"},
-                                ),
+                                [
+                                    html.H2(
+                                        [
+                                            "Product Generation",
+                                            html.I(
+                                                className="fa fa-circle",
+                                                id="product-generation-indicator",
+                                                style={
+                                                    "padding": "5px",
+                                                    "color": "#8892A8",
+                                                },
+                                            ),
+                                        ],
+                                        style={"fontFamily": "Merriweather"},
+                                    ),
+                                    dcc.Interval(
+                                        id="product-generation-indicator-update",
+                                        interval=5000,
+                                        n_intervals=0,
+                                    ),
+                                ],
                                 htmlFor="product-generation-pane",
                             ),
                             product_generation_pane(),
