@@ -27,7 +27,7 @@ def apply_layout():
                                                         id="volcview-images-indicator",
                                                         style={
                                                             "padding": "5px",
-                                                            "color": "#8892A8",
+                                                            "color": "#E8EAEE",
                                                         },
                                                     ),
                                                     "Volcview Images",
@@ -52,9 +52,9 @@ def apply_layout():
                 id="volcview-images-pane",
                 className="row",
                 style={
-                    "backgroundColor": "#8892A8",
+                    "backgroundColor": "#E8EAEE",
                     "borderRadius": "5px",
-                    "border": "2px solid #2C3B5D",
+                    "border": "2px solid #687696",
                     "padding": "20px",
                     "margin": "20px",
                 },
@@ -72,7 +72,7 @@ def apply_layout():
                                                 id="product-generation-indicator",
                                                 style={
                                                     "padding": "5px",
-                                                    "color": "#8892A8",
+                                                    "color": "#E8EAEE",
                                                 },
                                             ),
                                             "Product Generation",
@@ -95,9 +95,9 @@ def apply_layout():
                 id="product-generation-pane",
                 className="row",
                 style={
-                    "backgroundColor": "#8892A8",
+                    "backgroundColor": "#E8EAEE",
                     "borderRadius": "5px",
-                    "border": "2px solid #2C3B5D",
+                    "border": "2px solid #687696",
                     "padding": "20px",
                     "margin": "20px",
                 },
@@ -115,7 +115,7 @@ def apply_layout():
                                                 id="data-arrival-indicator",
                                                 style={
                                                     "padding": "5px",
-                                                    "color": "#8892A8",
+                                                    "color": "#E8EAEE",
                                                 },
                                             ),
                                             "Data Arrival",
@@ -138,9 +138,9 @@ def apply_layout():
                 id="data-arrival-pane",
                 className="row",
                 style={
-                    "backgroundColor": "#8892A8",
+                    "backgroundColor": "#E8EAEE",
                     "borderRadius": "5px",
-                    "border": "2px solid #2C3B5D",
+                    "border": "2px solid #687696",
                     "padding": "20px",
                     "margin": "20px",
                 },
