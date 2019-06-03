@@ -1,7 +1,6 @@
 from dash.dependencies import Input, Output
 from .update_subscriber import UpdateSubscriber
 from .app import zmq_context, app
-import pandas as pd
 
 update_subscriber = UpdateSubscriber(zmq_context)
 
@@ -49,25 +48,11 @@ def update_refresh(auto_values):
     [Input("product-generation-indicator-update", "n_intervals")],
 )
 def update_product_generation_indicator(value):
-    pdnow = pd.to_datetime("now")
-    yesterday = pdnow - pd.Timedelta("1 days")
+    tasks_waiting = update_subscriber.updates[-1]
 
-    today_tasks = update_subscriber.updates[yesterday:pdnow]
-    today_tasks = today_tasks.size
-
-    all_tasks = update_subscriber.updates
-
-    days = all_tasks.index.max() - all_tasks.index.min()
-    days = days / pd.Timedelta("1 days")
-    all_tasks = all_tasks.size
-    if days > 0:
-        all_tasks = all_tasks / days
-
-    coverage = today_tasks / all_tasks
-
-    if coverage > 0.9:
+    if tasks_waiting < 6:
         color = "#49B52C"
-    elif coverage > 0.5:
+    elif tasks_waiting < 10:
         color = "#D8BC35"
     else:
         color = "#D84435"

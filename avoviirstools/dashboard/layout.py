@@ -22,7 +22,6 @@ def apply_layout():
                                         [
                                             html.H2(
                                                 [
-                                                    "Volcview Images",
                                                     html.I(
                                                         className="fa fa-circle",
                                                         id="volcview-images-indicator",
@@ -31,6 +30,7 @@ def apply_layout():
                                                             "color": "#8892A8",
                                                         },
                                                     ),
+                                                    "Volcview Images",
                                                 ],
                                                 style={"fontFamily": "Merriweather"},
                                             ),
@@ -67,7 +67,6 @@ def apply_layout():
                                 [
                                     html.H2(
                                         [
-                                            "Product Generation",
                                             html.I(
                                                 className="fa fa-circle",
                                                 id="product-generation-indicator",
@@ -76,6 +75,7 @@ def apply_layout():
                                                     "color": "#8892A8",
                                                 },
                                             ),
+                                            "Product Generation",
                                         ],
                                         style={"fontFamily": "Merriweather"},
                                     ),
@@ -107,9 +107,27 @@ def apply_layout():
                     html.Div(
                         [
                             html.Label(
-                                html.H2(
-                                    "Data Arrival", style={"fontFamily": "Merriweather"}
-                                ),
+                                [
+                                    html.H2(
+                                        [
+                                            html.I(
+                                                className="fa fa-circle",
+                                                id="data-arrival-indicator",
+                                                style={
+                                                    "padding": "5px",
+                                                    "color": "#8892A8",
+                                                },
+                                            ),
+                                            "Data Arrival",
+                                        ],
+                                        style={"fontFamily": "Merriweather"},
+                                    ),
+                                    dcc.Interval(
+                                        id="data-arrival-indicator-update",
+                                        interval=5000,
+                                        n_intervals=0,
+                                    ),
+                                ],
                                 htmlFor="data-arrival-pane",
                             ),
                             data_arrival_pane(),

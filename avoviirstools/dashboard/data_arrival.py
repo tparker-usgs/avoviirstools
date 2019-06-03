@@ -101,3 +101,32 @@ def gen_sdr_table(pagination_settings, value):
     data["age"] = data["age"] / pd.Timedelta("60 seconds")
     data["age"] = data["age"].astype("int64")
     return data.to_dict("records")
+
+
+@app.callback(
+    Output("data-arrival-indicator", "style"),
+    [Input("data-arrival-indicator-update", "n_intervals")],
+)
+def update_data_arrival_indicator(n_intervals):
+    pdnow = pd.to_datetime("now")
+    yesterday = pdnow - pd.Timedelta("1 days")
+    today_data = sdr_subscriber.sdrs[yesterday:pdnow]
+    today_data = len(today_data)
+
+    data = sdr_subscriber.sdrs
+    days = data.index.max() - data.index.min()
+    days = days / pd.Timedelta("1 days")
+    data = len(data)
+    if days > 0:
+        data = data / days
+
+    coverage = today_data / data
+
+    if coverage > 0.9:
+        color = "#49B52C"
+    elif coverage > 0.5:
+        color = "#D8BC35"
+    else:
+        color = "#D84435"
+    print("returning color: {}".format(color))
+    return {"padding": "5px", "color": color}
