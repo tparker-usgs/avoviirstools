@@ -32,7 +32,7 @@ class Flusher(threading.Thread):
 flusher = Flusher()
 
 server = flask.Flask(__name__)
-app = dash.Dash(__name__, server=server)
+app = dash.Dash(__name__, server=server, external_stylesheets=external_css)
 
 from avoviirstools.dashboard.layout import apply_layout
 
@@ -54,5 +54,3 @@ volcview_images = VolcviewImages()
 flusher.flushables.append(volcview_images)
 
 flusher.start()
-
-app = dash.Dash(__name__, external_stylesheets=external_css)
