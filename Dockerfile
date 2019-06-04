@@ -16,6 +16,6 @@ COPY avoviirstools avoviirstools
 RUN python setup.py install
 
 RUN pip freeze > requirements.txt
-COPY supervisord.conf /etc/supervisor/supervisord.conf
-COPY main.config /etc/nginx/sites-enabled/main.config
+COPY files/supervisord.conf /etc/supervisor/supervisord.conf
+COPY files/main.config /etc/nginx/sites-enabled/main.config
 CMD ["supervisord"]
