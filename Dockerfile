@@ -18,4 +18,5 @@ RUN python setup.py install
 RUN pip freeze > requirements.txt
 COPY files/supervisord.conf /etc/supervisor/supervisord.conf
 COPY files/main.config /etc/nginx/sites-enabled/main.config
+COPY files/dashboard.ini /etc/uwsgi-emperor/vassals/dashboard.ini
 CMD ["supervisord"]
