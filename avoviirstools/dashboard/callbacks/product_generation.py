@@ -4,6 +4,8 @@ from avoviirstools.dashboard.app import app
 from avoviirstools.dashboard import zmq_context
 
 update_subscriber = UpdateSubscriber(zmq_context)
+YELLOW_THRESHOLD = 6
+RED_THRESHOLD = 10
 
 
 class ProductGeneration:
@@ -48,6 +50,7 @@ def update_refresh(auto_values):
     [
         Output("product-generation-indicator", "style"),
         Output("product-generation-indicator", "className"),
+        Output("product-generation-indicator", "title"),
     ],
     [Input("product-generation-indicator-update", "n_intervals")],
 )
@@ -57,12 +60,21 @@ def update_product_generation_indicator(value):
     if tasks_waiting < 6:
         color = "#49B52C"
         className = "fa fa-star"
+        tooltip = "{} products waiting; yellow threashold {}".format(
+            tasks_waiting, YELLOW_THRESHOLD
+        )
     elif tasks_waiting < 10:
         color = "#D8BC35"
         className = "fa fa-warning"
+        tooltip = "{} products waiting; green threashold {}, red threshold {}".format(
+            tasks_waiting, YELLOW_THRESHOLD, RED_THRESHOLD
+        )
     else:
         color = "#D84435"
         className = "fa fa-exclamation-circle"
+        tooltip = "{} products waiting; yellow threshold {}".format(
+            tasks_waiting, YELLOW_THRESHOLD, RED_THRESHOLD
+        )
 
     style = {"padding": "5px", "color": color}
-    return style, className
+    return style, className, tooltip
