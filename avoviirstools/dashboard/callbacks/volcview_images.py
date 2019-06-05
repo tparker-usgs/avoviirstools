@@ -4,6 +4,8 @@ from avoviirstools.dashboard.app import app
 from avoviirstools.dashboard import zmq_context
 import pandas as pd
 
+YELLOW_THREASHOLD = 0.9
+RED_THREASHOLD = 0.5
 
 sector_subscriber = SectorSubscriber(zmq_context)
 
@@ -109,21 +111,25 @@ def update_volcview_images_indicator(value):
     days = days / pd.Timedelta("1 days")
     data = len(data)
     if days > 0:
-        data = data / days
+        data = int(data / days)
 
-    coverage = today_data / data
+    yellow = int(data * 0.9)
+    red = int(data * 0.5)
 
-    if coverage > 0.9:
+    if today_data > yellow:
         color = "#49B52C"
         className = "fa fa-star"
-    elif coverage > 0.5:
+        tooltip = "{} images today; yellow threashold is {}".format(today_data, yellow)
+    elif today_data > red:
         color = "#D8BC35"
         className = "fa fa-warning"
+        tooltip = "{} images today; yellow threashold is {}, red threshold is {}".format(
+            today_data, yellow, red
+        )
     else:
         color = "#D84435"
-        className = "fa fa-star"
         className = "fa fa-exclamation-circle"
+        tooltip = "{} images today; red threashold is {}".format(today_data, red)
 
     style = {"padding": "5px", "color": color}
-    tooltip = "{} images today; {} daily average".format(today_data, data)
     return style, className, tooltip
