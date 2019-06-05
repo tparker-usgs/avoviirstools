@@ -123,7 +123,7 @@ def update_volcview_images_indicator(value):
     elif today_data > red:
         color = "#D8BC35"
         className = "fa fa-warning"
-        tooltip = "{} images today; yellow threashold is {}, red threshold is {}".format(
+        tooltip = "{} images today; yellow threashold {}, red threshold {}".format(
             today_data, yellow, red
         )
     else:
