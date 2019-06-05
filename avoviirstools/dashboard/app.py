@@ -5,14 +5,6 @@ import dash
 import threading
 import time
 import flask
-import dash_html_components as html
-
-from .layout.volcview_images import volcview_images_layout
-
-from .layout.product_generation import product_generation_layout
-
-from .layout.data_arrival import data_arrival_layout
-
 
 PICKLING_INTERVAL = 5 * 60
 external_css = [
@@ -42,18 +34,9 @@ def init_callbacks(flusher):
 
 
 def gen_layout():
-    return html.Div(
-        [
-            html.Div(
-                [html.H1("AVO VIIRS Processing", style={"fontFamily": "Merriweather"})],
-                className="row justify-content-center",
-            ),
-            volcview_images_layout(),
-            product_generation_layout(),
-            data_arrival_layout(),
-        ],
-        className="container-fluid",
-    )
+    from .layout import gen_layout
+
+    return gen_layout()
 
 
 flusher = Flusher()
