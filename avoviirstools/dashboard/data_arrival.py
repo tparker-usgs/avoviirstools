@@ -106,7 +106,7 @@ def gen_sdr_table(pagination_settings, value):
 @app.callback(
     [
         Output("data-arrival-indicator", "style"),
-        Output("data-arrival-indicator", "style"),
+        Output("data-arrival-indicator", "className"),
     ],
     [Input("data-arrival-indicator-update", "n_intervals")],
 )

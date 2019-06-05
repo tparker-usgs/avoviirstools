@@ -42,6 +42,7 @@ class UpdateSubscriber(threading.Thread):
         copy.to_pickle(os.path.join(UPDATE_PICKLE))
 
     def run(self):
+        print("Starting update subscriber")
         while True:
             message = self.socket.recv_json()
             npnow = pd.to_datetime("now")

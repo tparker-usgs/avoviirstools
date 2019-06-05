@@ -49,6 +49,7 @@ class SectorSubscriber(threading.Thread):
         copy.to_pickle(os.path.join(SECTOR_PICKLE))
 
     def run(self):
+        print("Starting sector subscriber")
         while True:
             message = self.socket.recv_json()
             npnow = pd.to_datetime("now")
@@ -59,4 +60,3 @@ class SectorSubscriber(threading.Thread):
                     message["dataType"],
                     message["imageUnixtime"],
                 )
-            print("TOMP SAYS SECTOR: {}".format(message))
