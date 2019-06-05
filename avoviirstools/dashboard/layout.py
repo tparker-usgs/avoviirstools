@@ -23,7 +23,7 @@ def apply_layout():
                                             html.H2(
                                                 [
                                                     html.I(
-                                                        className="fa fa-circle",
+                                                        className="fa fa-question-circle",
                                                         id="volcview-images-indicator",
                                                         style={
                                                             "padding": "5px",
