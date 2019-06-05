@@ -6,6 +6,11 @@ import zmq
 import threading
 import time
 import flask
+import dash_html_components as html
+
+from .volcview_images_layout import volcview_images_layout
+from .product_generation_layout import product_generation_layout
+from .data_arrival_layout import data_arrival_layout
 
 PICKLING_INTERVAL = 5 * 60
 external_css = [
@@ -29,12 +34,6 @@ class Flusher(threading.Thread):
                 flushable.flush()
 
 
-def apply_layout():
-    from .layout import apply_layout
-
-    apply_layout()
-
-
 def init_callbacks(flusher):
     from .data_arrival import DataArrival
 
@@ -52,9 +51,16 @@ def init_callbacks(flusher):
     flusher.flushables.append(volcview_images)
 
 
+def gen_layout():
+    return html.Div(
+        [volcview_images_layout(), product_generation_layout(), data_arrival_layout()],
+        className="container-fluid",
+    )
+
+
 flusher = Flusher()
 server = flask.Flask(__name__)
 app = dash.Dash(__name__, server=server, external_stylesheets=external_css)
-apply_layout()
+app.layout = gen_layout()
 init_callbacks(flusher)
 flusher.start()
