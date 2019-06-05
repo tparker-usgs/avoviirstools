@@ -4,7 +4,7 @@ from .product_generation import product_generation_layout
 from .data_arrival import data_arrival_layout
 
 
-def gen_layout(flusher):
+def gen_layout():
     return html.Div(
         [
             html.Div(
