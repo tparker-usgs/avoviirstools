@@ -29,28 +29,32 @@ class Flusher(threading.Thread):
                 flushable.flush()
 
 
-flusher = Flusher()
+def apply_layout():
+    from .layout import apply_layout
 
+    apply_layout()
+
+
+def init_callbacks(flusher):
+    from .data_arrival import DataArrival
+
+    data_arrival = DataArrival()
+    flusher.flushables.append(data_arrival)
+
+    from .product_generation import ProductGeneration
+
+    product_generation = ProductGeneration()
+    flusher.flushables.append(product_generation)
+
+    from .volcview_images import VolcviewImages
+
+    volcview_images = VolcviewImages()
+    flusher.flushables.append(volcview_images)
+
+
+flusher = Flusher()
 server = flask.Flask(__name__)
 app = dash.Dash(__name__, server=server, external_stylesheets=external_css)
-
-from avoviirstools.dashboard.layout import apply_layout
-
 apply_layout()
-
-from avoviirstools.dashboard.data_arrival import DataArrival
-
-data_arrival = DataArrival()
-flusher.flushables.append(data_arrival)
-
-from avoviirstools.dashboard.product_generation import ProductGeneration
-
-product_generation = ProductGeneration()
-flusher.flushables.append(product_generation)
-
-from avoviirstools.dashboard.volcview_images import VolcviewImages
-
-volcview_images = VolcviewImages()
-flusher.flushables.append(volcview_images)
-
+init_callbacks(flusher)
 flusher.start()
