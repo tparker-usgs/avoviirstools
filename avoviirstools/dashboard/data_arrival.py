@@ -104,7 +104,10 @@ def gen_sdr_table(pagination_settings, value):
 
 
 @app.callback(
-    Output("data-arrival-indicator", "style"),
+    [
+        Output("data-arrival-indicator", "style"),
+        Output("data-arrival-indicator", "style"),
+    ],
     [Input("data-arrival-indicator-update", "n_intervals")],
 )
 def update_data_arrival_indicator(n_intervals):
@@ -124,9 +127,13 @@ def update_data_arrival_indicator(n_intervals):
 
     if coverage > 0.9:
         color = "#49B52C"
+        className = "fa fa-star"
     elif coverage > 0.5:
         color = "#D8BC35"
+        className = "fa fa-warning"
     else:
         color = "#D84435"
-    print("returning color: {}".format(color))
-    return {"padding": "5px", "color": color}
+        className = "fa fa-exclamation-circle"
+
+    style = {"padding": "5px", "color": color}
+    return style, className

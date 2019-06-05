@@ -44,7 +44,10 @@ def update_refresh(auto_values):
 
 
 @app.callback(
-    Output("product-generation-indicator", "style"),
+    [
+        Output("product-generation-indicator", "style"),
+        Output("product-generation-indicator", "className"),
+    ],
     [Input("product-generation-indicator-update", "n_intervals")],
 )
 def update_product_generation_indicator(value):
@@ -52,9 +55,13 @@ def update_product_generation_indicator(value):
 
     if tasks_waiting < 6:
         color = "#49B52C"
+        className = "fa fa-star"
     elif tasks_waiting < 10:
         color = "#D8BC35"
+        className = "fa fa-warning"
     else:
         color = "#D84435"
-    print("returning color: {}".format(color))
-    return {"padding": "5px", "color": color}
+        className = "fa fa-exclamation-circle"
+
+    style = {"padding": "5px", "color": color}
+    return style, className

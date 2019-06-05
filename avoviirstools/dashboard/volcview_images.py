@@ -89,8 +89,11 @@ def gen_sdr_table(pagination_settings):
     return data.to_dict("records")
 
 
-@app.callback([
-    Output("volcview-images-indicator", "style"),Output("volcview-images-indicator", "className")],
+@app.callback(
+    [
+        Output("volcview-images-indicator", "style"),
+        Output("volcview-images-indicator", "className"),
+    ],
     [Input("volcview-images-indicator-update", "n_intervals")],
 )
 def update_volcview_images_indicator(value):
@@ -120,5 +123,5 @@ def update_volcview_images_indicator(value):
         className = "fa fa-exclamation-circle"
 
     style = {"padding": "5px", "color": color}
-                                                         
+
     return style, className

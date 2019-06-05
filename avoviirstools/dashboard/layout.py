@@ -68,7 +68,7 @@ def apply_layout():
                                     html.H2(
                                         [
                                             html.I(
-                                                className="fa fa-circle",
+                                                className="fa fa-question-circle",
                                                 id="product-generation-indicator",
                                                 style={
                                                     "padding": "5px",
@@ -111,7 +111,7 @@ def apply_layout():
                                     html.H2(
                                         [
                                             html.I(
-                                                className="fa fa-circle",
+                                                className="fa fa-question-circle",
                                                 id="data-arrival-indicator",
                                                 style={
                                                     "padding": "5px",
