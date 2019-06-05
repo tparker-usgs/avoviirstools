@@ -33,10 +33,10 @@ def init_callbacks(flusher):
     init_callbacks(flusher)
 
 
-def gen_layout(flusher):
+def gen_layout():
     from .layout import gen_layout
 
-    return gen_layout(flusher)
+    return gen_layout()
 
 
 flusher = Flusher()
