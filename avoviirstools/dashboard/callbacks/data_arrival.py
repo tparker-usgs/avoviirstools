@@ -4,6 +4,9 @@ from avoviirstools.dashboard.app import app
 from avoviirstools.dashboard import zmq_context
 import pandas as pd
 
+YELLOW_THREASHOLD = 0.9
+RED_THREASHOLD = 0.5
+
 sdr_subscriber = SdrSubscriber(zmq_context)
 
 
@@ -108,6 +111,7 @@ def gen_sdr_table(pagination_settings, value):
     [
         Output("data-arrival-indicator", "style"),
         Output("data-arrival-indicator", "className"),
+        Output("data-arrival-indicator", "title"),
     ],
     [Input("data-arrival-indicator-update", "n_intervals")],
 )
@@ -124,17 +128,23 @@ def update_data_arrival_indicator(n_intervals):
     if days > 0:
         data = data / days
 
-    coverage = today_data / data
+    yellow = int(data * 0.9)
+    red = int(data * 0.5)
 
-    if coverage > 0.9:
+    if today_data > yellow:
         color = "#49B52C"
         className = "fa fa-star"
-    elif coverage > 0.5:
+        title = "{} files today; yellow threashold is {}".format(today_data, yellow)
+    elif today_data > red:
         color = "#D8BC35"
         className = "fa fa-warning"
+        title = "{} files today; yellow threashold is {}, red threashold is {}".format(
+            today_data, yellow, red
+        )
     else:
         color = "#D84435"
         className = "fa fa-exclamation-circle"
+        title = "{} files today; red threashold is {}".format(today_data, red)
 
     style = {"padding": "5px", "color": color}
-    return style, className
+    return style, className, title

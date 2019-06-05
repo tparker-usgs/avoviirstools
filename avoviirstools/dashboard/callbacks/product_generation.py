@@ -57,13 +57,13 @@ def update_refresh(auto_values):
 def update_product_generation_indicator(value):
     tasks_waiting = update_subscriber.updates[-1]
 
-    if tasks_waiting < 6:
+    if tasks_waiting < YELLOW_THRESHOLD:
         color = "#49B52C"
         className = "fa fa-star"
         tooltip = "{} products waiting; yellow threashold {}".format(
             tasks_waiting, YELLOW_THRESHOLD
         )
-    elif tasks_waiting < 10:
+    elif tasks_waiting < RED_THRESHOLD:
         color = "#D8BC35"
         className = "fa fa-warning"
         tooltip = "{} products waiting; green threashold {}, red threshold {}".format(
