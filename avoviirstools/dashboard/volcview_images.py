@@ -93,6 +93,7 @@ def gen_sdr_table(pagination_settings):
     [
         Output("volcview-images-indicator", "style"),
         Output("volcview-images-indicator", "className"),
+        Output("volcview-images-indicator", "title"),
     ],
     [Input("volcview-images-indicator-update", "n_intervals")],
 )
@@ -123,5 +124,5 @@ def update_volcview_images_indicator(value):
         className = "fa fa-exclamation-circle"
 
     style = {"padding": "5px", "color": color}
-
-    return style, className
+    tooltip = "{} images today; {} daily average".format(today_data, data)
+    return style, className, tooltip
