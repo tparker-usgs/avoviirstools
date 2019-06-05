@@ -17,5 +17,8 @@ Tools for maintaining IIRS processing at AVO
 
 
 from avoviirstools.version import __version__
+import zmq
 
-__all__ = ["__version__"]
+zmq_context = zmq.Context()
+
+__all__ = ["__version__", "zmq_context"]

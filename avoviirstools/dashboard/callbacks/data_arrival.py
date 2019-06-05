@@ -1,6 +1,7 @@
 from dash.dependencies import Input, Output
-from .sdr_subscriber import SdrSubscriber
-from .app import zmq_context, app
+from avoviirstools.dashboard.sdr_subscriber import SdrSubscriber
+from avoviirstools.dashboard.app import app
+from avoviirstools.dashboard import zmq_context
 import pandas as pd
 
 sdr_subscriber = SdrSubscriber(zmq_context)

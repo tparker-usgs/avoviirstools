@@ -1,6 +1,7 @@
 from dash.dependencies import Input, Output
-from .sector_subscriber import SectorSubscriber
-from .app import zmq_context, app
+from avoviirstools.dashboard.sector_subscriber import SectorSubscriber
+from avoviirstools.dashboard.app import app
+from avoviirstools.dashboard import zmq_context
 import pandas as pd
 
 

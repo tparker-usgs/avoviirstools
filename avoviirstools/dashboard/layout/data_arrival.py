@@ -8,48 +8,41 @@ def data_arrival_layout():
         [
             html.Div(
                 [
-                    html.Div(
+                    html.Label(
                         [
-                            html.Label(
+                            html.H2(
                                 [
-                                    html.H2(
-                                        [
-                                            html.I(
-                                                className="fa fa-question-circle",
-                                                id="data-arrival-indicator",
-                                                style={
-                                                    "padding": "5px",
-                                                    "color": "#E8EAEE",
-                                                },
-                                            ),
-                                            "Data Arrival",
-                                        ],
-                                        style={"fontFamily": "Merriweather"},
+                                    html.I(
+                                        className="fa fa-question-circle",
+                                        id="data-arrival-indicator",
+                                        style={"padding": "5px", "color": "#E8EAEE"},
                                     ),
-                                    dcc.Interval(
-                                        id="data-arrival-indicator-update",
-                                        interval=5000,
-                                        n_intervals=0,
-                                    ),
+                                    "Data Arrival",
                                 ],
-                                htmlFor="data-arrival-pane",
+                                style={"fontFamily": "Merriweather"},
                             ),
-                            data_arrival_pane(),
+                            dcc.Interval(
+                                id="data-arrival-indicator-update",
+                                interval=5000,
+                                n_intervals=0,
+                            ),
                         ],
-                        className="col",
-                    )
+                        htmlFor="data-arrival-pane",
+                    ),
+                    data_arrival_pane(),
                 ],
-                id="data-arrival-pane",
-                className="row",
-                style={
-                    "backgroundColor": "#E8EAEE",
-                    "borderRadius": "5px",
-                    "border": "2px solid #687696",
-                    "padding": "20px",
-                    "margin": "20px",
-                },
+                className="col",
             )
-        ]
+        ],
+        id="data-arrival-pane",
+        className="row",
+        style={
+            "backgroundColor": "#E8EAEE",
+            "borderRadius": "5px",
+            "border": "2px solid #687696",
+            "padding": "20px",
+            "margin": "20px",
+        },
     )
 
 

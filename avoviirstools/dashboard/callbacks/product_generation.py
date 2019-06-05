@@ -1,6 +1,7 @@
 from dash.dependencies import Input, Output
-from .update_subscriber import UpdateSubscriber
-from .app import zmq_context, app
+from avoviirstools.dashboard.update_subscriber import UpdateSubscriber
+from avoviirstools.dashboard.app import app
+from avoviirstools.dashboard import zmq_context
 
 update_subscriber = UpdateSubscriber(zmq_context)
 

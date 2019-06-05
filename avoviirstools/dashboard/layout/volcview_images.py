@@ -7,57 +7,49 @@ def volcview_images_layout():
     return html.Div(
         [
             html.Div(
-                [html.H1("AVO VIIRS Processing", style={"fontFamily": "Merriweather"})],
-                className="row justify-content-center",
-            ),
-            html.Div(
                 [
                     html.Div(
                         [
-                            html.Div(
+                            html.Label(
                                 [
-                                    html.Label(
+                                    html.H2(
                                         [
-                                            html.H2(
-                                                [
-                                                    html.I(
-                                                        className="fa fa-question-circle",
-                                                        id="volcview-images-indicator",
-                                                        style={
-                                                            "padding": "5px",
-                                                            "color": "#E8EAEE",
-                                                        },
-                                                    ),
-                                                    "Volcview Images",
-                                                ],
-                                                style={"fontFamily": "Merriweather"},
+                                            html.I(
+                                                className="fa fa-question-circle",
+                                                id="volcview-images-indicator",
+                                                style={
+                                                    "padding": "5px",
+                                                    "color": "#E8EAEE",
+                                                },
                                             ),
-                                            dcc.Interval(
-                                                id="volcview-images-indicator-update",
-                                                interval=5000,
-                                                n_intervals=0,
-                                            ),
+                                            "Volcview Images",
                                         ],
-                                        htmlFor="volcview-images-pane",
-                                    )
-                                ]
-                            ),
-                            volcview_images_pane(),
-                        ],
-                        className="col",
-                    )
+                                        style={"fontFamily": "Merriweather"},
+                                    ),
+                                    dcc.Interval(
+                                        id="volcview-images-indicator-update",
+                                        interval=5000,
+                                        n_intervals=0,
+                                    ),
+                                ],
+                                htmlFor="volcview-images-pane",
+                            )
+                        ]
+                    ),
+                    volcview_images_pane(),
                 ],
-                id="volcview-images-pane",
-                className="row",
-                style={
-                    "backgroundColor": "#E8EAEE",
-                    "borderRadius": "5px",
-                    "border": "2px solid #687696",
-                    "padding": "20px",
-                    "margin": "20px",
-                },
-            ),
-        ]
+                className="col",
+            )
+        ],
+        id="volcview-images-pane",
+        className="row",
+        style={
+            "backgroundColor": "#E8EAEE",
+            "borderRadius": "5px",
+            "border": "2px solid #687696",
+            "padding": "20px",
+            "margin": "20px",
+        },
     )
 
 

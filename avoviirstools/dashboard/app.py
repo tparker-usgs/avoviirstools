@@ -2,15 +2,17 @@
 #
 # -*- coding: utf-8 -*-
 import dash
-import zmq
 import threading
 import time
 import flask
 import dash_html_components as html
 
-from .volcview_images_layout import volcview_images_layout
-from .product_generation_layout import product_generation_layout
-from .data_arrival_layout import data_arrival_layout
+from .layout.volcview_images import volcview_images_layout
+
+from .layout.product_generation import product_generation_layout
+
+from .layout.data_arrival import data_arrival_layout
+
 
 PICKLING_INTERVAL = 5 * 60
 external_css = [
@@ -18,7 +20,6 @@ external_css = [
     "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
     "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
 ]
-zmq_context = zmq.Context()
 
 
 class Flusher(threading.Thread):
@@ -35,25 +36,22 @@ class Flusher(threading.Thread):
 
 
 def init_callbacks(flusher):
-    from .data_arrival import DataArrival
+    from .callbacks import init_callbacks
 
-    data_arrival = DataArrival()
-    flusher.flushables.append(data_arrival)
-
-    from .product_generation import ProductGeneration
-
-    product_generation = ProductGeneration()
-    flusher.flushables.append(product_generation)
-
-    from .volcview_images import VolcviewImages
-
-    volcview_images = VolcviewImages()
-    flusher.flushables.append(volcview_images)
+    init_callbacks(flusher)
 
 
 def gen_layout():
     return html.Div(
-        [volcview_images_layout(), product_generation_layout(), data_arrival_layout()],
+        [
+            html.Div(
+                [html.H1("AVO VIIRS Processing", style={"fontFamily": "Merriweather"})],
+                className="row justify-content-center",
+            ),
+            volcview_images_layout(),
+            product_generation_layout(),
+            data_arrival_layout(),
+        ],
         className="container-fluid",
     )
 
