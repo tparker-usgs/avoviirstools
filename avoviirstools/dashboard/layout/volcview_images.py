@@ -41,14 +41,7 @@ def volcview_images_layout():
             )
         ],
         id="volcview-images-pane",
-        className="row",
-        style={
-            "backgroundColor": "#E8EAEE",
-            "borderRadius": "5px",
-            "border": "2px solid #687696",
-            "padding": "20px",
-            "margin": "20px",
-        },
+        className="row dashboard-pane",
     )
 
 

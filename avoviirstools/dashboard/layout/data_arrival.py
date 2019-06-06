@@ -34,14 +34,7 @@ def data_arrival_layout():
             )
         ],
         id="data-arrival-pane",
-        className="row",
-        style={
-            "backgroundColor": "#E8EAEE",
-            "borderRadius": "5px",
-            "border": "2px solid #687696",
-            "padding": "20px",
-            "margin": "20px",
-        },
+        className="row dashboard-pane",
     )
 
 
