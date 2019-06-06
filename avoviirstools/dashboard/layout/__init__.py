@@ -14,6 +14,7 @@ def gen_layout():
             volcview_images_layout(),
             product_generation_layout(),
             data_arrival_layout(),
+            html.Script("""$(function () {$('[data-toggle="popover"]').popover()})'"""),
         ],
         className="container-fluid",
     )
