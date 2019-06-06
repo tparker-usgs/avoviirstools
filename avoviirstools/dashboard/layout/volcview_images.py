@@ -62,7 +62,7 @@ def volcview_sectors():
                 ),
                 className="help",
                 target="_help",
-                src="/assets/help.html",
+                href="/assets/help.html",
             ),
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
         ]
