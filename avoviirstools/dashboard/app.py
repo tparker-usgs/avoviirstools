@@ -73,5 +73,6 @@ app = dash.Dash(
     external_stylesheets=external_css,
 )
 app.layout = gen_layout()
+app.scripts.append_script({"external_url": "/assets/enable_popover.js"})
 init_callbacks(flusher)
 flusher.start()
