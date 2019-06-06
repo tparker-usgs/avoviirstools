@@ -1,10 +1,10 @@
 h1, h2, h5 {
-  fontFamily: Merriweather;
+  font-family: Merriweather;
 }
 
 .dashboard-pane {
-    backgroundColor: #E8EAEE;
-    borderRadius: 5px;
+    background-color: #E8EAEE;
+    border-radius: 5px;
     border: 2px solid #687696;
     padding: 20px;
     margin: 20px;
