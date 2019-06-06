@@ -10,3 +10,17 @@ h1, h2, h5 {
     margin: 20px;
 },
 
+.fa-star {
+    padding: 5px;
+    color: #49B52C;
+}
+
+.fa-warning {
+    padding: 5px;
+    color: #D8BC35;
+}
+
+.fa-exclamation-circle {
+    padding: 5px;
+    color: #D84435;
+}
