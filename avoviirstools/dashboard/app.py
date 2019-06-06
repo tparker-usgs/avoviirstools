@@ -24,6 +24,7 @@ external_scripts = [
         "integrity": "sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl",  # NOQA: E501
         "crossorigin": "anonymous",
     },
+    "/assets/enable_popover.js",
 ]
 
 external_css = [
@@ -73,6 +74,5 @@ app = dash.Dash(
     external_stylesheets=external_css,
 )
 app.layout = gen_layout()
-app.scripts.append_script({"external_url": "/assets/enable_popover.js"})
 init_callbacks(flusher)
 flusher.start()
