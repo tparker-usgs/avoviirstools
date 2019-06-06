@@ -58,9 +58,11 @@ def volcview_sectors():
                 className="fa fa-question",
                 id="volcview-sectors-help",
                 style={"padding": "5px"},
-                dataToggle="popover",
-                title="Popover title",
-                dataContent="And here's some amazing content. It's very engaging. Right?",
+                **{
+                    "data-toggle": "popover",
+                    "data-content": "And here's some amazing content. It's very engaging. Right?",
+                    "title": "Popover title",
+                }
             ),
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
         ]
