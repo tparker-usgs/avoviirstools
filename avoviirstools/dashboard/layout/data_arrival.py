@@ -18,8 +18,7 @@ def data_arrival_layout():
                                         style={"padding": "5px", "color": "#E8EAEE"},
                                     ),
                                     "Data Arrival",
-                                ],
-                                style={"fontFamily": "Merriweather"},
+                                ]
                             ),
                             dcc.Interval(
                                 id="data-arrival-indicator-update",
@@ -62,10 +61,7 @@ def data_arrival_pane():
 def last_seen_table():
     return html.Div(
         [
-            html.Label(
-                html.H5("Last Seen", style={"fontFamily": "Merriweather"}),
-                htmlFor="last-seen-table",
-            ),
+            html.Label(html.H5("Last Seen"), htmlFor="last-seen-table"),
             html.I(
                 className="fa fa-refresh",
                 id="last-seen-table-update",
@@ -94,10 +90,7 @@ def datafile_latency():
     return html.Div(
         [
             html.Label(
-                html.H5(
-                    "Acquisition Delay (min)", style={"fontFamily": "Merriweather"}
-                ),
-                htmlFor="datafile-latency-table",
+                html.H5("Acquisition Delay (min)"), htmlFor="datafile-latency-table"
             ),
             html.I(
                 className="fa fa-refresh",
@@ -118,10 +111,7 @@ def datafile_latency():
 def datafile_gap():
     return html.Div(
         [
-            html.Label(
-                html.H5("Interfile Gap (min)", style={"fontFamily": "Merriweather"}),
-                htmlFor="datafile-gap",
-            ),
+            html.Label(html.H5("Interfile Gap (min)"), htmlFor="datafile-gap"),
             html.I(
                 className="fa fa-refresh",
                 id="datafile-gap-update",
@@ -156,10 +146,7 @@ def datafile_table():
 
     return html.Div(
         [
-            html.Label(
-                html.H5("Recent Datafiles", style={"fontFamily": "Merriweather"}),
-                htmlFor="sdr-table-platform",
-            ),
+            html.Label(html.H5("Recent Datafiles"), htmlFor="sdr-table-platform"),
             html.I(
                 className="fa fa-question",
                 id="sdr-table--help",

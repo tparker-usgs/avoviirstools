@@ -22,8 +22,7 @@ def product_generation_layout():
                                                 },
                                             ),
                                             "Product Generation",
-                                        ],
-                                        style={"fontFamily": "Merriweather"},
+                                        ]
                                     ),
                                     dcc.Interval(
                                         id="product-generation-indicator-update",
@@ -63,12 +62,7 @@ def product_generation_pane():
             ),
             html.Div(
                 [
-                    html.Label(
-                        html.H5(
-                            "Products Waiting", style={"fontFamily": "Merriweather"}
-                        ),
-                        htmlFor="products-waiting",
-                    ),
+                    html.Label(html.H5("Products Waiting"), htmlFor="products-waiting"),
                     html.I(
                         className="fa fa-question",
                         id="products-waiting-help",

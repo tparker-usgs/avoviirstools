@@ -8,7 +8,7 @@ def gen_layout():
     return html.Div(
         [
             html.Div(
-                [html.H1("AVO VIIRS Processing", style={"fontFamily": "Merriweather"})],
+                [html.H1("AVO VIIRS Processing")],
                 className="row justify-content-center",
             ),
             volcview_images_layout(),

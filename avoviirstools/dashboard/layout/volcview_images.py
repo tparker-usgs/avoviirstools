@@ -23,8 +23,7 @@ def volcview_images_layout():
                                                 },
                                             ),
                                             "Volcview Images",
-                                        ],
-                                        style={"fontFamily": "Merriweather"},
+                                        ]
                                     ),
                                     dcc.Interval(
                                         id="volcview-images-indicator-update",
@@ -56,10 +55,7 @@ def volcview_images_layout():
 def volcview_sectors():
     return html.Div(
         [
-            html.Label(
-                html.H5("Images by Sector", style={"fontFamily": "Merriweather"}),
-                htmlFor="volcview-products",
-            ),
+            html.Label(html.H5("Images by Sector"), htmlFor="volcview-products"),
             html.I(
                 className="fa fa-refresh",
                 id="volcview-sectors-update",
@@ -78,10 +74,7 @@ def volcview_sectors():
 def volcview_products():
     return html.Div(
         [
-            html.Label(
-                html.H5("Images by Product", style={"fontFamily": "Merriweather"}),
-                htmlFor="volcview-products",
-            ),
+            html.Label(html.H5("Images by Product"), htmlFor="volcview-products"),
             html.I(
                 className="fa fa-refresh",
                 id="volcview-products-update",
@@ -100,10 +93,7 @@ def volcview_products():
 def volcview_table():
     return html.Div(
         [
-            html.Label(
-                html.H5("Recent Images", style={"fontFamily": "Merriweather"}),
-                htmlFor="volcview-table",
-            ),
+            html.Label(html.H5("Recent Images"), htmlFor="volcview-table"),
             html.I(
                 className="fa fa-question",
                 id="volcview-table--help",
