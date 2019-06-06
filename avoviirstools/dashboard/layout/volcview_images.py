@@ -61,7 +61,7 @@ def volcview_sectors():
                     style={"padding": "5px"},
                 ),
                 className="help",
-                target="_help",
+                target="help",
                 href="/assets/help.html",
             ),
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
