@@ -16,7 +16,7 @@ COPY avoviirstools avoviirstools
 RUN python setup.py install
 RUN pip freeze > requirements.txt
 
-COPY files/assets files/assets
+COPY files/assets assets
 COPY files/uwsgi.ini uwsgi.ini
 COPY files/supervisord.conf /etc/supervisor/supervisord.conf
 COPY files/main.config /etc/nginx/sites-enabled/main.config
