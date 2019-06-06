@@ -54,10 +54,15 @@ def volcview_sectors():
                 id="volcview-sectors-update",
                 style={"padding": "5px"},
             ),
-            html.I(
-                className="fa fa-question",
-                id="volcview-sectors-help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="volcview-sectors-help",
+                    style={"padding": "5px"},
+                ),
+                className="help",
+                target="_help",
+                src="/assets/help.html",
             ),
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
         ]
