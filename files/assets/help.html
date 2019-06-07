@@ -1,4 +1,5 @@
 <HTML>
+
   <HEAD>
     <TITLE>VIIRS Processing Help</TITLE>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:300&display=swap">
@@ -6,6 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/style.css">
   </HEAD>
+
   <BODY>
     <H1>AVO VIIRS Processing</H1>
     Plots here are intended to show the health of VIIRS image processing. Each panel describes events at a different system boundary and
@@ -13,40 +15,84 @@
     the average performance over a measurement window.
 
     Along with the individual plots and tables, a single status indicator is displayed in each pace indicating overall health.
-    <UL>
-      <LI><I class="fa fa-star"></I> A green star means everything is good.</LI>
-      <LI><I class="fa fa-warning"></I> A yellow triangle means things seem worse than normal, but not completly broken.</LI>
-      <LI><I class="fa fa-exclamation-circle"></I> A red circle means things seem clearly broken.</LI>
+    <UL class="fa-ul">
+      <LI><I class="fa-li fa fa-star"></I> A green star means everything is good.</LI>
+      <LI><I class="fa-li fa fa-warning"></I> A yellow triangle means things seem worse than normal, but not completly broken.</LI>
+      <LI><I class="fa-li fa fa-exclamation-circle"></I> A red circle means things seem clearly broken.</LI>
     </UL>
 
-    <H2 id="VolcviewImages">Volcview Images</H2>
-    Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
-    generators that run concurerntly.
-    <UL>
-      <LI><I class="fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
-      <LI><I class="fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
-      <LI><I class="fa fa-exclamation-circle"></I>The number of images produced in the most recent 24 hours is less than 50% of the daily
-        average.</LI>
-    </UL>
+    <DIV id="volcview-images-pane" class="dashboard-pane">
+     <LABEL FOR="volcview-images-pane"><H2>Volcview Images</H2></LABEL>
+      <P>
+      Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
+      generators that run concurerntly.
+      <UL class="fa-ul">
+        <LI><I class="fa-li fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
+        <LI><I class="fa-li fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
+        <LI><I class="fa-li fa fa-exclamation-circle"></I>The number of images produced in the most recent 24 hours is less than 50% of the daily
+          average.</LI>
+      </UL>
+      <P>
+      <DL>
+        <DT>Images by Sector</DT>
+        <DD>The typical number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
+            Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
+        <DT>Images by Product</DT>
+        <DD>The typical number of images per day varies by product. This is normal. The number of images for a given profuct may also vary day-by-day.
+            Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
+        <DT>Recent Images</DT>
+        <DD>This table displays the most recent images that have been created and sent to volcview. The time displayed indicates when, in UTC, the
+            image was pushed to volcview.</DD>
 
-    <H5 id="ImagesBySector">Images by Sector</H5>
-    The typical number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
-    Again, this is normal. If a sector is way out of whack, there may be a problem.
+      </DL>
+    </DIV>
 
-    <H5 id="ImagesByProduct">Images by Product</H5>
-    The typical number of images per day varies by product. This is normal. The number of images for a given profuct may also vary day-by-day.
-    Again, this is normal. If a sector is way out of whack, there may be a problem.
+    <DIV id="product-generation-pane" class="dashboard-pane">
+     <LABEL FOR="product-generation-pane"><H2>Product Generation</H2></LABEL>
+      <P>
+      Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
+      generators that run concurerntly.
+      <UL class="fa-ul">
+        <LI><I class="fa-li fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
+        <LI><I class="fa-li fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
+        <LI><I class="fa-li fa fa-exclamation-circle"></I>The number of images produced in the most recent 24 hours is less than 50% of the daily
+          average.</LI>
+      </UL>
+      <P>
+      <DL>
+        <DT>Products Waiting</DT>
+        <DD>The typical number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
+            Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
+      </DL>
+    </DIV>
 
-    <H5 id="RecentImages">Recent Images</H5>
-    This table displays the most recent images that have been created and sent to volcview. The time displayed indicates when, in UTC, the
-    image was pushed to volcview.
+    <DIV id="data-arrival-pane" class="dashboard-pane">
+     <LABEL FOR="data-arrival-pane"><H2>Data Arrival</H2></LABEL>
+      <P>
+      Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
+      generators that run concurerntly.
+      <UL class="fa-ul">
+        <LI><I class="fa-li fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
+        <LI><I class="fa-li fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
+        <LI><I class="fa-li fa fa-exclamation-circle"></I>The number of images produced in the most recent 24 hours is less than 50% of the daily
+          average.</LI>
+      </UL>
+      <P>
+      <DL>
+        <DT>Last Seen</DT>
+        <DD>The typical number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
+            Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
+        <DT>Acquisition Delay</DT>
+        <DD>The typical number of images per day varies by product. This is normal. The number of images for a given profuct may also vary day-by-day.
+            Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
+        <DT>Interfile Gap</DT>
+        <DD>This table displays the most recent images that have been created and sent to volcview. The time displayed indicates when, in UTC, the
+            image was pushed to volcview.</DD>
+        <DT>Recent Datafiles</DT>
+        <DD>This table displays the most recent images that have been created and sent to volcview. The time displayed indicates when, in UTC, the
+            image was pushed to volcview.</DD>
 
-    <H2 id="ProductGeneration">Product Generation</H2>
-    <H5 id="ProductsWaiting">Products Waiting</H5>
-    <H2 id="DataArrival">Data Arrival</H2>
-    <H5 id="LastSeen">Last Seen</H5>
-    <H5 id="AcquisitionDelay">Acquisition Delay</H5>
-    <H5 id="Interfile Gap">Interfile Gap</H5>
-    <H5 id="RecentDatafiles">Recent Datafiles</H5>
+      </DL>
+    </DIV>
   </BODY>
 </HTML>
