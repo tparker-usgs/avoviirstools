@@ -59,15 +59,9 @@ def last_seen_table():
     return html.Div(
         [
             html.Label(html.H5("Last Seen"), htmlFor="last-seen-table"),
-            html.I(
-                className="fa fa-refresh",
-                id="last-seen-table-update",
-            ),
+            html.I(className="fa fa-refresh", id="last-seen-table-update"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="last-seen-table-help",
-                ),
+                html.I(className="fa fa-question", id="last-seen-table-help"),
                 target="help",
                 href="/assets/help.html#last-seen-table",
             ),
@@ -91,15 +85,9 @@ def datafile_latency():
             html.Label(
                 html.H5("Acquisition Delay (min)"), htmlFor="datafile-latency-table"
             ),
-            html.I(
-                className="fa fa-refresh",
-                id="datafile-latency-update",
-            ),
+            html.I(className="fa fa-refresh", id="datafile-latency-update"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="datafile-latency-help",
-                ),
+                html.I(className="fa fa-question", id="datafile-latency-help"),
                 target="help",
                 href="/assets/help.html#datafile-latency",
             ),
@@ -113,15 +101,9 @@ def datafile_gap():
     return html.Div(
         [
             html.Label(html.H5("Interfile Gap (min)"), htmlFor="datafile-gap"),
-            html.I(
-                className="fa fa-refresh",
-                id="datafile-gap-update",
-            ),
+            html.I(className="fa fa-refresh", id="datafile-gap-update"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="datafile-gap-help",
-                ),
+                html.I(className="fa fa-question", id="datafile-gap-help"),
                 target="help",
                 href="/assets/help.html#datafile-gap",
             ),
@@ -151,10 +133,7 @@ def datafile_table():
         [
             html.Label(html.H5("Recent Datafiles"), htmlFor="sdr-table-platform"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="sdr-table--help",
-                ),
+                html.I(className="fa fa-question", id="sdr-table--help"),
                 target="help",
                 href="/assets/help.html#sdr-table",
             ),

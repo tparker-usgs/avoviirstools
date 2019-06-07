@@ -58,10 +58,7 @@ def product_generation_pane():
                 [
                     html.Label(html.H5("Products Waiting"), htmlFor="products-waiting"),
                     html.A(
-                        html.I(
-                            className="fa fa-question",
-                            id="products-waiting-help",
-                        ),
+                        html.I(className="fa fa-question", id="products-waiting-help"),
                         target="help",
                         href="/assets/help.html#products-waiting",
                     ),

@@ -5,6 +5,11 @@ import dash
 import threading
 import time
 import flask
+import zmq
+
+from .collectors.update_subscriber import UpdateSubscriber
+from .collectors.sdr_subscriber import SdrSubscriber
+from .collectors.sector_subscriber import SectorSubscriber
 
 PICKLING_INTERVAL = 5 * 60
 
@@ -53,12 +58,6 @@ class Flusher(threading.Thread):
                 flushable.flush()
 
 
-def init_callbacks(flusher):
-    from .callbacks import init_callbacks
-
-    init_callbacks(flusher)
-
-
 def gen_layout():
     from .layout import gen_layout
 
@@ -66,6 +65,20 @@ def gen_layout():
 
 
 flusher = Flusher()
+zmq_context = zmq.Context()
+
+update_subscriber = UpdateSubscriber(zmq_context)
+update_subscriber.start()
+flusher.flushables.append(update_subscriber)
+
+sdr_subscriber = SectorSubscriber(zmq_context)
+sdr_subscriber.start()
+flusher.flushables.append(sdr_subscriber)
+
+sector_subscriber = SectorSubscriber(zmq_context)
+sector_subscriber.start()
+flusher.flushables.append(sector_subscriber)
+
 server = flask.Flask(__name__)
 app = dash.Dash(
     __name__,
@@ -74,5 +87,4 @@ app = dash.Dash(
     external_stylesheets=external_css,
 )
 app.layout = gen_layout()
-init_callbacks(flusher)
 flusher.start()

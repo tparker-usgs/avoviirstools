@@ -50,15 +50,9 @@ def volcview_sectors():
     return html.Div(
         [
             html.Label(html.H5("Images by Sector"), htmlFor="volcview-products"),
-            html.I(
-                className="fa fa-refresh",
-                id="volcview-sectors-update",
-            ),
+            html.I(className="fa fa-refresh", id="volcview-sectors-update"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="volcview-sectors-help",
-                ),
+                html.I(className="fa fa-question", id="volcview-sectors-help"),
                 className="help",
                 target="help",
                 href="/assets/help.html#volcview-sectors",
@@ -72,15 +66,9 @@ def volcview_products():
     return html.Div(
         [
             html.Label(html.H5("Images by Product"), htmlFor="volcview-products"),
-            html.I(
-                className="fa fa-refresh",
-                id="volcview-products-update",
-            ),
+            html.I(className="fa fa-refresh", id="volcview-products-update"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="volcview-products-help",
-                ),
+                html.I(className="fa fa-question", id="volcview-products-help"),
                 target="help",
                 href="/assets/help.html#volcview-products",
             ),
@@ -94,10 +82,7 @@ def volcview_table():
         [
             html.Label(html.H5("Recent Images"), htmlFor="volcview-table"),
             html.A(
-                html.I(
-                    className="fa fa-question",
-                    id="volcview-table--help",
-                ),
+                html.I(className="fa fa-question", id="volcview-table--help"),
                 target="help",
                 href="/assets/help.html#volcview-table",
             ),

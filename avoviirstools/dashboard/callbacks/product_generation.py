@@ -1,19 +1,8 @@
 from dash.dependencies import Input, Output
-from avoviirstools.dashboard.update_subscriber import UpdateSubscriber
-from avoviirstools.dashboard.app import app
-from avoviirstools.dashboard import zmq_context
+from .. import app
 
-update_subscriber = UpdateSubscriber(zmq_context)
 YELLOW_THRESHOLD = 6
 RED_THRESHOLD = 10
-
-
-class ProductGeneration:
-    def __init__(self):
-        update_subscriber.start()
-
-    def flush(self):
-        update_subscriber.flush()
 
 
 @app.callback(
@@ -21,7 +10,7 @@ class ProductGeneration:
     [Input("products-waiting-update", "n_intervals")],
 )
 def gen_products_waiting(interval):
-    waiting_tasks = update_subscriber.updates
+    waiting_tasks = app.update_subscriber.updates
     figure = {
         "data": [
             {
@@ -54,7 +43,7 @@ def update_refresh(auto_values):
     [Input("product-generation-indicator-update", "n_intervals")],
 )
 def update_product_generation_indicator(value):
-    tasks_waiting = update_subscriber.updates[-1]
+    tasks_waiting = app.update_subscriber.updates[-1]
 
     if tasks_waiting < YELLOW_THRESHOLD:
         className = "fa fa-star"

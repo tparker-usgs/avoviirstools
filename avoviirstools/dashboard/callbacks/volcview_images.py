@@ -1,21 +1,10 @@
 from dash.dependencies import Input, Output
-from avoviirstools.dashboard.sector_subscriber import SectorSubscriber
-from avoviirstools.dashboard.app import app
-from avoviirstools.dashboard import zmq_context
+
+from .. import app
 import pandas as pd
 
 YELLOW_THREASHOLD = 0.9
 RED_THREASHOLD = 0.5
-
-sector_subscriber = SectorSubscriber(zmq_context)
-
-
-class VolcviewImages:
-    def __init__(self):
-        sector_subscriber.start()
-
-    def flush(self):
-        sector_subscriber.flush()
 
 
 @app.callback(
@@ -24,10 +13,10 @@ class VolcviewImages:
 def gen_volcview_sectors(n_clicks):
     pdnow = pd.to_datetime("now")
     yesterday = pdnow - pd.Timedelta("1 days")
-    today_data = sector_subscriber.sector_images[yesterday:pdnow]
+    today_data = app.sector_subscriber.sector_images[yesterday:pdnow]
     today_data = today_data.groupby("sector").size()
 
-    data = sector_subscriber.sector_images
+    data = app.sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
     days = days / pd.Timedelta("1 days")
     data = data.groupby("sector").size()
@@ -55,10 +44,10 @@ def gen_volcview_sectors(n_clicks):
 def gen_volcview_products(n_clicks):
     pdnow = pd.to_datetime("now")
     yesterday = pdnow - pd.Timedelta("1 days")
-    today_data = sector_subscriber.sector_images[yesterday:pdnow]
+    today_data = app.sector_subscriber.sector_images[yesterday:pdnow]
     today_data = today_data.groupby("band").size()
 
-    data = sector_subscriber.sector_images
+    data = app.sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
     days = days / pd.Timedelta("1 days")
     data = data.groupby("band").size()
@@ -83,7 +72,7 @@ def gen_volcview_products(n_clicks):
     Output("volcview-table", "data"), [Input("volcview-table", "pagination_settings")]
 )
 def gen_sdr_table(pagination_settings):
-    data = sector_subscriber.sector_images
+    data = app.sector_subscriber.sector_images
     data = data.sort_index(ascending=False)
     start = pagination_settings["current_page"] * pagination_settings["page_size"]
     end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
@@ -102,10 +91,10 @@ def gen_sdr_table(pagination_settings):
 def update_volcview_images_indicator(value):
     pdnow = pd.to_datetime("now")
     yesterday = pdnow - pd.Timedelta("1 days")
-    today_data = sector_subscriber.sector_images[yesterday:pdnow]
+    today_data = app.sector_subscriber.sector_images[yesterday:pdnow]
     today_data = len(today_data)
 
-    data = sector_subscriber.sector_images
+    data = app.sector_subscriber.sector_images
     days = data.index.max() - data.index.min()
     days = days / pd.Timedelta("1 days")
     data = len(data)
