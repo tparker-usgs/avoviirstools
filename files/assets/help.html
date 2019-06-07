@@ -55,7 +55,7 @@ but possibly on the way too or from broken.</LI>
     <DIV id="product-generation-pane" class="dashboard-pane">
      <LABEL FOR="product-generation-pane"><H2>Product Generation</H2></LABEL>
       <P>
-      This pane watches the queue of products waiting to be taken by a product generator. If the queue becomes large, it indicates that the product
+      This pane watches the queue of products waiting to be claimed by a product generator. If the queue becomes large, it indicates that the product
       generators are either falling behind, or have stopped requesting tasks.
       <UL class="fa-ul">
         <LI><I class="fa-li fa fa-star"></I>There are no more than 6 items in the queue.</LI>
@@ -65,15 +65,14 @@ but possibly on the way too or from broken.</LI>
       <P>
       <DL>
         <DT>Products Waiting</DT>
-        <DD>It's normal for there to be a few items in the queue when new data arrives. The thresholds here were chosen to be somewhat relaxed, but still responsive.</DD>
+        <DD>Once all of the required data for a given product have arrived a task will be queued. One of the four product generators will grab a product from the queue and create images for volcview. It's normal for there to be a few items in the queue when new data arrives. The thresholds here were chosen to be somewhat relaxed, but too sluggish. Starting more product generators will help speed processing if the queue consistently gets too far behind.</DD>
       </DL>
     </DIV>
 
     <DIV id="data-arrival-pane" class="dashboard-pane">
      <LABEL FOR="data-arrival-pane"><H2>Data Arrival</H2></LABEL>
       <P>
-      Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
-      generators that run concurerntly.
+      This pane watches datafiles as they arrive. VIIRS data is aquired from both Suomi-NPP and NOAA-20. NOAA-20 follows Suomi-NPP by about 40 minutes.
       <UL class="fa-ul">
         <LI><I class="fa-li fa fa-star"></I>The number of files received in the most recent 24 hours is within 90% of the daily average.</LI>
         <LI><I class="fa-li fa fa-warning"></I>The number of files received in the most recent 24 hours is within 50% of the daily average.</LI>
