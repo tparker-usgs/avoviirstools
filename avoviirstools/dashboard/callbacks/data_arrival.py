@@ -96,7 +96,7 @@ def gen_sdr_table(pagination_settings, value):
     return data.to_dict("records")
 
 
-@dashboard.callback(
+@dashboard.app.callback(
     [
         Output("data-arrival-indicator", "className"),
         Output("data-arrival-indicator", "title"),
