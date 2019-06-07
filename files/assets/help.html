@@ -10,22 +10,27 @@
 
   <BODY>
     <H1>AVO VIIRS Processing</H1>
-    Plots here are intended to show the health of VIIRS image processing. Each panel describes events at a different system boundary and
-    attempts to provide insight into how well the system is behaving at that point. This is done by comparing current performance with
-    the average performance over a measurement window.
-
-    Along with the individual plots and tables, a single status indicator is displayed in each pace indicating overall health.
-    <UL class="fa-ul">
-      <LI><I class="fa-li fa fa-star"></I> A green star means everything is good.</LI>
-      <LI><I class="fa-li fa fa-warning"></I> A yellow triangle means things seem worse than normal, but not completly broken.</LI>
-      <LI><I class="fa-li fa fa-exclamation-circle"></I> A red circle means things seem clearly broken.</LI>
-    </UL>
+    <DIV id="viirs-processing-pane" class="dashboard-pane">
+      Plots here are intended to show the health of VIIRS image processing and help troubleshoot problems. Each panel describes events at
+      a different system boundary and attempts to provide insight into how well the system is behaving at that point. This is done by
+      comparing current performance with the average performance.
+      <P>
+      Along with the individual plots and tables, a single status indicator is displayed for each pane indicating overall health. These are 
+      lagging indicators which work with a rolling 24-hour window. They'll stay green for a while after a problem occurs and will remain 
+      red for a bit after it's been resolved.
+      <UL class="fa-ul">
+        <LI><I class="fa-li fa fa-star"></I> A green star indicates everything is good.</LI>
+        <LI><I class="fa-li fa fa-warning"></I> A yellow triangle indicates things seem worse than normal, but not completly broken, Maybe there's an outtage in a portion of the system, or maybe we're on the way to/from red. The individual plots and tables should help determine what's wrong.
+but possibly on the way too or from broken.</LI>
+        <LI><I class="fa-li fa fa-exclamation-circle"></I> A red circle indicates things are broken.</LI>
+      </UL>
+    </DIV>
 
     <DIV id="volcview-images-pane" class="dashboard-pane">
      <LABEL FOR="volcview-images-pane"><H2>Volcview Images</H2></LABEL>
       <P>
-      Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
-      generators that run concurerntly.
+      This pane watches images flowing out of the product generators and into volcview, problems here indicate that the product generators are misbehaving. 
+      Four product generatos run, each creating the same product for each sector with sufficient coverage.
       <UL class="fa-ul">
         <LI><I class="fa-li fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
         <LI><I class="fa-li fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
@@ -50,19 +55,17 @@
     <DIV id="product-generation-pane" class="dashboard-pane">
      <LABEL FOR="product-generation-pane"><H2>Product Generation</H2></LABEL>
       <P>
-      Images produced for display in volcview. This pane shows the health of the product generators by look at their output. We use 4
-      generators that run concurerntly.
+      This pane watches the queue of products waiting to be taken by a product generator. If the queue becomes large, it indicates that the product
+      generators are either falling behind, or have stopped requesting tasks.
       <UL class="fa-ul">
-        <LI><I class="fa-li fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
-        <LI><I class="fa-li fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
-        <LI><I class="fa-li fa fa-exclamation-circle"></I>The number of images produced in the most recent 24 hours is less than 50% of the daily
-          average.</LI>
+        <LI><I class="fa-li fa fa-star"></I>There are no more than 6 items in the queue.</LI>
+        <LI><I class="fa-li fa fa-warning"></I>There are no more than 10 items in the queue.</LI>
+        <LI><I class="fa-li fa fa-exclamation-circle"></I>There are too many items in the queue.</LI>
       </UL>
       <P>
       <DL>
         <DT>Products Waiting</DT>
-        <DD>The typical number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
-            Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
+        <DD>It's normal for there to be a few items in the queue when new data arrives. The thresholds here were chosen to be somewhat relaxed, but still responsive.</DD>
       </DL>
     </DIV>
 

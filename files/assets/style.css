@@ -2,6 +2,11 @@ h1, h2, h5 {
   font-family: Merriweather;
 }
 
+h1
+{
+  text-align: center;
+}
+
 .dashboard-pane {
     background-color: #E8EAEE;
     border-radius: 5px;
