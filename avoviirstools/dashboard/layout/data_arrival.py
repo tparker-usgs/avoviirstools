@@ -19,6 +19,7 @@ def data_arrival_layout():
                                         ),
                                         target="help",
                                         href="/assets/help.html#data-arrival-indicator",
+                                        className="indicator",
                                     ),
                                     "Data Arrival",
                                 ]

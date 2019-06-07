@@ -20,6 +20,7 @@ def product_generation_layout():
                                                 ),
                                                 target="help",
                                                 href="/assets/help.html#product-generation-indicator",
+                                                className="indicator",
                                             ),
                                             "Product Generation",
                                         ]

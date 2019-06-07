@@ -21,6 +21,7 @@ def volcview_images_layout():
                                                 ),
                                                 target="help",
                                                 href="/assets/help.html#volcview-images-indicator",
+                                                className="indicator",
                                             ),
                                             "Volcview Images",
                                         ]
