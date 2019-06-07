@@ -20,6 +20,13 @@ h1
     color: #49B52C;
 }
 
+.fa-star:hover {
+    padding: 5px;
+    color: #7bed5c;
+    text-shadow: 0px 0px #49B52C;
+    blur-radius: 5px;
+}
+
 .fa-warning {
     padding: 5px;
     color: #D8BC35;
@@ -30,6 +37,22 @@ h1
     color: #D84435;
 }
 
-A.help {
+.fa-question {
     color: #212529;
+}
+
+.fa-question:hover {
+    color: #0056b3;
+    text-shadow: 3px 2px red;
+    text-decoration: underline overline;
+    blur-radius: 5px;
+}
+
+.fa-refresh {
+    color: #212529;
+}
+
+.fa-refresh:hover {
+    color: #0056b3;
+    text-decoration: underline overline;
 }
