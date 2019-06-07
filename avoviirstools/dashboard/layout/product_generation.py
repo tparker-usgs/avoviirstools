@@ -8,33 +8,7 @@ def product_generation_layout():
             html.Div(
                 [
                     html.Div(
-                        [
-                            html.Label(
-                                [
-                                    html.H2(
-                                        [
-                                            html.A(
-                                                html.I(
-                                                    className="fa fa-question-circle",
-                                                    id="product-generation-indicator",
-                                                ),
-                                                target="help",
-                                                href="/assets/help.html#product-generation-indicator",
-                                                className="indicator",
-                                            ),
-                                            "Product Generation",
-                                        ]
-                                    ),
-                                    dcc.Interval(
-                                        id="product-generation-indicator-update",
-                                        interval=5000,
-                                        n_intervals=0,
-                                    ),
-                                ],
-                                htmlFor="product-generation-pane",
-                            ),
-                            product_generation_pane(),
-                        ],
+                        [product_generation_label(), product_generation_pane()],
                         className="col",
                     )
                 ],
@@ -42,6 +16,31 @@ def product_generation_layout():
                 className="row dashboard-pane",
             )
         ]
+    )
+
+
+def product_generation_label():
+    return html.Label(
+        [
+            html.H2(
+                [
+                    html.A(
+                        html.I(
+                            className="fa fa-question-circle",
+                            id="product-generation-indicator",
+                        ),
+                        target="help",
+                        href="/assets/help.html#product-generation-indicator",
+                        className="indicator",
+                    ),
+                    "Product Generation",
+                ]
+            ),
+            dcc.Interval(
+                id="product-generation-indicator-update", interval=5000, n_intervals=0
+            ),
+        ],
+        htmlFor="product-generation-pane",
     )
 
 

@@ -64,6 +64,10 @@ def gen_layout():
     return gen_layout()
 
 
+def init_callbacks():
+    from . import callbacks  # NOQA: F401
+
+
 flusher = Flusher()
 zmq_context = zmq.Context()
 
@@ -71,7 +75,7 @@ update_subscriber = UpdateSubscriber(zmq_context)
 update_subscriber.start()
 flusher.flushables.append(update_subscriber)
 
-sdr_subscriber = SectorSubscriber(zmq_context)
+sdr_subscriber = SdrSubscriber(zmq_context)
 sdr_subscriber.start()
 flusher.flushables.append(sdr_subscriber)
 
@@ -87,4 +91,5 @@ app = dash.Dash(
     external_stylesheets=external_css,
 )
 app.layout = gen_layout()
+init_callbacks()
 flusher.start()

@@ -71,7 +71,7 @@ def gen_volcview_products(n_clicks):
 @app.callback(
     Output("volcview-table", "data"), [Input("volcview-table", "pagination_settings")]
 )
-def gen_sdr_table(pagination_settings):
+def gen_volcview_table(pagination_settings):
     data = app.sector_subscriber.sector_images
     data = data.sort_index(ascending=False)
     start = pagination_settings["current_page"] * pagination_settings["page_size"]

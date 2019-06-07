@@ -31,7 +31,7 @@ def gen_products_waiting(interval):
     Output("products-waiting-update", "disabled"),
     [Input("products-waiting-auto", "values")],
 )
-def update_refresh(auto_values):
+def update_products_waiting_refresh(auto_values):
     return "Auto" not in auto_values
 
 

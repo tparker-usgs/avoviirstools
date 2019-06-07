@@ -7,42 +7,36 @@ def volcview_images_layout():
     return html.Div(
         [
             html.Div(
-                [
-                    html.Div(
-                        [
-                            html.Label(
-                                [
-                                    html.H2(
-                                        [
-                                            html.A(
-                                                html.I(
-                                                    className="fa fa-question-circle",
-                                                    id="volcview-images-indicator",
-                                                ),
-                                                target="help",
-                                                href="/assets/help.html#volcview-images-indicator",
-                                                className="indicator",
-                                            ),
-                                            "Volcview Images",
-                                        ]
-                                    ),
-                                    dcc.Interval(
-                                        id="volcview-images-indicator-update",
-                                        interval=5000,
-                                        n_intervals=0,
-                                    ),
-                                ],
-                                htmlFor="volcview-images-pane",
-                            )
-                        ]
-                    ),
-                    volcview_images_pane(),
-                ],
-                className="col",
+                [html.Div([volcview_label()]), volcview_images_pane()], className="col"
             )
         ],
         id="volcview-images-pane",
         className="row dashboard-pane",
+    )
+
+
+def volcview_label():
+    return html.Label(
+        [
+            html.H2(
+                [
+                    html.A(
+                        html.I(
+                            className="fa fa-question-circle",
+                            id="volcview-images-indicator",
+                        ),
+                        target="help",
+                        href="/assets/help.html#volcview-images-indicator",
+                        className="indicator",
+                    ),
+                    "Volcview Images",
+                ]
+            ),
+            dcc.Interval(
+                id="volcview-images-indicator-update", interval=5000, n_intervals=0
+            ),
+        ],
+        htmlFor="volcview-images-pane",
     )
 
 
