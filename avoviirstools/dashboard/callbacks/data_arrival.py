@@ -109,7 +109,6 @@ def gen_sdr_table(pagination_settings, value):
 
 @app.callback(
     [
-        Output("data-arrival-indicator", "style"),
         Output("data-arrival-indicator", "className"),
         Output("data-arrival-indicator", "title"),
     ],
@@ -132,19 +131,15 @@ def update_data_arrival_indicator(n_intervals):
     red = int(data * 0.5)
 
     if today_data > yellow:
-        color = "#49B52C"
         className = "fa fa-star"
         title = "{} files today; yellow threashold is {}".format(today_data, yellow)
     elif today_data > red:
-        color = "#D8BC35"
         className = "fa fa-warning"
         title = "{} files today; yellow threashold is {}, red threashold is {}".format(
             today_data, yellow, red
         )
     else:
-        color = "#D84435"
         className = "fa fa-exclamation-circle"
         title = "{} files today; red threashold is {}".format(today_data, red)
 
-    style = {"padding": "5px", "color": color}
-    return style, className, title
+    return className, title

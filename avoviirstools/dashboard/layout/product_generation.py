@@ -17,10 +17,6 @@ def product_generation_layout():
                                                 html.I(
                                                     className="fa fa-question-circle",
                                                     id="product-generation-indicator",
-                                                    style={
-                                                        "padding": "5px",
-                                                        "color": "#E8EAEE",
-                                                    },
                                                 ),
                                                 target="help",
                                                 href="/assets/help.html#product-generation-indicator",

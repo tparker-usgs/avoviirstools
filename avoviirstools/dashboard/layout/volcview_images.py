@@ -1,4 +1,4 @@
-emport dash_html_components as html
+import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
 
@@ -18,10 +18,6 @@ def volcview_images_layout():
                                                 html.I(
                                                     className="fa fa-question-circle",
                                                     id="volcview-images-indicator",
-                                                    style={
-                                                        "padding": "5px",
-                                                        "color": "#E8EAEE",
-                                                    },
                                                 ),
                                                 target="help",
                                                 href="/assets/help.html#volcview-images-indicator",

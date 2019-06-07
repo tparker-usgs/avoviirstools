@@ -94,7 +94,6 @@ def gen_sdr_table(pagination_settings):
 
 @app.callback(
     [
-        Output("volcview-images-indicator", "style"),
         Output("volcview-images-indicator", "className"),
         Output("volcview-images-indicator", "title"),
     ],
@@ -117,19 +116,15 @@ def update_volcview_images_indicator(value):
     red = int(data * 0.5)
 
     if today_data > yellow:
-        color = "#49B52C"
         className = "fa fa-star"
         tooltip = "{} images today; yellow threashold is {}".format(today_data, yellow)
     elif today_data > red:
-        color = "#D8BC35"
         className = "fa fa-warning"
         tooltip = "{} images today; yellow threashold {}, red threshold {}".format(
             today_data, yellow, red
         )
     else:
-        color = "#D84435"
         className = "fa fa-exclamation-circle"
         tooltip = "{} images today; red threashold is {}".format(today_data, red)
 
-    style = {"padding": "5px", "color": color}
-    return style, className, tooltip
+    return className, tooltip

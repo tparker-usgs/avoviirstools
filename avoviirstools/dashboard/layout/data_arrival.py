@@ -16,10 +16,6 @@ def data_arrival_layout():
                                         html.I(
                                             className="fa fa-question-circle",
                                             id="data-arrival-indicator",
-                                            style={
-                                                "padding": "5px",
-                                                "color": "#E8EAEE",
-                                            },
                                         ),
                                         target="help",
                                         href="/assets/help.html#data-arrival-indicator",

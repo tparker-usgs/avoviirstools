@@ -48,7 +48,6 @@ def update_refresh(auto_values):
 
 @app.callback(
     [
-        Output("product-generation-indicator", "style"),
         Output("product-generation-indicator", "className"),
         Output("product-generation-indicator", "title"),
     ],
@@ -58,23 +57,19 @@ def update_product_generation_indicator(value):
     tasks_waiting = update_subscriber.updates[-1]
 
     if tasks_waiting < YELLOW_THRESHOLD:
-        color = "#49B52C"
         className = "fa fa-star"
         tooltip = "{} products waiting; yellow threashold {}".format(
             tasks_waiting, YELLOW_THRESHOLD
         )
     elif tasks_waiting < RED_THRESHOLD:
-        color = "#D8BC35"
         className = "fa fa-warning"
         tooltip = "{} products waiting; green threashold {}, red threshold {}".format(
             tasks_waiting, YELLOW_THRESHOLD, RED_THRESHOLD
         )
     else:
-        color = "#D84435"
         className = "fa fa-exclamation-circle"
         tooltip = "{} products waiting; yellow threshold {}".format(
             tasks_waiting, YELLOW_THRESHOLD, RED_THRESHOLD
         )
 
-    style = {"padding": "5px", "color": color}
-    return style, className, tooltip
+    return className, tooltip
