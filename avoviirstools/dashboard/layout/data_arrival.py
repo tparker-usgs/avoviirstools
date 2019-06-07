@@ -62,13 +62,11 @@ def last_seen_table():
             html.I(
                 className="fa fa-refresh",
                 id="last-seen-table-update",
-                style={"padding": "5px"},
             ),
             html.A(
                 html.I(
                     className="fa fa-question",
                     id="last-seen-table-help",
-                    style={"padding": "5px"},
                 ),
                 target="help",
                 href="/assets/help.html#last-seen-table",
@@ -96,13 +94,11 @@ def datafile_latency():
             html.I(
                 className="fa fa-refresh",
                 id="datafile-latency-update",
-                style={"padding": "5px"},
             ),
             html.A(
                 html.I(
                     className="fa fa-question",
                     id="datafile-latency-help",
-                    style={"padding": "5px"},
                 ),
                 target="help",
                 href="/assets/help.html#datafile-latency",
@@ -120,13 +116,11 @@ def datafile_gap():
             html.I(
                 className="fa fa-refresh",
                 id="datafile-gap-update",
-                style={"padding": "5px"},
             ),
             html.A(
                 html.I(
                     className="fa fa-question",
                     id="datafile-gap-help",
-                    style={"padding": "5px"},
                 ),
                 target="help",
                 href="/assets/help.html#datafile-gap",
@@ -160,7 +154,6 @@ def datafile_table():
                 html.I(
                     className="fa fa-question",
                     id="sdr-table--help",
-                    style={"padding": "5px"},
                 ),
                 target="help",
                 href="/assets/help.html#sdr-table",

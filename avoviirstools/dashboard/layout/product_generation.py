@@ -61,7 +61,6 @@ def product_generation_pane():
                         html.I(
                             className="fa fa-question",
                             id="products-waiting-help",
-                            style={"padding": "5px"},
                         ),
                         target="help",
                         href="/assets/help.html#products-waiting",

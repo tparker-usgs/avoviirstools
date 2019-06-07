@@ -53,13 +53,11 @@ def volcview_sectors():
             html.I(
                 className="fa fa-refresh",
                 id="volcview-sectors-update",
-                style={"padding": "5px"},
             ),
             html.A(
                 html.I(
                     className="fa fa-question",
                     id="volcview-sectors-help",
-                    style={"padding": "5px"},
                 ),
                 className="help",
                 target="help",
@@ -77,13 +75,11 @@ def volcview_products():
             html.I(
                 className="fa fa-refresh",
                 id="volcview-products-update",
-                style={"padding": "5px"},
             ),
             html.A(
                 html.I(
                     className="fa fa-question",
                     id="volcview-products-help",
-                    style={"padding": "5px"},
                 ),
                 target="help",
                 href="/assets/help.html#volcview-products",
@@ -101,7 +97,6 @@ def volcview_table():
                 html.I(
                     className="fa fa-question",
                     id="volcview-table--help",
-                    style={"padding": "5px"},
                 ),
                 target="help",
                 href="/assets/help.html#volcview-table",
