@@ -1,4 +1,4 @@
-import dash_html_components as html
+emport dash_html_components as html
 import dash_core_components as dcc
 import dash_table
 
@@ -89,7 +89,7 @@ def volcview_products():
                     style={"padding": "5px"},
                 ),
                 target="help",
-                href="volcview-products",
+                href="/assets/help.html#volcview-products",
             ),
             dcc.Graph(id="volcview-products", style={"height": "300px"}),
         ]
