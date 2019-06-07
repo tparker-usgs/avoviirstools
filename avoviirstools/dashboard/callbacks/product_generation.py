@@ -1,16 +1,16 @@
 from dash.dependencies import Input, Output
-from .. import app
+from .. import dashboard
 
 YELLOW_THRESHOLD = 6
 RED_THRESHOLD = 10
 
 
-@app.callback(
+@dashboard.app.callback(
     Output("products-waiting", "figure"),
     [Input("products-waiting-update", "n_intervals")],
 )
 def gen_products_waiting(interval):
-    waiting_tasks = app.update_subscriber.updates
+    waiting_tasks = dashboard.update_subscriber.updates
     figure = {
         "data": [
             {
@@ -27,7 +27,7 @@ def gen_products_waiting(interval):
     return figure
 
 
-@app.callback(
+@dashboard.app.callback(
     Output("products-waiting-update", "disabled"),
     [Input("products-waiting-auto", "values")],
 )
@@ -35,7 +35,7 @@ def update_products_waiting_refresh(auto_values):
     return "Auto" not in auto_values
 
 
-@app.callback(
+@dashboard.app.callback(
     [
         Output("product-generation-indicator", "className"),
         Output("product-generation-indicator", "title"),
@@ -43,7 +43,7 @@ def update_products_waiting_refresh(auto_values):
     [Input("product-generation-indicator-update", "n_intervals")],
 )
 def update_product_generation_indicator(value):
-    tasks_waiting = app.update_subscriber.updates[-1]
+    tasks_waiting = dashboard.update_subscriber.updates[-1]
 
     if tasks_waiting < YELLOW_THRESHOLD:
         className = "fa fa-star"
