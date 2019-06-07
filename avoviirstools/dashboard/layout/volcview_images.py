@@ -14,13 +14,17 @@ def volcview_images_layout():
                                 [
                                     html.H2(
                                         [
-                                            html.I(
-                                                className="fa fa-question-circle",
-                                                id="volcview-images-indicator",
-                                                style={
-                                                    "padding": "5px",
-                                                    "color": "#E8EAEE",
-                                                },
+                                            html.A(
+                                                html.I(
+                                                    className="fa fa-question-circle",
+                                                    id="volcview-images-indicator",
+                                                    style={
+                                                        "padding": "5px",
+                                                        "color": "#E8EAEE",
+                                                    },
+                                                ),
+                                                target="help",
+                                                href="/assets/help.html#volcview-images-indicator",
                                             ),
                                             "Volcview Images",
                                         ]
@@ -62,7 +66,7 @@ def volcview_sectors():
                 ),
                 className="help",
                 target="help",
-                href="/assets/help.html",
+                href="/assets/help.html#volcview-sectors",
             ),
             dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
         ]
@@ -78,10 +82,14 @@ def volcview_products():
                 id="volcview-products-update",
                 style={"padding": "5px"},
             ),
-            html.I(
-                className="fa fa-question",
-                id="volcview-products-help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="volcview-products-help",
+                    style={"padding": "5px"},
+                ),
+                target="help",
+                href="volcview-products",
             ),
             dcc.Graph(id="volcview-products", style={"height": "300px"}),
         ]
@@ -92,10 +100,14 @@ def volcview_table():
     return html.Div(
         [
             html.Label(html.H5("Recent Images"), htmlFor="volcview-table"),
-            html.I(
-                className="fa fa-question",
-                id="volcview-table--help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="volcview-table--help",
+                    style={"padding": "5px"},
+                ),
+                target="help",
+                href="/assets/help.html#volcview-table",
             ),
             dash_table.DataTable(
                 id="volcview-table",

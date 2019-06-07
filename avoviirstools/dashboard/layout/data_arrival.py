@@ -12,10 +12,17 @@ def data_arrival_layout():
                         [
                             html.H2(
                                 [
-                                    html.I(
-                                        className="fa fa-question-circle",
-                                        id="data-arrival-indicator",
-                                        style={"padding": "5px", "color": "#E8EAEE"},
+                                    html.A(
+                                        html.I(
+                                            className="fa fa-question-circle",
+                                            id="data-arrival-indicator",
+                                            style={
+                                                "padding": "5px",
+                                                "color": "#E8EAEE",
+                                            },
+                                        ),
+                                        target="help",
+                                        href="/assets/help.html#data-arrival-indicator",
                                     ),
                                     "Data Arrival",
                                 ]
@@ -60,10 +67,14 @@ def last_seen_table():
                 id="last-seen-table-update",
                 style={"padding": "5px"},
             ),
-            html.I(
-                className="fa fa-question",
-                id="last-seen-table-help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="last-seen-table-help",
+                    style={"padding": "5px"},
+                ),
+                target="help",
+                href="/assets/help.html#last-seen-table",
             ),
             dash_table.DataTable(
                 id="last-seen-table",
@@ -90,10 +101,14 @@ def datafile_latency():
                 id="datafile-latency-update",
                 style={"padding": "5px"},
             ),
-            html.I(
-                className="fa fa-question",
-                id="datafile-latency-help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="datafile-latency-help",
+                    style={"padding": "5px"},
+                ),
+                target="help",
+                href="/assets/help.html#datafile-latency",
             ),
             dcc.Graph(id="datafile-latency", style={"height": "300px"}),
         ],
@@ -110,10 +125,14 @@ def datafile_gap():
                 id="datafile-gap-update",
                 style={"padding": "5px"},
             ),
-            html.I(
-                className="fa fa-question",
-                id="datafile-gap-help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="datafile-gap-help",
+                    style={"padding": "5px"},
+                ),
+                target="help",
+                href="/assets/help.html#datafile-gap",
             ),
             dcc.Graph(id="datafile-gap", style={"height": "300px"}),
         ],
@@ -140,10 +159,14 @@ def datafile_table():
     return html.Div(
         [
             html.Label(html.H5("Recent Datafiles"), htmlFor="sdr-table-platform"),
-            html.I(
-                className="fa fa-question",
-                id="sdr-table--help",
-                style={"padding": "5px"},
+            html.A(
+                html.I(
+                    className="fa fa-question",
+                    id="sdr-table--help",
+                    style={"padding": "5px"},
+                ),
+                target="help",
+                href="/assets/help.html#sdr-table",
             ),
             dcc.Dropdown(
                 id="sdr-table-platform",

@@ -13,13 +13,17 @@ def product_generation_layout():
                                 [
                                     html.H2(
                                         [
-                                            html.I(
-                                                className="fa fa-question-circle",
-                                                id="product-generation-indicator",
-                                                style={
-                                                    "padding": "5px",
-                                                    "color": "#E8EAEE",
-                                                },
+                                            html.A(
+                                                html.I(
+                                                    className="fa fa-question-circle",
+                                                    id="product-generation-indicator",
+                                                    style={
+                                                        "padding": "5px",
+                                                        "color": "#E8EAEE",
+                                                    },
+                                                ),
+                                                target="help",
+                                                href="/assets/help.html#product-generation-indicator",
                                             ),
                                             "Product Generation",
                                         ]
@@ -56,10 +60,14 @@ def product_generation_pane():
             html.Div(
                 [
                     html.Label(html.H5("Products Waiting"), htmlFor="products-waiting"),
-                    html.I(
-                        className="fa fa-question",
-                        id="products-waiting-help",
-                        style={"padding": "5px"},
+                    html.A(
+                        html.I(
+                            className="fa fa-question",
+                            id="products-waiting-help",
+                            style={"padding": "5px"},
+                        ),
+                        target="help",
+                        href="/assets/help.html#products-waiting",
                     ),
                     dcc.Graph(id="products-waiting", style={"height": "350px"}),
                     dcc.Interval(

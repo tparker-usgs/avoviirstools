@@ -31,7 +31,7 @@ but possibly on the way too or from broken.</LI>
       <P>
       This pane watches images flowing out of the product generators and into volcview, problems here indicate that the product generators are misbehaving. 
       Four product generatos run, each creating the same product for each sector with sufficient coverage.
-      <UL class="fa-ul">
+      <UL id="volcview-images-indicator" class="fa-ul">
         <LI><I class="fa-li fa fa-star"></I>The number of images produced in the most recent 24 hours is within 90% of the daily average.</LI>
         <LI><I class="fa-li fa fa-warning"></I>The number of images produced in the most recent 24 hours is within 50% of the daily average.</LI>
         <LI><I class="fa-li fa fa-exclamation-circle"></I>The number of images produced in the most recent 24 hours is less than 50% of the daily
@@ -39,13 +39,13 @@ but possibly on the way too or from broken.</LI>
       </UL>
       <P>
       <DL>
-        <DT>Images by Sector</DT>
+        <DT id="volcview-sectors">Images by Sector</DT>
         <DD>The typical number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
             Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
-        <DT>Images by Product</DT>
+        <DT id="volcview-products">Images by Product</DT>
         <DD>The typical number of images per day varies by product. This is normal. The number of images for a given profuct may also vary day-by-day.
             Again, this is normal. If a sector is way out of whack, there may be a problem.</DD>
-        <DT>Recent Images</DT>
+        <DT id="volcview-table">Recent Images</DT>
         <DD>This table displays the most recent images that have been created and sent to volcview. The time displayed indicates when, in UTC, the
             image was pushed to volcview.</DD>
 
@@ -57,14 +57,14 @@ but possibly on the way too or from broken.</LI>
       <P>
       This pane watches the queue of products waiting to be claimed by a product generator. If the queue becomes large, it indicates that the product
       generators are either falling behind, or have stopped requesting tasks.
-      <UL class="fa-ul">
+      <UL id="product-generation-indicator" class="fa-ul">
         <LI><I class="fa-li fa fa-star"></I>There are no more than 6 items in the queue.</LI>
         <LI><I class="fa-li fa fa-warning"></I>There are no more than 10 items in the queue.</LI>
         <LI><I class="fa-li fa fa-exclamation-circle"></I>There are too many items in the queue.</LI>
       </UL>
       <P>
       <DL>
-        <DT>Products Waiting</DT>
+        <DT id="products-waiting">Products Waiting</DT>
         <DD>Once all of the required data for a given product have arrived a task will be queued. One of the four product generators will grab a product from the queue and create images for volcview. It's normal for there to be a few items in the queue when new data arrives. The thresholds here were chosen to be somewhat relaxed, but too sluggish. Starting more product generators will help speed processing if the queue consistently gets too far behind.</DD>
       </DL>
     </DIV>
@@ -73,7 +73,7 @@ but possibly on the way too or from broken.</LI>
      <LABEL FOR="data-arrival-pane"><H2>Data Arrival</H2></LABEL>
       <P>
       This pane watches datafiles as they arrive. VIIRS data is aquired from both Suomi-NPP and NOAA-20. NOAA-20 follows Suomi-NPP by about 40 minutes.
-      <UL class="fa-ul">
+      <UL id="data-arrival-indicator" class="fa-ul">
         <LI><I class="fa-li fa fa-star"></I>The number of files received in the most recent 24 hours is within 90% of the daily average.</LI>
         <LI><I class="fa-li fa fa-warning"></I>The number of files received in the most recent 24 hours is within 50% of the daily average.</LI>
         <LI><I class="fa-li fa fa-exclamation-circle"></I>The number of files received in the most recent 24 hours is less than 50% of the daily
@@ -81,13 +81,13 @@ but possibly on the way too or from broken.</LI>
       </UL>
       <P>
       <DL>
-        <DT>Last Seen</DT>
+        <DT id="last-seen-table">Last Seen</DT>
         <DD>The number of images per day varies by sector. This is normal. The number of images for a given sector may also vary day-by-day.
-        <DT>Acquisition Delay</DT>
+        <DT id="datafile-latency">Acquisition Delay</DT>
         <DD>This measures the length of time between the start of the granule and it's complete arrival at AVO. This includes all processing time upstream of AVO.<DD>
-        <DT>Interfile Gap</DT>
+        <DT id="datafile-gap">Interfile Gap</DT>
         <DD>This measures the length of time between files as they arrive at AVO. It might be used to anticipate future data arrival.</DD>
-        <DT>Recent Datafiles</DT>
+        <DT id= "sdr-table">Recent Datafiles</DT>
         <DD>This table displays the most recent files that have been recieved.</DD>
       </DL>
     </DIV>
