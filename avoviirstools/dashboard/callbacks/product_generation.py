@@ -30,7 +30,6 @@ def gen_products_waiting(interval):
 @dashboard.app.callback(
     Output("products-waiting-update", "disabled"),
     [Input("products-waiting-auto", "values")],
-    f,
 )
 def update_products_waiting_refresh(auto_values):
     return "Auto" not in auto_values
