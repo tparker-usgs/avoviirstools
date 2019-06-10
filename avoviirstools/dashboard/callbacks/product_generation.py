@@ -10,7 +10,7 @@ RED_THRESHOLD = 10
     [Input("products-waiting-update", "n_intervals")],
 )
 def gen_products_waiting(interval):
-    waiting_tasks = dashboard.update_subscriber.updates
+    waiting_tasks = dashboard.update_subscriber.waiting_tasks
     figure = {
         "data": [
             {
@@ -30,6 +30,7 @@ def gen_products_waiting(interval):
 @dashboard.app.callback(
     Output("products-waiting-update", "disabled"),
     [Input("products-waiting-auto", "values")],
+    f,
 )
 def update_products_waiting_refresh(auto_values):
     return "Auto" not in auto_values
@@ -43,7 +44,7 @@ def update_products_waiting_refresh(auto_values):
     [Input("product-generation-indicator-update", "n_intervals")],
 )
 def update_product_generation_indicator(value):
-    tasks_waiting = dashboard.update_subscriber.updates[-1]
+    tasks_waiting = dashboard.update_subscriber.waiting_tasks[-1]
 
     if tasks_waiting < YELLOW_THRESHOLD:
         className = "fa fa-star"

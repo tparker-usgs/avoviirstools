@@ -22,29 +22,35 @@ class UpdateSubscriber(threading.Thread):
     def initialize(self):
         if os.path.exists(UPDATE_PICKLE):
             print("loading {}".format(UPDATE_PICKLE))
-            self.waiting_tasks = pd.read_pickle(UPDATE_PICKLE)
+            self._waiting_tasks = pd.read_pickle(UPDATE_PICKLE)
         else:
             print("Can't find {}".format(UPDATE_PICKLE))
-            self.waiting_tasks = pd.Series()
+            self._waiting_tasks = pd.Series()
 
     @property
-    def updates(self):
-        return self.waiting_tasks
+    def waiting_tasks(self):
+        print(
+            "TOMP SAYS1: {} :: {}".format(
+                pd.to_datetime("now"), self.waiting_tasks.size
+            )
+        )
+        return self._waiting_tasks
 
     def flush(self):
         print("Flushing UpdateSubscriber")
         new_start = pd.to_datetime("now") - pd.Timedelta("14 days")
         with self.lock:
-            self.waiting_tasks = self.waiting_tasks.truncate(before=new_start)
-            self.waiting_tasks = self.waiting_tasks.resample("1min").apply("max")
-            copy = self.waiting_tasks.copy()
+            self._waiting_tasks = self._waiting_tasks.truncate(before=new_start)
+            self._waiting_tasks = self._waiting_tasks.resample("1min").apply("max")
+            copy = self._waiting_tasks.copy()
 
         copy.to_pickle(os.path.join(UPDATE_PICKLE))
 
     def run(self):
         print("Starting update subscriber")
         while True:
+            test = self.waiting_tasks
             message = self.socket.recv_json()
             npnow = pd.to_datetime("now")
             with self.lock:
-                self.waiting_tasks[npnow] = message["queue length"]
+                self._waiting_tasks[npnow] = message["queue length"]
