@@ -23,15 +23,20 @@ class UpdateSubscriber(threading.Thread):
         if os.path.exists(UPDATE_PICKLE):
             print("loading {}".format(UPDATE_PICKLE))
             self._waiting_tasks = pd.read_pickle(UPDATE_PICKLE)
+            self._test_queue = self._waiting_tasks.index.to_list()
         else:
             print("Can't find {}".format(UPDATE_PICKLE))
             self._waiting_tasks = pd.Series()
+            self._test_queue = []
 
     @property
     def waiting_tasks(self):
         print(
-            "TOMP SAYS1: {} :: {} :: {}".format(
-                pd.to_datetime("now"), self._waiting_tasks.size, id(self._waiting_tasks)
+            "TOMP SAYS1: {} :: {} :: {} :: {}".format(
+                pd.to_datetime("now"),
+                self._waiting_tasks.size,
+                id(self._waiting_tasks),
+                len(self._test_queue),
             )
         )
         return self._waiting_tasks.copy()
@@ -54,3 +59,4 @@ class UpdateSubscriber(threading.Thread):
             npnow = pd.to_datetime("now")
             with self.lock:
                 self._waiting_tasks[npnow] = message["queue length"]
+                self._test_queue.append(npnow)
