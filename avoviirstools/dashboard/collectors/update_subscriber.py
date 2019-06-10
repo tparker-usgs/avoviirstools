@@ -30,8 +30,8 @@ class UpdateSubscriber(threading.Thread):
     @property
     def waiting_tasks(self):
         print(
-            "TOMP SAYS1: {} :: {}".format(
-                pd.to_datetime("now"), self._waiting_tasks.size
+            "TOMP SAYS1: {} :: {} :: {}".format(
+                pd.to_datetime("now"), self._waiting_tasks.size, id(self._waiting_tasks)
             )
         )
         return self._waiting_tasks.copy()
