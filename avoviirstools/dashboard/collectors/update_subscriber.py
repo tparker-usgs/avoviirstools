@@ -31,10 +31,10 @@ class UpdateSubscriber(threading.Thread):
     def waiting_tasks(self):
         print(
             "TOMP SAYS1: {} :: {}".format(
-                pd.to_datetime("now"), self.waiting_tasks.size
+                pd.to_datetime("now"), self._waiting_tasks.size
             )
         )
-        return self._waiting_tasks
+        return self._waiting_tasks.copy()
 
     def flush(self):
         print("Flushing UpdateSubscriber")
