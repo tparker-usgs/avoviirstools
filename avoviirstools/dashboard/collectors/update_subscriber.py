@@ -32,10 +32,12 @@ class UpdateSubscriber(threading.Thread):
     @property
     def waiting_tasks(self):
         print(
-            "TOMP SAYS1: {} :: {} :: {} :: {}".format(
+            "TOMP SAYS1: {} :: {} :: {} :: {} :: {} :: {}".format(
                 pd.to_datetime("now"),
                 self._waiting_tasks.size,
+                id(self),
                 id(self._waiting_tasks),
+                id(self._waiting_tasks.index),
                 len(self._test_queue),
             )
         )

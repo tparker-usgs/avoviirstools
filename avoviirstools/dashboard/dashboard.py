@@ -64,32 +64,34 @@ def gen_layout():
     return gen_layout()
 
 
-def init_callbacks():
+def main():
+    flusher = Flusher()
+    zmq_context = zmq.Context()
+
+    update_subscriber = UpdateSubscriber(zmq_context)
+    update_subscriber.start()
+    flusher.flushables.append(update_subscriber)
+
+    sdr_subscriber = SdrSubscriber(zmq_context)
+    sdr_subscriber.start()
+    flusher.flushables.append(sdr_subscriber)
+
+    sector_subscriber = SectorSubscriber(zmq_context)
+    sector_subscriber.start()
+    flusher.flushables.append(sector_subscriber)
+
+    server = flask.Flask(__name__)
+    app = dash.Dash(
+        __name__,
+        server=server,
+        # external_scripts=external_scripts,
+        external_stylesheets=external_css,
+    )
+    app.layout = gen_layout()
     from . import callbacks  # NOQA: F401
 
+    flusher.start()
 
-flusher = Flusher()
-zmq_context = zmq.Context()
 
-update_subscriber = UpdateSubscriber(zmq_context)
-update_subscriber.start()
-flusher.flushables.append(update_subscriber)
-
-sdr_subscriber = SdrSubscriber(zmq_context)
-sdr_subscriber.start()
-flusher.flushables.append(sdr_subscriber)
-
-sector_subscriber = SectorSubscriber(zmq_context)
-sector_subscriber.start()
-flusher.flushables.append(sector_subscriber)
-
-server = flask.Flask(__name__)
-app = dash.Dash(
-    __name__,
-    server=server,
-    # external_scripts=external_scripts,
-    external_stylesheets=external_css,
-)
-app.layout = gen_layout()
-init_callbacks()
-flusher.start()
+if __name__ == "__main__":
+    main()
