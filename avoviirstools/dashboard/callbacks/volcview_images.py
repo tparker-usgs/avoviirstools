@@ -69,14 +69,14 @@ def gen_volcview_products(n_clicks):
 
 
 @dashboard.app.callback(
-    Output("volcview-table", "data"), [Input("volcview-table", "pagination_settings")]
+    Output("volcview-table", "data"), 
+    [Input("volcview-table-update", "n_clicks")],
+
 )
-def gen_volcview_table(pagination_settings):
+def gen_volcview_table(n_clicks):
     data = dashboard.sector_subscriber.sector_images
     data = data.sort_index(ascending=False)
-    start = pagination_settings["current_page"] * pagination_settings["page_size"]
-    end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
-    data = data.iloc[start:end]
+    data = data.iloc[:50]
     data["time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
     return data.to_dict("records")
 

@@ -74,7 +74,8 @@ def volcview_products():
 def volcview_table():
     return html.Div(
         [
-            html.Label(html.H5("Recent Images"), htmlFor="volcview-table"),
+            html.Label(html.H5("Last 50 Images"), htmlFor="volcview-table"),
+            html.I(className="fa fa-refresh", id="volcview-table-update"),
             html.A(
                 html.I(className="fa fa-question", id="volcview-table--help"),
                 target="help",
@@ -88,9 +89,8 @@ def volcview_table():
                     {"name": "Product", "id": "band"},
                 ],
                 style_as_list_view=True,
-                pagination_settings={"current_page": 0, "page_size": 7},
-                pagination_mode="be",
                 style_cell={"padding": "10px"},
+                style_table={"overflowY": "scroll"},
                 css=[
                     {
                         "selector": ".dash-cell div.dash-cell-value",
