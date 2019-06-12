@@ -1,124 +1,119 @@
-from dash.dependencies import Input, Output
-
-from .. import dashboard
-import pandas as pd
-
-YELLOW_THREASHOLD = 0.9
-RED_THREASHOLD = 0.5
+import dash_html_components as html
+import dash_core_components as dcc
+import dash_table
 
 
-@dashboard.app.callback(
-    Output("volcview-sectors", "figure"), [Input("volcview-sectors-update", "n_clicks")]
-)
-def gen_volcview_sectors(n_clicks):
-    pdnow = pd.to_datetime("now")
-    yesterday = pdnow - pd.Timedelta("1 days")
-    today_data = dashboard.sector_subscriber.sector_images[yesterday:pdnow]
-    today_data = today_data.groupby("sector").size()
-
-    data = dashboard.sector_subscriber.sector_images
-    days = data.index.max() - data.index.min()
-    days = days / pd.Timedelta("1 days")
-    data = data.groupby("sector").size()
-    if days > 0:
-        data = data / days
-
-    return {
-        "data": [
-            {"x": today_data.index, "y": today_data, "type": "bar", "name": "today"},
-            {
-                "x": data.index,
-                "y": data,
-                "type": "scatter",
-                "name": "average",
-                "mode": "markers",
-            },
+def volcview_images_layout():
+    return html.Div(
+        [
+            html.Div(
+                [html.Div([volcview_label()]), volcview_images_pane()], className="col"
+            )
         ],
-        "layout": {
-            'margin':{"l": 0, "b": 0, "t": 0, "r": 0, "pad": 0},
-            'legend':{"x": 0, "y": 1},
-            'hovermode':"closest",
-            'paper_bgcolor':"#7f7f7f",
-            'plot_bgcolor':"#c7c7c7",
-        },
-    }
+        id="volcview-images-pane",
+        className="row dashboard-pane",
+    )
 
 
-@dashboard.app.callback(
-    Output("volcview-products", "figure"),
-    [Input("volcview-products-update", "n_clicks")],
-)
-def gen_volcview_products(n_clicks):
-    pdnow = pd.to_datetime("now")
-    yesterday = pdnow - pd.Timedelta("1 days")
-    today_data = dashboard.sector_subscriber.sector_images[yesterday:pdnow]
-    today_data = today_data.groupby("band").size()
+def volcview_label():
+    return html.Label(
+        [
+            html.H2(
+                [
+                    html.A(
+                        html.I(
+                            className="fa fa-question-circle",
+                            id="volcview-images-indicator",
+                        ),
+                        target="help",
+                        href="/assets/help.html#volcview-images-indicator",
+                        className="indicator",
+                    ),
+                    "Volcview Images",
+                ]
+            ),
+            dcc.Interval(
+                id="volcview-images-indicator-update", interval=5000, n_intervals=0
+            ),
+        ],
+        htmlFor="volcview-images-pane",
+    )
 
-    data = dashboard.sector_subscriber.sector_images
-    days = data.index.max() - data.index.min()
-    days = days / pd.Timedelta("1 days")
-    data = data.groupby("band").size()
-    if days > 0:
-        data = data / days
 
-    return {
-        "data": [
-            {"x": today_data.index, "y": today_data, "type": "bar", "name": "today"},
-            {
-                "x": data.index,
-                "y": data,
-                "type": "scatter",
-                "name": "average",
-                "mode": "markers",
-            },
+def volcview_sectors():
+    return html.Div(
+        [
+            html.Label(html.H5("Images by Sector"), htmlFor="volcview-products"),
+            html.I(className="fa fa-refresh", id="volcview-sectors-update"),
+            html.A(
+                html.I(className="fa fa-question", id="volcview-sectors-help"),
+                className="help",
+                target="help",
+                href="/assets/help.html#volcview-sectors",
+            ),
+            dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
         ]
-    }
+    )
 
 
-@dashboard.app.callback(
-    Output("volcview-table", "data"), [Input("volcview-table-update", "n_clicks")]
-)
-def gen_volcview_table(n_clicks):
-    data = dashboard.sector_subscriber.sector_images
-    data = data.sort_index(ascending=False)
-    data = data.iloc[:50]
-    data["time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
-    return data.to_dict("records")
+def volcview_products():
+    return html.Div(
+        [
+            html.Label(html.H5("Images by Product"), htmlFor="volcview-products"),
+            html.I(className="fa fa-refresh", id="volcview-products-update"),
+            html.A(
+                html.I(className="fa fa-question", id="volcview-products-help"),
+                target="help",
+                href="/assets/help.html#volcview-products",
+            ),
+            dcc.Graph(id="volcview-products", style={"height": "300px"}),
+        ]
+    )
 
 
-@dashboard.app.callback(
-    [
-        Output("volcview-images-indicator", "className"),
-        Output("volcview-images-indicator", "title"),
-    ],
-    [Input("volcview-images-indicator-update", "n_intervals")],
-)
-def update_volcview_images_indicator(value):
-    pdnow = pd.to_datetime("now")
-    yesterday = pdnow - pd.Timedelta("1 days")
-    today_data = dashboard.sector_subscriber.sector_images[yesterday:pdnow]
-    today_data = len(today_data)
+def volcview_table():
+    return html.Div(
+        [
+            html.Label(html.H5("Last 50 Images"), htmlFor="volcview-table"),
+            html.I(className="fa fa-refresh", id="volcview-table-update"),
+            html.A(
+                html.I(className="fa fa-question", id="volcview-table--help"),
+                target="help",
+                href="/assets/help.html#volcview-table",
+            ),
+            dash_table.DataTable(
+                id="volcview-table",
+                columns=[
+                    {"name": "Time", "id": "time"},
+                    {"name": "Sector", "id": "sector"},
+                    {"name": "Product", "id": "band"},
+                ],
+                n_fixed_rows=1,
+                style_as_list_view=True,
+                style_cell={"padding": "10px"},
+                style_table={
+                    "maxHeight": "300px",
+                    "overflowY": "scroll",
+                    "border": "thin lightgrey solid",
+                },
+                css=[
+                    {
+                        "selector": ".dash-cell div.dash-cell-value",
+                        "rule": "display: inline; white-space: inherit;"
+                        "overflow: inherit; text-overflow: inherit;",
+                    }
+                ],
+            ),
+        ]
+    )
 
-    data = dashboard.sector_subscriber.sector_images
-    days = data.index.max() - data.index.min()
-    days = days / pd.Timedelta("1 days")
-    data = len(data)
-    if days > 0:
-        data = int(data / days)
 
-    yellow = int(data * 0.9)
-    red = int(data * 0.5)
-
-    if today_data > yellow:
-        className = "fa fa-star"
-        tooltip = "{} images today; yellow threashold is {}".format(today_data, yellow)
-    elif today_data > red:
-        className = "fa fa-warning"
-        tooltip = "{} images today; yellow threashold {}, red threshold {}".format(
-            today_data, yellow, red
-        )
-    else:
-        className = "fa fa-exclamation-circle"
-        tooltip = "{} images today; red threashold is {}".format(today_data, red)
-
-    return className, tooltip
+def volcview_images_pane():
+    return html.Div(
+        [
+            html.Div([volcview_sectors()], className="col-5"),
+            html.Div([volcview_products()], className="col-4"),
+            html.Div([volcview_table()], className="col-3"),
+        ],
+        className="row align-items-right",
+    )
