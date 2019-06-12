@@ -61,7 +61,7 @@ def product_generation_pane():
                         target="help",
                         href="/assets/help.html#products-waiting",
                     ),
-                    dcc.Graph(id="products-waiting", style={"height": "350px"}),
+                    dcc.Graph(id="products-waiting", style={"height": "250px"}),
                     dcc.Interval(
                         id="products-waiting-update", interval=5000, n_intervals=0
                     ),

@@ -33,7 +33,14 @@ def gen_volcview_sectors(n_clicks):
                 "name": "average",
                 "mode": "markers",
             },
-        ]
+        ],
+        "layout": {
+            "margin": {"l": 0, "b": 0, "t": 0, "r": 0, "pad": 0},
+            "legend": {"x": 0, "y": 1},
+            "hovermode": "closest",
+            "paper_bgcolor": "#7f7f7f",
+            "plot_bgcolor": "#c7c7c7",
+        },
     }
 
 
