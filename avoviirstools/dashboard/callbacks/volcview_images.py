@@ -90,7 +90,8 @@ def gen_volcview_table(n_clicks):
     data = dashboard.sector_subscriber.sector_images
     data = data.sort_index(ascending=False)
     data = data.iloc[:50]
-    data["time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
+    data["image time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
+    data["data time"] = pd.to_datetime(data["imageUnixtime"], unit="s")
     return data.to_dict("records")
 
 

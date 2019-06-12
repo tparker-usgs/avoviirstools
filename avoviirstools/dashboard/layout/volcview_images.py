@@ -53,7 +53,7 @@ def volcview_sectors():
             ),
             dcc.Graph(
                 id="volcview-sectors",
-                style={"height": "300px", "border": "2px #dddddd"},
+                style={"height": "300px", "box-shadow": "3px 6px 10px #888888"},
             ),
         ]
     )
@@ -71,7 +71,7 @@ def volcview_products():
             ),
             dcc.Graph(
                 id="volcview-products",
-                style={"height": "300px", "border": "2px #dddddd"},
+                style={"height": "300px", "box-shadow": "3px 6px 10px #888888"},
             ),
         ]
     )
@@ -90,7 +90,8 @@ def volcview_table():
             dash_table.DataTable(
                 id="volcview-table",
                 columns=[
-                    {"name": "Time", "id": "time"},
+                    {"name": "Image Time", "id": "image time"},
+                    {"name": "Data Time", "id": "data time"},
                     {"name": "Sector", "id": "sector"},
                     {"name": "Product", "id": "band"},
                 ],
@@ -117,9 +118,21 @@ def volcview_table():
 def volcview_images_pane():
     return html.Div(
         [
-            html.Div([volcview_sectors()], className="col-5"),
-            html.Div([volcview_products()], className="col-4"),
-            html.Div([volcview_table()], className="col-3"),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.Div([volcview_sectors()], className="col-5"),
+                            html.Div([volcview_products()], className="col-4"),
+                        ],
+                        className="row justify-content-around",
+                    ),
+                    html.Div(
+                        [html.Div([volcview_table()], className="col", style={"margin": "20px"})], className="row"
+                    ),
+                ],
+                className="col",
+            )
         ],
         className="row align-items-right",
     )
