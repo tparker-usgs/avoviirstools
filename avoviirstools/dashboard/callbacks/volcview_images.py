@@ -35,11 +35,11 @@ def gen_volcview_sectors(n_clicks):
             },
         ],
         "layout": {
-            "margin": {"l": 0, "b": 0, "t": 0, "r": 0, "pad": 0},
+            "margin": {"l": 30, "b": 80, "t": 0, "r": 0, "pad": 0},
             "legend": {"x": 0, "y": 1},
             "hovermode": "closest",
-            "paper_bgcolor": "#7f7f7f",
-            "plot_bgcolor": "#c7c7c7",
+            "paper_bgcolor": "#eeeeee",
+            "plot_bgcolor": "#eeeeee",
         },
     }
 
@@ -71,7 +71,15 @@ def gen_volcview_products(n_clicks):
                 "name": "average",
                 "mode": "markers",
             },
-        ]
+        ],
+        "layout": {
+            "margin": {"l": 30, "b": 50, "t": 0, "r": 0, "pad": 0},
+            "legend": {"x": 0, "y": 1},
+            "hovermode": "closest",
+            "paper_bgcolor": "#eeeeee",
+            "plot_bgcolor": "#eeeeee",
+            "border": "#dddddd",
+        },
     }
 
 

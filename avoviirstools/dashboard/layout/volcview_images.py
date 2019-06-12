@@ -51,7 +51,10 @@ def volcview_sectors():
                 target="help",
                 href="/assets/help.html#volcview-sectors",
             ),
-            dcc.Graph(id="volcview-sectors", style={"height": "300px"}),
+            dcc.Graph(
+                id="volcview-sectors",
+                style={"height": "300px", "border": "2px #dddddd"},
+            ),
         ]
     )
 
@@ -66,7 +69,10 @@ def volcview_products():
                 target="help",
                 href="/assets/help.html#volcview-products",
             ),
-            dcc.Graph(id="volcview-products", style={"height": "300px"}),
+            dcc.Graph(
+                id="volcview-products",
+                style={"height": "300px", "border": "2px #dddddd"},
+            ),
         ]
     )
 
