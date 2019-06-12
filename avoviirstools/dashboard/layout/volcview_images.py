@@ -91,7 +91,11 @@ def volcview_table():
                 n_fixed_rows=1,
                 style_as_list_view=True,
                 style_cell={"padding": "10px"},
-                style_table={"overflowY": "scroll"},
+                style_table={
+                    "maxHeight": "300px",
+                    "overflowY": "scroll",
+                    "border": "thin lightgrey solid",
+                },
                 css=[
                     {
                         "selector": ".dash-cell div.dash-cell-value",

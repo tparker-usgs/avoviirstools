@@ -69,9 +69,7 @@ def gen_volcview_products(n_clicks):
 
 
 @dashboard.app.callback(
-    Output("volcview-table", "data"), 
-    [Input("volcview-table-update", "n_clicks")],
-
+    Output("volcview-table", "data"), [Input("volcview-table-update", "n_clicks")]
 )
 def gen_volcview_table(n_clicks):
     data = dashboard.sector_subscriber.sector_images
