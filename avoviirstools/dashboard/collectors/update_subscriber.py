@@ -27,20 +27,9 @@ class UpdateSubscriber(threading.Thread):
         else:
             print("Can't find {}".format(UPDATE_PICKLE))
             self._waiting_tasks = pd.Series()
-            self._test_queue = []
 
     @property
     def waiting_tasks(self):
-        print(
-            "TOMP SAYS1: {} :: {} :: {} :: {} :: {} :: {}".format(
-                pd.to_datetime("now"),
-                self._waiting_tasks.size,
-                id(self),
-                id(self._waiting_tasks),
-                id(self._waiting_tasks.index),
-                len(self._test_queue),
-            )
-        )
         return self._waiting_tasks.copy()
 
     def flush(self):
@@ -56,9 +45,7 @@ class UpdateSubscriber(threading.Thread):
     def run(self):
         print("Starting update subscriber")
         while True:
-            test = self.waiting_tasks
             message = self.socket.recv_json()
             npnow = pd.to_datetime("now")
             with self.lock:
                 self._waiting_tasks[npnow] = message["queue length"]
-                self._test_queue.append(npnow)
