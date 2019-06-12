@@ -88,6 +88,7 @@ def volcview_table():
                     {"name": "Sector", "id": "sector"},
                     {"name": "Product", "id": "band"},
                 ],
+                n_fixed_rows=1,
                 style_as_list_view=True,
                 style_cell={"padding": "10px"},
                 style_table={"overflowY": "scroll"},
