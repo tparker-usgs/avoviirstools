@@ -49,9 +49,9 @@ def gen_datafile_latency(n_clicks):
 
     return {
         "data": data,
-        "layout": {"xaxis": {"type": "date"}},
+        "layout": {"xaxis": {"type": "date"}, "yaxis": {"title": "Minutes"}},
         "layout": {
-            "margin": {"l": 30, "b": 50, "t": 50, "r": 0, "pad": 0},
+            "margin": {"l": 50, "b": 50, "t": 50, "r": 0, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
         },
@@ -81,7 +81,8 @@ def gen_datafile_gap(n_clicks):
         "data": data,
         "layout": {
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "margin": {"l": 30, "b": 50, "t": 50, "r": 0, "pad": 0},
+            "yaxis": {"title": "Minutes"},
+            "margin": {"l": 50, "b": 50, "t": 50, "r": 0, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
         },
