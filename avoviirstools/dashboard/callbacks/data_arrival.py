@@ -54,8 +54,6 @@ def gen_datafile_latency(n_clicks):
             "margin": {"l": 30, "b": 50, "t": 0, "r": 0, "pad": 0},
             "legend": {"x": 0, "y": 1},
             "hovermode": "closest",
-            "paper_bgcolor": "#eeeeee",
-            "plot_bgcolor": "#eeeeee",
         },
     }
 
@@ -86,8 +84,6 @@ def gen_datafile_gap(n_clicks):
             "margin": {"l": 30, "b": 50, "t": 0, "r": 0, "pad": 0},
             "legend": {"x": 0, "y": 1},
             "hovermode": "closest",
-            "paper_bgcolor": "#eeeeee",
-            "plot_bgcolor": "#eeeeee",
         },
     }
 

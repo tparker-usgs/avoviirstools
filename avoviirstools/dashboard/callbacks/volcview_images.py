@@ -38,8 +38,6 @@ def gen_volcview_sectors(n_clicks):
             "margin": {"l": 30, "b": 80, "t": 50, "r": 0, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
-            "paper_bgcolor": "#eeeeee",
-            "plot_bgcolor": "#eeeeee",
         },
     }
 
@@ -76,8 +74,6 @@ def gen_volcview_products(n_clicks):
             "margin": {"l": 30, "b": 50, "t": 50, "r": 0, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
-            "paper_bgcolor": "#eeeeee",
-            "plot_bgcolor": "#eeeeee",
             "border": "#dddddd",
         },
     }
