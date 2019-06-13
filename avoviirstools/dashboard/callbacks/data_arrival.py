@@ -83,8 +83,6 @@ def gen_sdr_table(n_clicks, value):
     data = dashboard.sdr_subscriber.sdrs
     data = data.loc[data["platform_name"] == value]
     data = data.sort_index(ascending=False)
-    start = pagination_settings["current_page"] * pagination_settings["page_size"]
-    end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
     data = data.iloc[:100]
     data["delay_min"] = data["delay"] / pd.Timedelta("60 seconds")
     data["delay_min"] = data["delay_min"].astype("int64")
