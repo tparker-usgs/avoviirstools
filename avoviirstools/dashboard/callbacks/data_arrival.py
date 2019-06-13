@@ -49,8 +49,9 @@ def gen_datafile_latency(n_clicks):
 
     return {
         "data": data,
-        "layout": {"xaxis": {"type": "date"}, "yaxis": {"title": "Minutes"}},
         "layout": {
+            "xaxis": {"type": "date"},
+            "yaxis": {"title": "Minutes"},
             "margin": {"l": 50, "b": 50, "t": 50, "r": 0, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
