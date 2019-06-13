@@ -77,15 +77,15 @@ def gen_datafile_gap(n_clicks):
 
 @dashboard.app.callback(
     Output("sdr-table", "data"),
-    [Input("sdr-table", "pagination_settings"), Input("sdr-table-platform", "value")],
+    [Input("sdr-table-update", "n_clicks")],
 )
-def gen_sdr_table(pagination_settings, value):
+def gen_sdr_table(n_clicks):
     data = dashboard.sdr_subscriber.sdrs
     data = data.loc[data["platform_name"] == value]
     data = data.sort_index(ascending=False)
     start = pagination_settings["current_page"] * pagination_settings["page_size"]
     end = (pagination_settings["current_page"] + 1) * pagination_settings["page_size"]
-    data = data.iloc[start:end]
+    data = data.iloc[:100]
     data["delay_min"] = data["delay"] / pd.Timedelta("60 seconds")
     data["delay_min"] = data["delay_min"].astype("int64")
     data["start_time_str"] = data["start_time"].dt.strftime("%b %-d %H:%M:%S")

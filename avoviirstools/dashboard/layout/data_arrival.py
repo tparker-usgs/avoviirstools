@@ -131,7 +131,8 @@ def datafile_table():
 
     return html.Div(
         [
-            html.Label(html.H5("Recent Datafiles"), htmlFor="sdr-table-platform"),
+            html.Label(html.H5("Last 100 Datafiles"), htmlFor="sdr-table-platform"),
+            html.I(className="fa fa-refresh", id="sdr-table-update"),
             html.A(
                 html.I(className="fa fa-question", id="sdr-table--help"),
                 target="help",
@@ -148,12 +149,16 @@ def datafile_table():
                 id="sdr-table",
                 columns=columns,
                 column_static_tooltip=tooltips,
-                pagination_settings={"current_page": 0, "page_size": 15},
-                pagination_mode="be",
-                style_table={"maxHeight": "700px"},
                 style_as_list_view=True,
                 style_header={"whiteSpace": "normal"},
                 style_cell={"padding": "10px"},
+                n_fixed_rows=1,
+                style_table={
+                    "maxHeight": "300px",
+                    "overflowY": "scroll",
+                    "border": "thin lightgrey solid",
+                },
+
                 # css=[
                 # {
                 # "selector": ".dash-cell div.dash-cell-value",
