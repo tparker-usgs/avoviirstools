@@ -92,6 +92,7 @@ def gen_volcview_table(n_clicks):
     data = data.iloc[:50]
     data["image time"] = data.index.to_series().dt.strftime("%b %-d %H:%M:%S")
     data["data time"] = pd.to_datetime(data["imageUnixtime"], unit="s")
+    data["data time"] = data["data time"].dt.strftime("%b %-d %H:%M:%S")
     return data.to_dict("records")
 
 
