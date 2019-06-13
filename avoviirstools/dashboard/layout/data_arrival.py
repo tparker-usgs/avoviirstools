@@ -91,7 +91,7 @@ def datafile_latency():
                 target="help",
                 href="/assets/help.html#datafile-latency",
             ),
-            dcc.Graph(id="datafile-latency", style={"height": "300px"}),
+            dcc.Graph(id="datafile-latency", className="avo-dash-element"),
         ],
         style={"margin": "50px"},
     )
@@ -107,7 +107,7 @@ def datafile_gap():
                 target="help",
                 href="/assets/help.html#datafile-gap",
             ),
-            dcc.Graph(id="datafile-gap", style={"height": "300px"}),
+            dcc.Graph(id="datafile-gap", className="avo-dash-element"),
         ],
         style={"margin": "50px"},
     )
@@ -154,14 +154,15 @@ def datafile_table():
                 style_as_list_view=True,
                 style_header={"whiteSpace": "normal"},
                 style_cell={"padding": "10px"},
-                css=[
-                    {
-                        # "selector": ".dash-cell div.dash-cell-value",
-                        # "box-sizing": "inherit",
-                        # "rule": "display: inline; white-space: inherit;"
-                        # " overflow: inherit; text-overflow: inherit;",
-                    }
-                ],
+                className="avo-dash-element",
+                # css=[
+                # {
+                # "selector": ".dash-cell div.dash-cell-value",
+                # "box-sizing": "inherit",
+                # "rule": "display: inline; white-space: inherit;"
+                # " overflow: inherit; text-overflow: inherit;",
+                # }
+                # ],
             ),
         ]
     )

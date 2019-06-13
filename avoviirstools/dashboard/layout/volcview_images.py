@@ -51,10 +51,7 @@ def volcview_sectors():
                 target="help",
                 href="/assets/help.html#volcview-sectors",
             ),
-            dcc.Graph(
-                id="volcview-sectors",
-                style={"height": "300px", "box-shadow": "3px 6px 10px #888888"},
-            ),
+            dcc.Graph(id="volcview-sectors", className="avo-dash-element"),
         ]
     )
 
@@ -69,10 +66,7 @@ def volcview_products():
                 target="help",
                 href="/assets/help.html#volcview-products",
             ),
-            dcc.Graph(
-                id="volcview-products",
-                style={"height": "300px", "box-shadow": "3px 6px 10px #888888"},
-            ),
+            dcc.Graph(id="volcview-products", className="avo-dash-element"),
         ]
     )
 
@@ -103,6 +97,7 @@ def volcview_table():
                     "overflowY": "scroll",
                     "border": "thin lightgrey solid",
                 },
+                className="avo-dash-element",
                 css=[
                     {
                         "selector": ".dash-cell div.dash-cell-value",
@@ -128,7 +123,14 @@ def volcview_images_pane():
                         className="row justify-content-around",
                     ),
                     html.Div(
-                        [html.Div([volcview_table()], className="col", style={"margin": "20px"})], className="row"
+                        [
+                            html.Div(
+                                [volcview_table()],
+                                className="col",
+                                style={"margin": "20px"},
+                            )
+                        ],
+                        className="row",
                     ),
                 ],
                 className="col",

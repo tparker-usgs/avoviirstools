@@ -69,3 +69,9 @@ h1
 .fa-refresh:hover {
     color: #0056b3;
 }
+
+.avo-dash-element {
+    height: 300px;
+    box-shadow: 3px 6px 10px #888888;
+}
+
