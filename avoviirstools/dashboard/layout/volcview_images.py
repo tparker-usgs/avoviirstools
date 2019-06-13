@@ -51,7 +51,14 @@ def volcview_sectors():
                 target="help",
                 href="/assets/help.html#volcview-sectors",
             ),
-            dcc.Graph(id="volcview-sectors", className="avo-dash-element"),
+            dcc.Graph(
+                id="volcview-sectors",
+                className="avo-dash-element",
+                config={
+                    "displaylogo": False,
+                    "modeBarButtonsToRemove": ["pan2d", "lasso2d"],
+                },
+            ),
         ]
     )
 
@@ -66,7 +73,14 @@ def volcview_products():
                 target="help",
                 href="/assets/help.html#volcview-products",
             ),
-            dcc.Graph(id="volcview-products", className="avo-dash-element"),
+            dcc.Graph(
+                id="volcview-products",
+                className="avo-dash-element",
+                config={
+                    "displaylogo": False,
+                    "modeBarButtonsToRemove": ["pan2d", "lasso2d"],
+                },
+            ),
         ]
     )
 
