@@ -144,6 +144,7 @@ def datafile_table():
                 value="Suomi-NPP",
                 searchable=False,
                 clearable=False,
+                style={"position": "relative", "zIndex": "999"},
             ),
             dash_table.DataTable(
                 id="sdr-table",
@@ -158,7 +159,6 @@ def datafile_table():
                     "overflowY": "scroll",
                     "border": "thin lightgrey solid",
                 },
-
                 # css=[
                 # {
                 # "selector": ".dash-cell div.dash-cell-value",
