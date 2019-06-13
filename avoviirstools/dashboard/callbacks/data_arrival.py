@@ -77,9 +77,9 @@ def gen_datafile_gap(n_clicks):
 
 @dashboard.app.callback(
     Output("sdr-table", "data"),
-    [Input("sdr-table-update", "n_clicks")],
+    [Input("sdr-table-update", "n_clicks"), Input("sdr-table-platform", "value")],
 )
-def gen_sdr_table(n_clicks):
+def gen_sdr_table(n_clicks, value):
     data = dashboard.sdr_subscriber.sdrs
     data = data.loc[data["platform_name"] == value]
     data = data.sort_index(ascending=False)
