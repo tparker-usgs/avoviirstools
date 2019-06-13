@@ -154,7 +154,6 @@ def datafile_table():
                 style_as_list_view=True,
                 style_header={"whiteSpace": "normal"},
                 style_cell={"padding": "10px"},
-                className="avo-dash-element",
                 # css=[
                 # {
                 # "selector": ".dash-cell div.dash-cell-value",

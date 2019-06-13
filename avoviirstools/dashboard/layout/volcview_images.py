@@ -97,7 +97,6 @@ def volcview_table():
                     "overflowY": "scroll",
                     "border": "thin lightgrey solid",
                 },
-                className="avo-dash-element",
                 css=[
                     {
                         "selector": ".dash-cell div.dash-cell-value",
