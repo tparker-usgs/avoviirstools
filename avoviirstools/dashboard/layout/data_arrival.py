@@ -47,9 +47,9 @@ def data_arrival_pane():
         [
             html.Div(
                 [last_seen_table(), datafile_latency(), datafile_gap()],
-                className="col-5",
+                className="col-4",
             ),
-            html.Div([datafile_table()], className="col-7"),
+            html.Div([datafile_table()], className="col-8"),
         ],
         className="row",
     )
@@ -68,11 +68,10 @@ def last_seen_table():
             dash_table.DataTable(
                 id="last-seen-table",
                 columns=[
-                    {"name": "", "id": "platform"},
+                    {"name": "Satellite", "id": "platform"},
                     {"name": "Last Seen", "id": "last seen"},
                 ],
                 style_as_list_view=True,
-                style_table={"width": "300px", "margin": "0px auto"},
             ),
         ],
         style={"margin": "50px"},
@@ -152,10 +151,10 @@ def datafile_table():
                 column_static_tooltip=tooltips,
                 style_as_list_view=True,
                 style_header={"whiteSpace": "normal"},
-                style_cell={"padding": "10px"},
+                style_cell={"padding": "5px"},
                 n_fixed_rows=1,
                 style_table={
-                    "maxHeight": "300px",
+                    "maxHeight": "700px",
                     "overflowY": "scroll",
                     "border": "thin lightgrey solid",
                 },

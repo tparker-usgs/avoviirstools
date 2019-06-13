@@ -105,9 +105,9 @@ def volcview_table():
                 ],
                 n_fixed_rows=1,
                 style_as_list_view=True,
-                style_cell={"padding": "10px"},
+                style_cell={"padding": "5px"},
                 style_table={
-                    "maxHeight": "300px",
+                    "maxHeight": "450px",
                     "overflowY": "scroll",
                     "border": "thin lightgrey solid",
                 },
@@ -130,11 +130,29 @@ def volcview_images_pane():
                 [
                     html.Div(
                         [
-                            html.Div([volcview_sectors()], className="col-5"),
-                            html.Div([volcview_products()], className="col-4"),
+                            html.Div(
+                                [volcview_sectors()],
+                                className="col",
+                                style={"margin": "20px"},
+                            )
                         ],
-                        className="row justify-content-around",
+                        className="row",
                     ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [volcview_products()],
+                                className="col",
+                                style={"margin": "20px"},
+                            )
+                        ],
+                        className="row",
+                    ),
+                ],
+                className="col-4",
+            ),
+            html.Div(
+                [
                     html.Div(
                         [
                             html.Div(
@@ -144,10 +162,10 @@ def volcview_images_pane():
                             )
                         ],
                         className="row",
-                    ),
+                    )
                 ],
-                className="col",
-            )
+                className="col-8",
+            ),
         ],
         className="row align-items-right",
     )
