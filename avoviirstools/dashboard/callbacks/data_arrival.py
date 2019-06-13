@@ -81,7 +81,7 @@ def gen_datafile_gap(n_clicks):
     return {
         "data": data,
         "layout": {
-            "xaxis": {"type": "date", "rangemode": "nonnegative"},
+            "xaxis": {"type": "date"},
             "yaxis": {"title": "Minutes"},
             "margin": {"l": 50, "b": 50, "t": 50, "r": 0, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},

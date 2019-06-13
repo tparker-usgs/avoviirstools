@@ -81,9 +81,7 @@ def last_seen_table():
 def datafile_latency():
     return html.Div(
         [
-            html.Label(
-                html.H5("Acquisition Delay (min)"), htmlFor="datafile-latency-table"
-            ),
+            html.Label(html.H5("Acquisition Delay"), htmlFor="datafile-latency-table"),
             html.I(className="fa fa-refresh", id="datafile-latency-update"),
             html.A(
                 html.I(className="fa fa-question", id="datafile-latency-help"),
@@ -106,7 +104,7 @@ def datafile_latency():
 def datafile_gap():
     return html.Div(
         [
-            html.Label(html.H5("Interfile Gap (min)"), htmlFor="datafile-gap"),
+            html.Label(html.H5("Interfile Gap"), htmlFor="datafile-gap"),
             html.I(className="fa fa-refresh", id="datafile-gap-update"),
             html.A(
                 html.I(className="fa fa-question", id="datafile-gap-help"),
