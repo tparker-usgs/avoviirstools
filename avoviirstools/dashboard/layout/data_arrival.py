@@ -90,7 +90,14 @@ def datafile_latency():
                 target="help",
                 href="/assets/help.html#datafile-latency",
             ),
-            dcc.Graph(id="datafile-latency", className="avo-dash-element"),
+            dcc.Graph(
+                id="datafile-latency",
+                className="avo-dash-element",
+                config={
+                    "displaylogo": False,
+                    "modeBarButtonsToRemove": ["pan2d", "lasso2d"],
+                },
+            ),
         ],
         style={"margin": "50px"},
     )
@@ -106,7 +113,14 @@ def datafile_gap():
                 target="help",
                 href="/assets/help.html#datafile-gap",
             ),
-            dcc.Graph(id="datafile-gap", className="avo-dash-element"),
+            dcc.Graph(
+                id="datafile-gap",
+                className="avo-dash-element",
+                config={
+                    "displaylogo": False,
+                    "modeBarButtonsToRemove": ["pan2d", "lasso2d"],
+                },
+            ),
         ],
         style={"margin": "50px"},
     )
