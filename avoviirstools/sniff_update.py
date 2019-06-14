@@ -12,6 +12,7 @@
 """ display task_broker updates
 """
 
+import argparse
 import zmq
 import signal
 
@@ -19,17 +20,38 @@ import signal
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 
 
+def _arg_parse():
+    description = "Displays messages from the product queue, "
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument(
+        "-l", "--length", help="Print current queue length", action="store_true"
+    )
+    return parser.parse_args()
+
+
+def sniff_queue(socker):
+    while True:
+        print(socket.recv_json())
+
+
+def print_length(socket):
+    print(socker.recv_json()["queue length"])
+
+
 def main():
     # let ctrl-c work as it should.
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+    args = _arg_parse()
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     socket.setsockopt_string(zmq.SUBSCRIBE, "")
     socket.connect(UPDATE_PUBLISHER)
 
-    while True:
-        print(socket.recv_json())
+    if args.length:
+        print_length()
+    else:
+        sniff_queue()
 
 
 if __name__ == "__main__":
