@@ -23,7 +23,7 @@ def gen_products_waiting(interval):
         ],
         "layout": {
             "xaxis": {"type": "date", "rangemode": "nonnegative"},
-            "margin": {"l": 40, "r": 0, "b": 40, "t": 0, "pad": 4},
+            "margin": {"l": 40, "r": 5, "b": 40, "t": 5, "pad": 4},
         },
     }
     return figure

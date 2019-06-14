@@ -35,7 +35,7 @@ def gen_volcview_sectors(n_clicks):
             },
         ],
         "layout": {
-            "margin": {"l": 30, "b": 80, "t": 50, "r": 0, "pad": 0},
+            "margin": {"l": 30, "b": 80, "t": 50, "r": 5, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
         },
@@ -71,7 +71,7 @@ def gen_volcview_products(n_clicks):
             },
         ],
         "layout": {
-            "margin": {"l": 30, "b": 50, "t": 50, "r": 0, "pad": 0},
+            "margin": {"l": 30, "b": 50, "t": 50, "r": 5, "pad": 0},
             "legend": {"y": 1.3, "orientation": "h"},
             "hovermode": "closest",
             "border": "#dddddd",
