@@ -29,13 +29,13 @@ def _arg_parse():
     return parser.parse_args()
 
 
-def sniff_queue(socker):
+def sniff_queue(socket):
     while True:
         print(socket.recv_json())
 
 
 def print_length(socket):
-    print(socker.recv_json()["queue length"])
+    print(socket.recv_json()["queue length"])
 
 
 def main():
@@ -49,9 +49,9 @@ def main():
     socket.connect(UPDATE_PUBLISHER)
 
     if args.length:
-        print_length()
+        print_length(socket)
     else:
-        sniff_queue()
+        sniff_queue(socket)
 
 
 if __name__ == "__main__":
