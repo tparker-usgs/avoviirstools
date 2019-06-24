@@ -47,27 +47,19 @@ def product_generation_label():
 def product_generation_pane():
     return html.Div(
         [
-            dcc.Checklist(
-                id="products-waiting-auto",
-                options=[{"label": "Auto Update", "value": "Auto"}],
-                values=["Auto"],
-                className="col-auto",
-            ),
             html.Div(
                 [
                     html.Label(html.H5("Products Waiting"), htmlFor="products-waiting"),
+                    html.I(className="fa fa-refresh", id="products-waiting-update"),
                     html.A(
                         html.I(className="fa fa-question", id="products-waiting-help"),
                         target="help",
                         href="/assets/help.html#products-waiting",
                     ),
                     dcc.Graph(id="products-waiting", className="avo-dash-element"),
-                    dcc.Interval(
-                        id="products-waiting-update", interval=5000, n_intervals=0
-                    ),
                 ],
                 className="col",
-            ),
+            )
         ],
         className="row align-items-center",
     )

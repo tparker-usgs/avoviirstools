@@ -6,10 +6,9 @@ RED_THRESHOLD = 10
 
 
 @dashboard.app.callback(
-    Output("products-waiting", "figure"),
-    [Input("products-waiting-update", "n_intervals")],
+    Output("products-waiting", "figure"), [Input("products-waiting-update", "n_clicks")]
 )
-def gen_products_waiting(interval):
+def gen_products_waiting(n_clicks):
     waiting_tasks = dashboard.update_subscriber.waiting_tasks
     figure = {
         "data": [
@@ -27,14 +26,6 @@ def gen_products_waiting(interval):
         },
     }
     return figure
-
-
-@dashboard.app.callback(
-    Output("products-waiting-update", "disabled"),
-    [Input("products-waiting-auto", "values")],
-)
-def update_products_waiting_refresh(auto_values):
-    return "Auto" not in auto_values
 
 
 @dashboard.app.callback(
