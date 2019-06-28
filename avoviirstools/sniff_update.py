@@ -15,7 +15,7 @@
 import argparse
 import zmq
 import signal
-
+import time
 
 UPDATE_PUBLISHER = "tcp://viirscollector:19191"
 
@@ -31,7 +31,9 @@ def _arg_parse():
 
 def sniff_queue(socket):
     while True:
-        print(socket.recv_json())
+        msg = socket.recv_json()
+        time_str = time.strftime("%x %X", time.gmtime())
+        print("{} | {}".format(time_str, msg))
 
 
 def print_length(socket):

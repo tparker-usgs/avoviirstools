@@ -14,7 +14,7 @@
 
 import zmq
 import signal
-
+import time
 
 SECTOR_PUBLISHER = "tcp://viirstools:29392"
 
@@ -29,7 +29,9 @@ def main():
     socket.connect(SECTOR_PUBLISHER)
 
     while True:
-        print(socket.recv_json())
+        msg = socket.recv_json()
+        time_str = time.strftime("%x %X", time.gmtime())
+        print("{} | {}".format(time_str, msg))
 
 
 if __name__ == "__main__":
