@@ -15,7 +15,11 @@ def gen_layout():
             volcview_images_layout(),
             product_generation_layout(),
             data_arrival_layout(),
-            html.Div(html.P("version: {}".format(avoviirstools.version.__version__))),
+            html.Div(
+                html.P(
+                    "Dashboard version: {}".format(avoviirstools.version.__version__)
+                )
+            ),
         ],
         className="container-fluid",
     )
