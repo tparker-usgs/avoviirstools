@@ -47,6 +47,10 @@ def main():
     args = _arg_parse()
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
+    socket.setsockopt(zmq.TCP_KEEPALIVE, 1)
+    socket.setsockopt(zmq.TCP_KEEPALIVE_IDLE, 60)
+    socket.setsockopt(zmq.TCP_KEEPALIVE_CNT, 20)
+    socket.setsockopt(zmq.TCP_KEEPALIVE_INTVL, 60)
     socket.setsockopt_string(zmq.SUBSCRIBE, "")
     socket.connect(UPDATE_PUBLISHER)
 
